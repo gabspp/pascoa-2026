@@ -1,0 +1,20 @@
+# Dependências
+node_modules/
+
+# Variáveis de ambiente (contém chaves secretas)
+.env
+.env.*
+
+# Arquivos temporários
+.tmp/
+temporary screenshots/
+temp-next/
+
+# Claude
+.claude/
+
+# Arquivos gerados por plugins
+frontend-design@claude-code-plugins
+install
+list
+plugin

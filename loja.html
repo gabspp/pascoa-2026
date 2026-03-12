@@ -1,0 +1,1609 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loja — Santo Favo Páscoa 2026</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: { extend: {
+        colors: {
+          amarelo: '#ffcc1c', marrom: '#8c4820', 'marrom-dk': '#72381c',
+          'marrom-xdk': '#3d1a08', verde: '#96cc70', rosa: '#ff4d79',
+          roxo: '#a890cc', cream: '#fdf8f0',
+        },
+        fontFamily: { pipo: ['Pipo','Georgia','serif'], fig: ['FigGrotesk','system-ui','sans-serif'] }
+      }}
+    }
+  </script>
+  <style>
+    @font-face { font-family:'Pipo'; src:url('./fonts/Pipo/Pipo-Bold.otf') format('opentype'); font-weight:700; font-display:swap; }
+    @font-face { font-family:'Pipo'; src:url('./fonts/Pipo/Pipo-SemiBold.otf') format('opentype'); font-weight:600; font-display:swap; }
+    @font-face { font-family:'Pipo'; src:url('./fonts/Pipo/Pipo-Regular.otf') format('opentype'); font-weight:400; font-display:swap; }
+    @font-face { font-family:'FigGrotesk'; src:url('./fonts/Fig Grotesk/FigGrotesk-Regular.otf') format('opentype'); font-weight:400; font-display:swap; }
+    *, *::before, *::after { box-sizing:border-box; }
+    body { font-family:'FigGrotesk',system-ui,sans-serif; line-height:1.7; background:#fdf8f0; color:#72381c; overflow-x:hidden; }
+    h1,h2,h3,h4 { font-family:'Pipo',Georgia,serif; letter-spacing:-0.03em; line-height:1.1; }
+
+    @keyframes float { 0%{transform:translateY(0) rotate(-3deg)} 38%{transform:translateY(-14px) rotate(5deg)} 72%{transform:translateY(-5px) rotate(-1deg)} 100%{transform:translateY(0) rotate(-3deg)} }
+    @keyframes pulse { 0%,100%{opacity:.35} 50%{opacity:.7} }
+    @keyframes slideUp { from{transform:translateY(40px);opacity:0} to{transform:translateY(0);opacity:1} }
+    @keyframes toastIn { from{transform:translateX(24px);opacity:0} to{transform:translateX(0);opacity:1} }
+    @keyframes toastOut { from{opacity:1;transform:translateX(0)} to{opacity:0;transform:translateX(24px)} }
+
+    .btn { transition:transform .15s ease, box-shadow .15s ease, background-color .15s ease, color .15s ease; }
+    .btn:active { transform:scale(0.97); }
+    .btn:focus-visible { outline:3px solid #ffcc1c; outline-offset:3px; border-radius:12px; }
+    .btn-yellow:hover { box-shadow:0 4px 12px rgba(255,204,28,.25); transform:translateY(-2px); }
+    .btn-outline:hover { background-color:#72381c; color:white; }
+    .nav-link { transition:color .15s ease; }
+    .nav-link:hover { color:#ffcc1c; }
+    .mobile-menu { transition:transform .32s cubic-bezier(0.34,1.56,0.64,1), opacity .32s ease; }
+    .mobile-menu.closed { transform:translateX(100%); opacity:0; pointer-events:none; }
+    .mobile-menu.open  { transform:translateX(0); opacity:1; }
+    .social-link { transition:transform .15s ease, opacity .15s ease; }
+    .social-link:hover { transform:translateY(-2px); opacity:.8; }
+    .scrollbar-hide::-webkit-scrollbar { display:none; }
+    .scrollbar-hide { -ms-overflow-style:none; scrollbar-width:none; }
+    .cat-btn { transition:transform .15s ease, background-color .18s ease, color .18s ease, border-color .18s ease; white-space:nowrap; }
+    .cat-btn:hover { transform:translateY(-1px); }
+    .cat-btn:active { transform:scale(0.97); }
+    .cat-btn.active { background-color:#ffcc1c; color:#72381c; border-color:#ffcc1c; }
+
+    /* Product cards */
+    .product-card { transition:transform .22s ease, box-shadow .22s ease; cursor:pointer; }
+    .product-card:hover { transform:translateY(-5px); box-shadow:0 16px 40px rgba(114,56,28,.16),0 4px 10px rgba(114,56,28,.1); }
+    .product-card:active { transform:scale(0.98); }
+
+    /* Cart sidebar */
+    .cart-sidebar { transition:transform .35s cubic-bezier(0.34,1.56,0.64,1); }
+    .cart-sidebar.closed { transform:translateX(100%); }
+    .cart-sidebar.open { transform:translateX(0); }
+
+    /* Overlays */
+    .overlay { transition:opacity .25s ease; }
+    .overlay.hidden-ov { opacity:0; pointer-events:none; }
+    .overlay.show-ov { opacity:1; pointer-events:auto; }
+
+    /* Modals */
+    .modal-wrap { transition:opacity .25s ease; }
+    .modal-wrap.closed { opacity:0; pointer-events:none; }
+    .modal-wrap.open { opacity:1; pointer-events:auto; }
+    .modal-sheet { transition:transform .35s cubic-bezier(0.34,1.56,0.64,1); }
+    .modal-wrap.closed .modal-sheet { transform:translateY(60px); }
+    .modal-wrap.open .modal-sheet  { transform:translateY(0); }
+
+    /* Checkout */
+    .checkout-panel { display:none; }
+    .checkout-panel.active { display:block; }
+
+    /* Stepper */
+    .step-dot { transition:background-color .2s ease, transform .2s ease, box-shadow .2s ease; }
+    .step-dot.done   { background-color:#96cc70; }
+    .step-dot.active { background-color:#ffcc1c; transform:scale(1.3); box-shadow:0 0 0 4px rgba(255,204,28,.3); }
+
+    /* Skeleton */
+    .skeleton { animation:pulse 1.4s ease-in-out infinite; background:#e2d4c4; border-radius:12px; }
+
+    /* Toast */
+    .toast-item { animation:toastIn .3s cubic-bezier(0.34,1.56,0.64,1) forwards; }
+    .toast-item.removing { animation:toastOut .25s ease forwards; }
+
+    /* Qty btns */
+    .qty-btn { transition:background-color .12s ease, transform .12s ease; }
+    .qty-btn:hover { background-color:rgba(255,204,28,.25); }
+    .qty-btn:active { transform:scale(0.88); }
+
+    /* Input focus */
+    input:focus-visible, select:focus-visible, textarea:focus-visible { outline:2px solid #ffcc1c; outline-offset:2px; }
+    input, select, textarea { font-family:'FigGrotesk',system-ui,sans-serif; }
+
+    /* Radio */
+    input[type=radio]:checked + span { background:#ffcc1c; border-color:#ffcc1c; }
+    input[type=checkbox]:checked { accent-color:#72381c; }
+
+    /* Float icon */
+    .float-icon { animation:float 3.5s ease-in-out infinite; }
+
+    /* Grain */
+    .grain::before { content:''; position:absolute; inset:0; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"); background-size:300px; pointer-events:none; z-index:0; opacity:.5; }
+  </style>
+</head>
+<body>
+
+<!-- ── OVERLAY (mobile menu + modals) ── -->
+<div id="ov-menu" class="overlay hidden-ov fixed inset-0 bg-marrom-xdk/75 z-40" onclick="closeMenu()"></div>
+<div id="ov-modal" class="overlay hidden-ov fixed inset-0 bg-marrom-xdk/70 z-40 backdrop-blur-sm" onclick="closeModal()"></div>
+<div id="ov-cart" class="overlay hidden-ov fixed inset-0 bg-marrom-xdk/50 z-[39]" onclick="closeCart()"></div>
+<div id="ov-checkout" class="overlay hidden-ov fixed inset-0 bg-marrom-xdk/80 z-50" ></div>
+
+<!-- ── MOBILE MENU ── -->
+<aside id="mobile-menu" class="mobile-menu closed fixed right-0 top-0 h-full w-72 bg-marrom-dk z-50 flex flex-col py-8 px-6">
+  <div class="flex items-center justify-between mb-10">
+    <img src="brand_assets/Santo-Favo-Logo-Amarelo-Horizontal.png" alt="Santo Favo" class="h-8 w-auto">
+    <button onclick="closeMenu()" class="btn text-white p-2 rounded-xl hover:bg-white/10">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <nav class="flex flex-col gap-1">
+    <a href="index.html"       class="nav-link text-white/70 font-fig text-lg py-3 px-4 rounded-xl hover:bg-white/10">Início</a>
+    <a href="loja.html"        class="nav-link text-amarelo font-fig text-lg py-3 px-4 rounded-xl bg-white/10">Loja</a>
+    <a href="informacoes.html" class="nav-link text-white/70 font-fig text-lg py-3 px-4 rounded-xl hover:bg-white/10">Informações</a>
+    <a href="index.html#contato" class="nav-link text-white/70 font-fig text-lg py-3 px-4 rounded-xl hover:bg-white/10">Contato</a>
+  </nav>
+</aside>
+
+<!-- ── HEADER ── -->
+<header class="sticky top-0 z-30 bg-marrom-dk" style="box-shadow:0 2px 16px rgba(61,26,8,.4),0 1px 4px rgba(61,26,8,.3);">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-4 flex items-center justify-between gap-4">
+    <a href="index.html" class="flex-shrink-0">
+      <img src="brand_assets/Santo-Favo-Logo-Amarelo-Horizontal.png" alt="Santo Favo" class="h-9 sm:h-10 w-auto">
+    </a>
+    <nav class="hidden lg:flex items-center gap-8">
+      <a href="index.html"        class="nav-link text-white/70 font-fig text-[15px]">Início</a>
+      <a href="loja.html"         class="nav-link text-amarelo font-fig text-[15px] font-semibold">Loja</a>
+      <a href="informacoes.html"  class="nav-link text-white/70 font-fig text-[15px]">Informações</a>
+      <a href="index.html#contato" class="nav-link text-white/70 font-fig text-[15px]">Contato</a>
+    </nav>
+    <div class="flex items-center gap-3">
+      <!-- Cart button -->
+      <button onclick="openCart()" class="btn relative flex items-center gap-2 bg-amarelo text-marrom-dk font-pipo font-bold text-[15px] py-2.5 px-4 rounded-xl" aria-label="Ver cesta">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/>
+        </svg>
+        <span class="hidden sm:inline">Cesta</span>
+        <span id="cart-badge" class="hidden absolute -top-1.5 -right-1.5 min-w-[20px] h-5 bg-rosa text-white text-[11px] font-bold rounded-full px-1 flex items-center justify-center">0</span>
+      </button>
+      <button onclick="openMenu()" class="btn lg:hidden text-white p-2 rounded-xl hover:bg-white/10">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ── COLOR STRIPE ── -->
+<div class="h-[10px] flex w-full">
+  <div class="flex-1 bg-amarelo"></div>
+  <div class="flex-1 bg-rosa"></div>
+  <div class="flex-1 bg-roxo"></div>
+  <div class="flex-1 bg-verde"></div>
+  <div class="flex-1 bg-marrom"></div>
+  <div class="flex-1 bg-amarelo"></div>
+</div>
+
+<!-- ── MINI HERO ── -->
+<section class="relative bg-marrom-dk overflow-hidden py-10 sm:py-14 grain">
+  <!-- bg blobs -->
+  <div class="absolute inset-0 pointer-events-none" style="z-index:0;">
+    <div style="position:absolute;top:-40px;right:-60px;width:320px;height:320px;background:radial-gradient(circle,rgba(255,204,28,.12) 0%,transparent 70%);border-radius:50%;"></div>
+    <div style="position:absolute;bottom:-20px;left:-40px;width:240px;height:240px;background:radial-gradient(circle,rgba(255,77,121,.1) 0%,transparent 70%);border-radius:50%;"></div>
+    <!-- Floating geo shapes -->
+    <div class="float-icon" style="position:absolute;top:18px;right:18%;width:28px;height:28px;background:#ffcc1c;border-radius:50%;opacity:.5;animation-delay:.3s;"></div>
+    <div class="float-icon" style="position:absolute;bottom:22px;left:12%;width:0;height:0;border-left:12px solid transparent;border-right:12px solid transparent;border-bottom:20px solid #ff4d79;opacity:.4;animation-delay:1.1s;"></div>
+    <div class="float-icon" style="position:absolute;top:30px;left:22%;width:18px;height:18px;background:#96cc70;transform:rotate(45deg);opacity:.45;animation-delay:.7s;"></div>
+  </div>
+  <div class="relative z-10 max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
+    <p class="font-fig text-amarelo/70 text-sm tracking-widest uppercase mb-2">Santo Favo · Páscoa 2026</p>
+    <h1 class="font-pipo font-bold text-white text-4xl sm:text-5xl mb-3">Nossa Loja</h1>
+    <p class="font-fig text-white/60 text-base sm:text-lg max-w-md">Ovos artesanais, pães de mel e caixas personalizadas. Tudo feito com mel e muito carinho.</p>
+  </div>
+</section>
+
+<!-- ── CATEGORY BAR ── -->
+<div class="sticky z-20 bg-cream border-b border-marrom/10" style="top:68px;box-shadow:0 2px 12px rgba(114,56,28,.08);">
+  <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12">
+    <div id="cat-bar" class="flex gap-2 py-3 overflow-x-auto scrollbar-hide">
+      <button onclick="filterCat('todos',this)" class="cat-btn active flex-shrink-0 border-2 border-marrom/20 text-marrom-dk font-fig text-sm px-4 py-1.5 rounded-full">Todos</button>
+      <!-- more buttons injected by JS -->
+    </div>
+  </div>
+</div>
+
+<!-- ── PRODUCT GRID ── -->
+<main class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-10">
+  <!-- Loading skeletons -->
+  <div id="grid-loading" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+    <div class="skeleton h-72 rounded-3xl"></div>
+    <div class="skeleton h-72 rounded-3xl"></div>
+    <div class="skeleton h-72 rounded-3xl"></div>
+    <div class="skeleton h-72 rounded-3xl hidden sm:block"></div>
+  </div>
+
+  <!-- Error state -->
+  <div id="grid-error" class="hidden text-center py-20">
+    <p class="font-pipo text-marrom-dk text-2xl mb-2">Ops!</p>
+    <p class="font-fig text-marrom-dk/60 mb-6">Não conseguimos carregar os produtos. Tente novamente.</p>
+    <button onclick="loadData()" class="btn btn-yellow bg-amarelo text-marrom-dk font-pipo font-bold px-6 py-3 rounded-2xl">Tentar novamente</button>
+  </div>
+
+  <!-- Product grid -->
+  <div id="product-grid" class="hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"></div>
+
+  <!-- Empty category -->
+  <div id="grid-empty" class="hidden text-center py-16">
+    <p class="font-fig text-marrom-dk/50 text-lg">Nenhum produto nesta categoria.</p>
+  </div>
+</main>
+
+<!-- ── FOOTER ── -->
+<footer class="bg-marrom-xdk pt-14 pb-8" style="border-top:3px solid #ffcc1c;">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 mb-12">
+      <div>
+        <img src="brand_assets/Santo-Favo-Logo-Amarelo-Horizontal.png" alt="Santo Favo" class="h-9 w-auto mb-4">
+        <p class="font-fig text-white/55 text-sm leading-relaxed max-w-xs">Chocolates artesanais feitos com mel e muito amor.</p>
+      </div>
+      <div>
+        <h4 class="font-pipo font-bold text-amarelo text-[15px] mb-5">Navegação</h4>
+        <nav class="flex flex-col gap-2.5">
+          <a href="index.html"        class="nav-link font-fig text-white/60 text-sm hover:text-amarelo">Início</a>
+          <a href="loja.html"         class="nav-link font-fig text-white/60 text-sm hover:text-amarelo">Loja</a>
+          <a href="informacoes.html"  class="nav-link font-fig text-white/60 text-sm hover:text-amarelo">Informações</a>
+        </nav>
+      </div>
+      <div>
+        <h4 class="font-pipo font-bold text-amarelo text-[15px] mb-5">Fale Conosco</h4>
+        <div class="flex flex-col gap-3.5">
+          <a href="https://wa.me/5521967643537" target="_blank" rel="noopener" class="social-link flex items-center gap-3">
+            <div class="w-9 h-9 bg-verde rounded-xl flex items-center justify-center" style="box-shadow:0 2px 8px rgba(150,204,112,.3);">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            </div>
+            <div>
+              <p class="font-fig text-white/85 text-sm">(21) 96764-3537</p>
+              <p class="font-fig text-white/35 text-xs">WhatsApp</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="border-t border-white/10 pt-6">
+      <p class="font-fig text-white/35 text-xs text-center">© 2026 Santo Favo · Feito com ♥ pela Santo Favo · <a href="privacidade.html" class="hover:text-amarelo" style="transition:color .15s;">Política de Privacidade</a></p>
+    </div>
+  </div>
+</footer>
+
+<!-- ── WHATSAPP FLOAT ── -->
+<a href="https://wa.me/5521967643537" target="_blank" rel="noopener"
+   class="fixed bottom-6 right-6 z-20 w-14 h-14 bg-verde rounded-full flex items-center justify-center social-link"
+   style="box-shadow:0 4px 20px rgba(150,204,112,.5),0 2px 6px rgba(0,0,0,.2);" aria-label="WhatsApp">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<!-- ── TOAST CONTAINER ── -->
+<div id="toast-container" class="fixed bottom-24 right-4 z-[70] flex flex-col gap-2 items-end pointer-events-none"></div>
+
+<!-- ── PRODUCT MODAL ── -->
+<div id="product-modal" class="modal-wrap closed fixed inset-0 z-[45] flex items-end sm:items-center justify-center p-0 sm:p-4">
+  <div class="modal-sheet bg-cream w-full sm:max-w-lg rounded-t-3xl sm:rounded-3xl overflow-hidden" style="max-height:90vh;box-shadow:0 24px 80px rgba(61,26,8,.4);">
+    <div id="modal-header-bar" class="h-2 w-full"></div>
+    <div class="overflow-y-auto scrollbar-hide" style="max-height:calc(90vh - 8px);">
+      <div class="p-6 sm:p-8">
+        <!-- close -->
+        <div class="flex items-start justify-between mb-5">
+          <div>
+            <p id="modal-categoria" class="font-fig text-marrom-dk/50 text-xs uppercase tracking-wider mb-1"></p>
+            <h2 id="modal-nome" class="font-pipo font-bold text-marrom-dk text-2xl sm:text-3xl"></h2>
+            <p id="modal-subtitulo" class="font-fig text-marrom-dk/60 text-sm mt-0.5"></p>
+          </div>
+          <button onclick="closeModal()" class="btn flex-shrink-0 ml-4 p-2 rounded-xl hover:bg-marrom/10 text-marrom-dk">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+        <!-- image -->
+        <div id="modal-img-wrap" class="relative rounded-2xl overflow-hidden mb-5" style="height:280px;background:#f5ede0;">
+          <img id="modal-img" src="" alt="" class="w-full h-full" style="object-fit:contain;padding:12px;">
+          <span id="modal-tag" class="hidden absolute top-3 left-3 font-fig text-xs font-semibold px-3 py-1 rounded-full text-white"></span>
+        </div>
+        <!-- desc -->
+        <p id="modal-desc" class="font-fig text-marrom-dk/70 text-sm leading-relaxed mb-6"></p>
+
+        <!-- Discount info (avulso) -->
+        <div id="modal-discount" class="hidden bg-amarelo/20 border border-amarelo/40 rounded-2xl p-4 mb-5">
+          <p class="font-pipo font-bold text-marrom-dk text-sm mb-1">Desconto progressivo 🎁</p>
+          <div class="grid grid-cols-2 gap-1.5 text-xs font-fig text-marrom-dk/80">
+            <span>1–24 unid. → <strong>R$ 10,00</strong> cada</span>
+            <span>25–49 unid. → <strong>R$ 9,50</strong> cada</span>
+            <span>50–99 unid. → <strong>R$ 9,00</strong> cada</span>
+            <span>100+ unid. → <strong>R$ 8,50</strong> cada</span>
+          </div>
+          <p id="modal-discount-next" class="font-fig text-marrom-dk/60 text-xs mt-2"></p>
+        </div>
+
+        <!-- Price + qty -->
+        <div class="flex items-center justify-between gap-4">
+          <div>
+            <p class="font-fig text-marrom-dk/50 text-xs mb-0.5">Preço</p>
+            <p id="modal-preco" class="font-pipo font-bold text-marrom-dk text-2xl"></p>
+          </div>
+          <div class="flex items-center gap-2 bg-marrom/8 rounded-2xl p-1">
+            <button class="qty-btn w-9 h-9 rounded-xl bg-white font-bold text-marrom-dk text-lg flex items-center justify-center" onclick="modalQty(-1)">−</button>
+            <span id="modal-qty-val" class="font-pipo font-bold text-marrom-dk w-8 text-center text-lg">1</span>
+            <button class="qty-btn w-9 h-9 rounded-xl bg-white font-bold text-marrom-dk text-lg flex items-center justify-center" onclick="modalQty(1)">+</button>
+          </div>
+        </div>
+
+        <!-- Add to cart button -->
+        <button id="modal-add-btn" onclick="addModalToCart()"
+          class="btn btn-yellow w-full mt-5 bg-amarelo text-marrom-dk font-pipo font-bold text-lg py-4 rounded-2xl flex items-center justify-center gap-2">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          Adicionar à Cesta
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── BOX CONFIGURATOR ── -->
+<div id="box-modal" class="modal-wrap closed fixed inset-0 z-[45] flex items-end sm:items-center justify-center p-0 sm:p-4">
+  <div class="modal-sheet bg-cream w-full sm:max-w-lg rounded-t-3xl sm:rounded-3xl overflow-hidden" style="max-height:92vh;box-shadow:0 24px 80px rgba(61,26,8,.4);">
+    <div class="bg-verde h-2 w-full"></div>
+    <div class="overflow-y-auto scrollbar-hide" style="max-height:calc(92vh - 8px);">
+      <div class="p-6 sm:p-8">
+        <div class="flex items-start justify-between mb-5">
+          <div>
+            <p class="font-fig text-marrom-dk/50 text-xs uppercase tracking-wider mb-1">Monte sua caixa</p>
+            <h2 id="box-title" class="font-pipo font-bold text-marrom-dk text-2xl"></h2>
+          </div>
+          <button onclick="closeBoxModal()" class="btn flex-shrink-0 ml-4 p-2 rounded-xl hover:bg-marrom/10 text-marrom-dk">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+
+        <!-- Progress bar -->
+        <div class="mb-6">
+          <div class="flex justify-between items-center mb-2">
+            <p class="font-fig text-sm text-marrom-dk/70"><span id="box-selected-count">0</span> de <span id="box-total-size"></span> pães selecionados</p>
+            <p class="font-pipo font-bold text-marrom-dk"><span id="box-price-live">R$ 0</span></p>
+          </div>
+          <div class="h-3 bg-marrom/10 rounded-full overflow-hidden">
+            <div id="box-progress" class="h-full bg-verde rounded-full transition-all duration-300" style="width:0%"></div>
+          </div>
+        </div>
+
+        <!-- Flavors list -->
+        <div id="box-flavors" class="flex flex-col gap-3 mb-6"></div>
+
+        <!-- Embalagem note -->
+        <p class="font-fig text-marrom-dk/50 text-xs mb-4">+ R$ 5,00 de embalagem especial incluso no preço.</p>
+
+        <button id="box-add-btn" onclick="addBoxToCart()" disabled
+          class="btn w-full bg-verde text-white font-pipo font-bold text-lg py-4 rounded-2xl flex items-center justify-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed"
+          style="transition:opacity .2s ease,transform .15s ease,box-shadow .15s ease;">
+          Adicionar Caixa à Cesta
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── CART SIDEBAR ── -->
+<aside id="cart-sidebar" class="cart-sidebar closed fixed right-0 top-0 h-full w-full sm:w-96 bg-cream z-[42] flex flex-col" style="box-shadow:-4px 0 40px rgba(61,26,8,.2);">
+  <div class="bg-marrom-dk flex items-center justify-between px-6 py-4">
+    <div class="flex items-center gap-2">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      <h2 class="font-pipo font-bold text-white text-xl">Sua Cesta</h2>
+      <span id="cart-count-badge" class="bg-rosa text-white text-xs font-bold rounded-full px-2 py-0.5"></span>
+    </div>
+    <button onclick="closeCart()" class="btn text-white p-2 rounded-xl hover:bg-white/10">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+
+  <!-- Cart items -->
+  <div id="cart-items" class="flex-1 overflow-y-auto scrollbar-hide p-4 flex flex-col gap-3"></div>
+
+  <!-- Empty state -->
+  <div id="cart-empty" class="flex-1 flex flex-col items-center justify-center text-center px-8">
+    <div class="text-5xl mb-4">🧺</div>
+    <p class="font-pipo font-bold text-marrom-dk text-xl mb-2">Cesta vazia</p>
+    <p class="font-fig text-marrom-dk/50 text-sm">Adicione produtos para continuar</p>
+  </div>
+
+  <!-- Cart footer -->
+  <div id="cart-footer" class="hidden border-t border-marrom/10 p-5 bg-white">
+    <!-- Discount badge -->
+    <div id="cart-discount-badge" class="hidden mb-3 bg-verde/15 border border-verde/30 rounded-xl px-3 py-2 flex items-center gap-2">
+      <span class="text-sm">🎉</span>
+      <p id="cart-discount-text" class="font-fig text-marrom-dk text-xs"></p>
+    </div>
+    <div class="flex justify-between items-center mb-4">
+      <p class="font-fig text-marrom-dk/60 text-sm">Subtotal</p>
+      <p id="cart-subtotal" class="font-pipo font-bold text-marrom-dk text-xl"></p>
+    </div>
+    <button onclick="openCheckout()" class="btn btn-yellow w-full bg-amarelo text-marrom-dk font-pipo font-bold text-lg py-4 rounded-2xl mb-3">
+      Finalizar Pedido →
+    </button>
+    <button onclick="closeCart()" class="btn w-full text-marrom-dk font-fig text-sm py-2 rounded-xl hover:bg-marrom/8">
+      Continuar comprando
+    </button>
+  </div>
+</aside>
+
+<!-- ── CHECKOUT MODAL ── -->
+<div id="checkout-wrap" class="hidden fixed inset-0 z-[52] flex items-center justify-center p-4">
+  <div class="bg-cream w-full max-w-xl rounded-3xl overflow-hidden flex flex-col" style="max-height:92vh;box-shadow:0 24px 80px rgba(61,26,8,.5);">
+
+    <!-- Checkout header -->
+    <div class="bg-marrom-dk px-6 py-4 flex items-center justify-between flex-shrink-0">
+      <div>
+        <p id="co-step-label" class="font-fig text-amarelo/70 text-xs uppercase tracking-wider"></p>
+        <h2 id="co-step-title" class="font-pipo font-bold text-white text-xl"></h2>
+      </div>
+      <button onclick="closeCheckout()" class="btn text-white p-2 rounded-xl hover:bg-white/10">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+
+    <!-- Stepper -->
+    <div class="bg-marrom-dk/5 px-6 py-3 flex items-center gap-2 flex-shrink-0 border-b border-marrom/10">
+      <div class="flex items-center gap-1 w-full">
+        <div id="sdot-1" class="step-dot w-7 h-7 rounded-full bg-marrom/20 flex items-center justify-center text-xs font-bold text-white flex-shrink-0">1</div>
+        <div class="flex-1 h-0.5 bg-marrom/15 rounded"></div>
+        <div id="sdot-2" class="step-dot w-7 h-7 rounded-full bg-marrom/20 flex items-center justify-center text-xs font-bold text-white flex-shrink-0">2</div>
+        <div class="flex-1 h-0.5 bg-marrom/15 rounded"></div>
+        <div id="sdot-3" class="step-dot w-7 h-7 rounded-full bg-marrom/20 flex items-center justify-center text-xs font-bold text-white flex-shrink-0">3</div>
+        <div class="flex-1 h-0.5 bg-marrom/15 rounded"></div>
+        <div id="sdot-4" class="step-dot w-7 h-7 rounded-full bg-marrom/20 flex items-center justify-center text-xs font-bold text-white flex-shrink-0">4</div>
+        <div class="flex-1 h-0.5 bg-marrom/15 rounded"></div>
+        <div id="sdot-5" class="step-dot w-7 h-7 rounded-full bg-marrom/20 flex items-center justify-center text-xs font-bold text-white flex-shrink-0">5</div>
+        <div class="flex-1 h-0.5 bg-marrom/15 rounded"></div>
+        <div id="sdot-6" class="step-dot w-7 h-7 rounded-full bg-marrom/20 flex items-center justify-center text-xs font-bold text-white flex-shrink-0">6</div>
+      </div>
+    </div>
+
+    <!-- Panels (scrollable) -->
+    <div class="overflow-y-auto scrollbar-hide flex-1">
+      <div class="p-6">
+
+        <!-- Step 1: Review -->
+        <div id="co-panel-1" class="checkout-panel active">
+          <div id="co-review-items" class="flex flex-col gap-3 mb-4"></div>
+          <div class="flex justify-between items-center py-3 border-t border-marrom/10">
+            <p class="font-fig text-marrom-dk/60">Subtotal</p>
+            <p id="co-review-subtotal" class="font-pipo font-bold text-marrom-dk text-xl"></p>
+          </div>
+          <button onclick="coNext()" class="btn btn-yellow w-full mt-4 bg-amarelo text-marrom-dk font-pipo font-bold text-lg py-4 rounded-2xl">Continuar →</button>
+        </div>
+
+        <!-- Step 2: Customer data -->
+        <div id="co-panel-2" class="checkout-panel">
+          <div class="flex flex-col gap-4 mb-4">
+            <div>
+              <label class="font-fig text-marrom-dk/70 text-sm mb-1 block">Seu nome *</label>
+              <input id="co-nome" type="text" placeholder="Nome completo" class="w-full border-2 border-marrom/20 rounded-xl px-4 py-3 font-fig text-marrom-dk bg-white focus:border-amarelo outline-none" style="transition:border-color .15s;">
+            </div>
+            <div>
+              <label class="font-fig text-marrom-dk/70 text-sm mb-1 block">WhatsApp *</label>
+              <input id="co-whatsapp" type="tel" placeholder="(21) 99999-9999" class="w-full border-2 border-marrom/20 rounded-xl px-4 py-3 font-fig text-marrom-dk bg-white focus:border-amarelo outline-none" style="transition:border-color .15s;" oninput="maskPhone(this)">
+            </div>
+            <label class="flex items-start gap-3 cursor-pointer">
+              <input id="co-lgpd" type="checkbox" class="mt-1 w-4 h-4 flex-shrink-0">
+              <span class="font-fig text-marrom-dk/70 text-sm">Autorizo o uso dos meus dados para processamento do pedido, conforme nossa <a href="privacidade.html" class="text-marrom underline">Política de Privacidade</a>.</span>
+            </label>
+          </div>
+          <button onclick="coStep2Continue()" class="btn btn-yellow w-full bg-amarelo text-marrom-dk font-pipo font-bold text-lg py-4 rounded-2xl">Continuar →</button>
+        </div>
+
+        <!-- Step 3: Delivery -->
+        <div id="co-panel-3" class="checkout-panel">
+          <div class="flex flex-col gap-4 mb-4">
+            <!-- Radio: pickup or delivery -->
+            <div class="flex flex-col gap-2">
+              <label class="flex items-center gap-3 p-4 border-2 border-marrom/15 rounded-xl cursor-pointer hover:border-amarelo" style="transition:border-color .15s;" onclick="setEntrega('retirada')">
+                <div id="rd-retirada" class="w-5 h-5 rounded-full border-2 border-marrom/30 flex-shrink-0 flex items-center justify-center" style="transition:background .15s,border-color .15s;"></div>
+                <div>
+                  <p class="font-fig font-semibold text-marrom-dk text-sm">Retirar no local</p>
+                  <p id="co-endereco-retirada" class="font-fig text-marrom-dk/50 text-xs mt-0.5"></p>
+                </div>
+              </label>
+              <label class="flex items-center gap-3 p-4 border-2 border-marrom/15 rounded-xl cursor-pointer hover:border-amarelo" style="transition:border-color .15s;" onclick="setEntrega('entrega')">
+                <div id="rd-entrega" class="w-5 h-5 rounded-full border-2 border-marrom/30 flex-shrink-0 flex items-center justify-center" style="transition:background .15s,border-color .15s;"></div>
+                <div>
+                  <p class="font-fig font-semibold text-marrom-dk text-sm">Entrega em casa</p>
+                  <p class="font-fig text-marrom-dk/50 text-xs mt-0.5">Rio de Janeiro — Capital</p>
+                </div>
+              </label>
+            </div>
+
+            <!-- Delivery fields -->
+            <div id="co-delivery-fields" class="hidden flex flex-col gap-3">
+              <div class="flex gap-2">
+                <div class="flex-1">
+                  <label class="font-fig text-marrom-dk/70 text-xs mb-1 block">CEP *</label>
+                  <input id="co-cep" type="text" placeholder="00000-000" maxlength="9" class="w-full border-2 border-marrom/20 rounded-xl px-4 py-2.5 font-fig text-marrom-dk bg-white focus:border-amarelo outline-none text-sm" oninput="onCepInput(this)" style="transition:border-color .15s;">
+                </div>
+                <button onclick="buscarCEP()" class="btn bg-marrom-dk text-white font-fig text-sm px-4 rounded-xl self-end mb-0" style="height:44px;">Buscar</button>
+              </div>
+              <input id="co-logradouro" type="text" placeholder="Rua / Avenida" class="w-full border-2 border-marrom/20 rounded-xl px-4 py-2.5 font-fig text-marrom-dk bg-white focus:border-amarelo outline-none text-sm" style="transition:border-color .15s;">
+              <div class="flex gap-2">
+                <input id="co-numero" type="text" placeholder="Número" class="w-28 border-2 border-marrom/20 rounded-xl px-4 py-2.5 font-fig text-marrom-dk bg-white focus:border-amarelo outline-none text-sm" style="transition:border-color .15s;">
+                <input id="co-complemento" type="text" placeholder="Complemento" class="flex-1 border-2 border-marrom/20 rounded-xl px-4 py-2.5 font-fig text-marrom-dk bg-white focus:border-amarelo outline-none text-sm" style="transition:border-color .15s;">
+              </div>
+              <input id="co-bairro" type="text" placeholder="Bairro" class="w-full border-2 border-marrom/20 rounded-xl px-4 py-2.5 font-fig text-marrom-dk bg-white focus:border-amarelo outline-none text-sm" style="transition:border-color .15s;">
+              <!-- Frete result -->
+              <div id="co-frete-result" class="hidden bg-verde/15 border border-verde/30 rounded-xl px-4 py-2.5">
+                <p id="co-frete-text" class="font-fig text-marrom-dk text-sm"></p>
+              </div>
+            </div>
+          </div>
+          <button onclick="coStep3Continue()" class="btn btn-yellow w-full bg-amarelo text-marrom-dk font-pipo font-bold text-lg py-4 rounded-2xl">Continuar →</button>
+        </div>
+
+        <!-- Step 4: Date -->
+        <div id="co-panel-4" class="checkout-panel">
+          <p class="font-fig text-marrom-dk/60 text-sm mb-4">Selecione a data de entrega ou retirada:</p>
+          <div id="co-dates" class="grid grid-cols-3 gap-2 mb-6"></div>
+          <div id="co-dates-empty" class="hidden text-center py-8">
+            <p class="font-fig text-marrom-dk/50">Nenhuma data disponível no momento. Entre em contato pelo WhatsApp.</p>
+          </div>
+          <button onclick="coStep4Continue()" class="btn btn-yellow w-full bg-amarelo text-marrom-dk font-pipo font-bold text-lg py-4 rounded-2xl">Continuar →</button>
+        </div>
+
+        <!-- Step 5: Obs + Payment -->
+        <div id="co-panel-5" class="checkout-panel">
+          <div class="flex flex-col gap-4 mb-4">
+            <div>
+              <label class="font-fig text-marrom-dk/70 text-sm mb-1 block">Observações (opcional)</label>
+              <textarea id="co-obs" rows="3" placeholder="Alergias, preferências, recado para o presenteado..." class="w-full border-2 border-marrom/20 rounded-xl px-4 py-3 font-fig text-marrom-dk bg-white focus:border-amarelo outline-none text-sm resize-none" style="transition:border-color .15s;"></textarea>
+            </div>
+            <div>
+              <p class="font-fig text-marrom-dk/70 text-sm mb-2">Forma de pagamento *</p>
+              <div class="flex flex-col gap-2">
+                <label class="flex items-center gap-3 p-4 border-2 border-marrom/15 rounded-xl cursor-pointer hover:border-amarelo" style="transition:border-color .15s;" onclick="setPagamento('pix')">
+                  <div id="rd-pix" class="w-5 h-5 rounded-full border-2 border-marrom/30 flex-shrink-0" style="transition:background .15s,border-color .15s;"></div>
+                  <div>
+                    <p class="font-fig font-semibold text-marrom-dk text-sm">PIX</p>
+                    <p class="font-fig text-marrom-dk/50 text-xs">Chave aleatória — confirmação via WhatsApp</p>
+                  </div>
+                </label>
+                <label class="flex items-center gap-3 p-4 border-2 border-marrom/15 rounded-xl cursor-pointer hover:border-amarelo" style="transition:border-color .15s;" onclick="setPagamento('credito')">
+                  <div id="rd-credito" class="w-5 h-5 rounded-full border-2 border-marrom/30 flex-shrink-0" style="transition:background .15s,border-color .15s;"></div>
+                  <div>
+                    <p class="font-fig font-semibold text-marrom-dk text-sm">Cartão de Crédito</p>
+                    <p class="font-fig text-marrom-dk/50 text-xs">Combinamos na entrega</p>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+          <button onclick="coStep5Continue()" class="btn btn-yellow w-full bg-amarelo text-marrom-dk font-pipo font-bold text-lg py-4 rounded-2xl">Revisar pedido →</button>
+        </div>
+
+        <!-- Step 6: Confirmation -->
+        <div id="co-panel-6" class="checkout-panel">
+          <div class="bg-white rounded-2xl p-4 mb-4 flex flex-col gap-2 text-sm font-fig text-marrom-dk/80">
+            <div id="co-summary"></div>
+          </div>
+          <p class="font-fig text-marrom-dk/50 text-xs mb-4 text-center">Ao clicar, você será redirecionado para o WhatsApp para confirmar seu pedido.</p>
+          <button id="co-zap-btn" onclick="finalizarPedido()"
+            class="btn w-full bg-verde text-white font-pipo font-bold text-lg py-4 rounded-2xl flex items-center justify-center gap-3"
+            style="box-shadow:0 6px 20px rgba(150,204,112,.4);transition:transform .15s ease,box-shadow .15s ease;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Enviar pelo WhatsApp
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── SUPABASE CDN ── -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+
+<script>
+// ── CONFIG ──────────────────────────────────────────────────────────────────
+const SUPABASE_URL  = 'https://lbdlvkaplyxcjdogtoec.supabase.co';
+const SUPABASE_KEY  = 'sb_publishable_WU7ZyjUZnRpSv6lKnGiGGQ_ijE7fn-t';
+const ZAP_NUMBER    = '5521967643537';
+const EMBALAGEM_FEE = 5;
+
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// ── STATE ────────────────────────────────────────────────────────────────────
+const S = {
+  produtos:   [],
+  categorias: [],
+  descontos:  [],
+  datas:      [],
+  carrinho:   JSON.parse(localStorage.getItem('sf_carrinho') || '[]'),
+  pedidoId:   null,
+  clienteId:  null,
+  checkoutStep: 1,
+  checkoutData: {},
+  boxConfig:  null,
+  currentCat: 'todos',
+  modalProduto: null,
+  modalQty: 1,
+  enderecoRetirada: 'Rua das Flores, 123 — Botafogo, Rio de Janeiro — RJ',
+};
+
+// ── LOAD DATA ────────────────────────────────────────────────────────────────
+async function loadData() {
+  document.getElementById('grid-loading').classList.remove('hidden');
+  document.getElementById('grid-error').classList.add('hidden');
+  document.getElementById('product-grid').classList.add('hidden');
+  try {
+    const [catRes, prodRes, descRes, datasRes, configRes] = await Promise.all([
+      sb.from('categorias').select('*').order('ordem'),
+      sb.from('produtos').select('*').eq('ativo', true).order('ordem'),
+      sb.from('descontos_progressivos').select('*').order('qtd_min'),
+      sb.from('datas_disponiveis').select('*').eq('ativo', true).order('data'),
+      sb.from('configuracoes').select('*'),
+    ]);
+    if (catRes.error) throw catRes.error;
+    S.categorias = catRes.data || [];
+    S.produtos   = prodRes.data || [];
+    S.descontos  = descRes.data || [];
+    S.datas      = (datasRes.data || []).filter(d => {
+      const dt = new Date(d.data + 'T12:00:00');
+      return dt > new Date(Date.now() + 24 * 3600 * 1000);
+    });
+    const cfgs = configRes.data || [];
+    const er = cfgs.find(c => c.chave === 'endereco_retirada');
+    if (er) S.enderecoRetirada = er.valor;
+
+    buildCategoryBar();
+    renderGrid();
+    document.getElementById('grid-loading').classList.add('hidden');
+    document.getElementById('product-grid').classList.remove('hidden');
+    updateCartBadge();
+  } catch(e) {
+    console.error(e);
+    // Fallback: use demo data so design is visible
+    useDemoData();
+  }
+}
+
+function useDemoData() {
+  S.categorias = [
+    { slug:'ovos-pascoa',       nome:'Ovos de Páscoa',     ordem:1 },
+    { slug:'pao-de-mel-avulso', nome:'Pão de Mel Avulso',  ordem:2 },
+    { slug:'barras',            nome:'Barras',              ordem:3 },
+    { slug:'caixas',            nome:'Caixas de Presente',  ordem:4 },
+  ];
+  S.descontos = [
+    { qtd_min:1,   qtd_max:24,  preco_unitario:10.00 },
+    { qtd_min:25,  qtd_max:49,  preco_unitario:9.50  },
+    { qtd_min:50,  qtd_max:99,  preco_unitario:9.00  },
+    { qtd_min:100, qtd_max:null,preco_unitario:8.50  },
+  ];
+  S.datas = ['2026-04-05','2026-04-09','2026-04-10','2026-04-11','2026-04-12','2026-04-18','2026-04-19']
+    .map(data => ({ id: data, data, ativo: true }));
+  S.produtos = [
+    { id:'d1', categoria_slug:'ovos-pascoa',       tipo:'simples', nome:'Ovo Pão de Mel',        subtitulo:'Recheio de Amendoim',    descricao:'Casca de chocolate ao leite com pão de mel e recheio cremoso de amendoim.',        preco:65.00, imagem_url:'img/ovo_amendoim.jpg',              tag:'Clássico',            tag_cor:'verde',  cor_header:'amarelo', ativo:true, ordem:1 },
+    { id:'d2', categoria_slug:'ovos-pascoa',       tipo:'simples', nome:'Ovo Casca Caramelo',    subtitulo:'Caramelo Salgado',       descricao:'Casca de chocolate com caramelo salgado e pão de mel.',                            preco:75.00, imagem_url:'img/ovo_casca-caramelo.jpg',         tag:'Campeão de Vendas',   tag_cor:'rosa',   cor_header:'amarelo', ativo:true, ordem:2 },
+    { id:'d3', categoria_slug:'ovos-pascoa',       tipo:'simples', nome:'Ovo Fudge',             subtitulo:'Chocolate Intenso',      descricao:'Recheio de fudge de chocolate intenso com pão de mel.',                            preco:70.00, imagem_url:'img/ovo_fudge.jpg',                  tag:'Novidade',            tag_cor:'amarelo',cor_header:'roxo',   ativo:true, ordem:3 },
+    { id:'d4', categoria_slug:'pao-de-mel-avulso', tipo:'avulso',  nome:'Pão de Mel Doce de Leite', subtitulo:'Sabor Doce de Leite', descricao:'Pão de mel com cobertura de chocolate e recheio cremoso de doce de leite.',       preco:10.00, imagem_url:'img/ovo_pdm_doce_de_leite_com_nozes.jpg', tag:null,  tag_cor:null, cor_header:'amarelo', is_especial_mes:false, ativo:true, ordem:1 },
+    { id:'d5', categoria_slug:'pao-de-mel-avulso', tipo:'avulso',  nome:'Pão de Mel Amendoim',   subtitulo:'Sabor Amendoim',         descricao:'Pão de mel com cobertura de chocolate e recheio de amendoim.',                    preco:10.00, imagem_url:'img/ovo_amendoim.jpg',               tag:null,  tag_cor:null, cor_header:'amarelo', is_especial_mes:false, ativo:true, ordem:2 },
+    { id:'d6', categoria_slug:'pao-de-mel-avulso', tipo:'avulso',  nome:'Pão de Mel Caramelo',   subtitulo:'Sabor Caramelo Salgado', descricao:'Pão de mel com recheio de caramelo salgado.',                                    preco:10.00, imagem_url:'img/ovo_pdm_caramelo.jpg',           tag:null,  tag_cor:null, cor_header:'amarelo', is_especial_mes:false, ativo:true, ordem:3 },
+    { id:'d7', categoria_slug:'pao-de-mel-avulso', tipo:'avulso',  nome:'Pão de Mel da Estação', subtitulo:'Especial do Mês',        descricao:'Sabor especial do mês, feito com ingredientes sazonais. Por tempo limitado!',   preco:12.00, imagem_url:'img/ovo_casca-caramelo.jpg',         tag:'Especial',tag_cor:'rosa',cor_header:'rosa', is_especial_mes:true,  ativo:true, ordem:4 },
+    { id:'d8', categoria_slug:'barras',            tipo:'simples', nome:'Barra Cajutella',        subtitulo:'Chocolate com Pasta de Caju', descricao:'Chocolate artesanal com cajutella cremosa.',                                preco:55.00, imagem_url:'img/barra_cajutella.jpg',            tag:'Novidade',            tag_cor:'amarelo',cor_header:'rosa',   ativo:true, ordem:1 },
+    { id:'d9', categoria_slug:'barras',            tipo:'simples', nome:'Barra Caramelo Salgado', subtitulo:'Caramelo com Flor de Sal', descricao:'Chocolate artesanal com caramelo salgado e flor de sal.',                     preco:55.00, imagem_url:'img/barra_caramelo.jpg',             tag:null,  tag_cor:null, cor_header:'amarelo', ativo:true, ordem:2 },
+    { id:'e1', categoria_slug:'caixas',            tipo:'caixa',   nome:'Caixa com 3 Pães de Mel',subtitulo:'Monte do seu jeito',    descricao:'Escolha 3 sabores de pão de mel para presentear com carinho.',                  preco_min:35.00, imagem_url:'img/caixa_3_pdm.jpg',         tag:null,  tag_cor:null, cor_header:'verde',  config:{tamanho:3},   ativo:true, ordem:1 },
+    { id:'e2', categoria_slug:'caixas',            tipo:'caixa',   nome:'Caixa com 6 Pães de Mel',subtitulo:'Monte do seu jeito',    descricao:'Escolha 6 sabores de pão de mel. Embalagem especial inclusa.',                  preco_min:65.00, imagem_url:'img/caixa_9_pdm.jpg',         tag:'Popular',tag_cor:'verde',cor_header:'verde', config:{tamanho:6},  ativo:true, ordem:2 },
+    { id:'e3', categoria_slug:'caixas',            tipo:'caixa',   nome:'Caixa com 9 Pães de Mel',subtitulo:'Monte do seu jeito',    descricao:'Escolha 9 sabores de pão de mel.',                                              preco_min:95.00, imagem_url:'img/caixa_9_pdm.jpg',         tag:null,  tag_cor:null, cor_header:'amarelo',config:{tamanho:9},   ativo:true, ordem:3 },
+    { id:'e4', categoria_slug:'caixas',            tipo:'caixa',   nome:'Caixa com 15 Pães de Mel',subtitulo:'Monte do seu jeito',   descricao:'A caixa mais completa! 15 pães de mel à sua escolha.',                          preco_min:155.00,imagem_url:'img/caixa_15_pdm.jpg',        tag:'Campeão de Vendas',tag_cor:'rosa',cor_header:'marrom',config:{tamanho:15},ativo:true, ordem:4 },
+  ];
+  buildCategoryBar();
+  renderGrid();
+  document.getElementById('grid-loading').classList.add('hidden');
+  document.getElementById('product-grid').classList.remove('hidden');
+  updateCartBadge();
+}
+
+// ── CATEGORY BAR ─────────────────────────────────────────────────────────────
+function buildCategoryBar() {
+  const bar = document.getElementById('cat-bar');
+  S.categorias.forEach(cat => {
+    const btn = document.createElement('button');
+    btn.className = 'cat-btn flex-shrink-0 border-2 border-marrom/20 text-marrom-dk font-fig text-sm px-4 py-1.5 rounded-full';
+    btn.textContent = cat.nome;
+    btn.onclick = () => filterCat(cat.slug, btn);
+    bar.appendChild(btn);
+  });
+}
+
+function filterCat(slug, btnEl) {
+  S.currentCat = slug;
+  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+  if (btnEl) btnEl.classList.add('active');
+  renderGrid();
+}
+
+// ── PRODUCT GRID ─────────────────────────────────────────────────────────────
+const HEADER_COLORS = { amarelo: '#ffcc1c', rosa: '#ff4d79', roxo: '#a890cc', verde: '#96cc70', marrom: '#8c4820' };
+const TAG_COLORS    = { verde: '#96cc70', rosa: '#ff4d79', roxo: '#a890cc', amarelo: '#ffcc1c' };
+
+// Ordem das categorias na view "Todos"
+const CAT_ORDER = ['ovos-pascoa','barras','caixas','pao-de-mel-avulso'];
+
+function renderGrid() {
+  const grid  = document.getElementById('product-grid');
+  const empty = document.getElementById('grid-empty');
+  grid.innerHTML = '';
+
+  if (S.currentCat === 'todos') {
+    const slugs = [
+      ...CAT_ORDER,
+      ...S.categorias.map(c => c.slug).filter(s => !CAT_ORDER.includes(s)),
+    ];
+    let hasAny = false;
+    slugs.forEach(slug => {
+      const prods = S.produtos.filter(p => p.categoria_slug === slug);
+      if (!prods.length) return;
+      hasAny = true;
+      const header = document.createElement('div');
+      header.className = 'col-span-full flex items-center gap-4 mt-6 mb-1';
+      header.innerHTML = `
+        <h2 class="font-pipo font-bold text-marrom-dk text-xl sm:text-2xl flex-shrink-0">${catName(slug)}</h2>
+        <div class="flex-1 h-px bg-marrom/15"></div>
+        ${slug === 'pao-de-mel-avulso' ? '<span class="flex-shrink-0 font-fig text-xs text-marrom-dk/60 bg-amarelo/20 border border-amarelo/30 rounded-full px-3 py-1">Desconto progressivo disponível</span>' : ''}`;
+      grid.appendChild(header);
+      prods.forEach(p => grid.appendChild(makeCard(p)));
+    });
+    if (!hasAny) { empty.classList.remove('hidden'); return; }
+    empty.classList.add('hidden');
+  } else {
+    const filtered = S.produtos.filter(p => p.categoria_slug === S.currentCat);
+    if (!filtered.length) { empty.classList.remove('hidden'); return; }
+    empty.classList.add('hidden');
+    filtered.forEach(p => grid.appendChild(makeCard(p)));
+  }
+}
+
+function makeCard(p) {
+  const totalAvulso = totalAvulsoQtd();
+  const precoAvulso = getPrecoAvulso(totalAvulso);
+  const card = document.createElement('div');
+  card.className = 'product-card bg-white rounded-3xl overflow-hidden flex flex-col cursor-pointer';
+  card.style.boxShadow = '0 4px 20px rgba(114,56,28,.1),0 1px 6px rgba(114,56,28,.06)';
+  card.onclick = () => openProductModal(p.id);
+  const hColor = HEADER_COLORS[p.cor_header] || '#ffcc1c';
+
+  let precoStr = '';
+  if (p.tipo === 'caixa')       precoStr = `A partir de <strong>${fmt(p.preco_min)}</strong>`;
+  else if (p.tipo === 'avulso') precoStr = `<strong>${fmt(precoAvulso)}</strong> <span style="font-size:11px;opacity:.5">/ un.</span>`;
+  else                          precoStr = `<strong>${fmt(p.preco)}</strong>`;
+
+  const tagHtml = p.tag
+    ? `<span class="absolute top-3 left-3 font-fig text-xs font-semibold px-2.5 py-1 rounded-full text-white" style="background:${TAG_COLORS[p.tag_cor]||'#96cc70'}">${p.tag}</span>`
+    : '';
+
+  const discountBadge = (p.tipo === 'avulso' && !p.is_especial_mes && totalAvulso >= 25)
+    ? `<span class="absolute bottom-3 right-3 bg-verde text-white font-fig text-xs px-2 py-0.5 rounded-full font-semibold">-${Math.round((1 - precoAvulso/10)*100)}% off</span>`
+    : '';
+
+  card.innerHTML = `
+    <div style="height:5px;background:${hColor};flex-shrink:0;"></div>
+    <div class="relative flex-shrink-0" style="height:200px;background:#f5ede0;overflow:hidden;">
+      <img src="${p.imagem_url||'https://placehold.co/400x300'}" alt="${p.nome}"
+        style="width:100%;height:100%;object-fit:contain;padding:10px;" loading="lazy"
+        onerror="this.src='https://placehold.co/400x300/f5ede0/8c4820?text=🍫'">
+      ${tagHtml}${discountBadge}
+    </div>
+    <div class="p-4 flex flex-col flex-1">
+      <h3 class="font-pipo font-bold text-marrom-dk text-base leading-tight mb-0.5">${p.nome}</h3>
+      <p class="font-fig text-marrom-dk/55 text-xs mb-3">${p.subtitulo||''}</p>
+      <div class="mt-auto flex items-center justify-between gap-2">
+        <p class="font-fig text-marrom-dk text-sm">${precoStr}</p>
+        <button class="btn flex-shrink-0 bg-amarelo text-marrom-dk font-pipo font-bold text-xs px-3.5 py-2 rounded-xl hover:shadow-[0_4px_12px_rgba(255,204,28,.3)]"
+          onclick="event.stopPropagation();openProductModal('${p.id}')">
+          ${p.tipo==='caixa' ? 'Montar' : 'Adicionar'}
+        </button>
+      </div>
+    </div>`;
+  return card;
+}
+
+function catName(slug) {
+  const c = S.categorias.find(c => c.slug === slug);
+  return c ? c.nome : slug;
+}
+
+// ── DISCOUNT LOGIC ────────────────────────────────────────────────────────────
+function getPrecoAvulso(qtd) {
+  // Use tiers from Supabase if loaded, else hardcoded
+  if (S.descontos.length > 0) {
+    const tier = [...S.descontos].reverse().find(d => qtd >= d.qtd_min);
+    return tier ? parseFloat(tier.preco_unitario) : 10;
+  }
+  if (qtd >= 100) return 8.50;
+  if (qtd >= 50)  return 9.00;
+  if (qtd >= 25)  return 9.50;
+  return 10.00;
+}
+
+function totalAvulsoQtd() {
+  return S.carrinho
+    .filter(i => i.tipo === 'avulso' && !i.is_especial_mes)
+    .reduce((s, i) => s + i.quantidade, 0);
+}
+
+function recalcularAvulsos() {
+  const totalQtd = totalAvulsoQtd();
+  const precoUnit = getPrecoAvulso(totalQtd);
+  S.carrinho.forEach(item => {
+    if (item.tipo === 'avulso' && !item.is_especial_mes) {
+      item.preco_unitario = precoUnit;
+      item.preco_total = +(precoUnit * item.quantidade).toFixed(2);
+    }
+  });
+}
+
+// ── CART OPERATIONS ───────────────────────────────────────────────────────────
+function saveCarrinho() {
+  localStorage.setItem('sf_carrinho', JSON.stringify(S.carrinho));
+  updateCartBadge();
+}
+
+function updateCartBadge() {
+  const total = S.carrinho.reduce((s, i) => s + i.quantidade, 0);
+  const badge = document.getElementById('cart-badge');
+  badge.textContent = total;
+  badge.classList.toggle('hidden', total === 0);
+  badge.classList.toggle('flex', total > 0);
+}
+
+function addToCart(item) {
+  // Check if same produto exists (simples/avulso without box)
+  if (item.tipo !== 'caixa') {
+    const existing = S.carrinho.find(c =>
+      c.tipo === item.tipo && c.produto_id === item.produto_id
+    );
+    if (existing) {
+      existing.quantidade += item.quantidade;
+      recalcularAvulsos();
+      existing.preco_total = +(existing.preco_unitario * existing.quantidade).toFixed(2);
+      saveCarrinho();
+      showToast(`+${item.quantidade} adicionado à cesta!`, 'sucesso');
+      return;
+    }
+  }
+  item.id = crypto.randomUUID();
+  S.carrinho.push(item);
+  recalcularAvulsos();
+  saveCarrinho();
+  showToast('Adicionado à cesta! 🧺', 'sucesso');
+}
+
+function removeItem(id) {
+  S.carrinho = S.carrinho.filter(i => i.id !== id);
+  recalcularAvulsos();
+  saveCarrinho();
+  renderCartSidebar();
+}
+
+function updateItemQty(id, delta) {
+  const item = S.carrinho.find(i => i.id === id);
+  if (!item) return;
+  item.quantidade = Math.max(1, item.quantidade + delta);
+  recalcularAvulsos();
+  item.preco_total = +(item.preco_unitario * item.quantidade).toFixed(2);
+  saveCarrinho();
+  renderCartSidebar();
+}
+
+function getTotal() {
+  return S.carrinho.reduce((s, i) => s + i.preco_total, 0);
+}
+
+// ── PRODUCT MODAL ─────────────────────────────────────────────────────────────
+function openProductModal(produtoId) {
+  const p = S.produtos.find(x => x.id === produtoId);
+  if (!p) return;
+  if (p.tipo === 'caixa') { openBoxModal(p); return; }
+
+  S.modalProduto = p;
+  S.modalQty = 1;
+
+  document.getElementById('modal-header-bar').style.background = HEADER_COLORS[p.cor_header] || '#ffcc1c';
+  document.getElementById('modal-categoria').textContent = catName(p.categoria_slug);
+  document.getElementById('modal-nome').textContent = p.nome;
+  document.getElementById('modal-subtitulo').textContent = p.subtitulo || '';
+  document.getElementById('modal-img').src = p.imagem_url || 'https://placehold.co/600x400';
+  document.getElementById('modal-img').alt = p.nome;
+  document.getElementById('modal-desc').textContent = p.descricao || '';
+
+  // Tag
+  const tagEl = document.getElementById('modal-tag');
+  if (p.tag) {
+    tagEl.textContent = p.tag;
+    tagEl.style.background = TAG_COLORS[p.tag_cor] || '#96cc70';
+    tagEl.classList.remove('hidden');
+  } else {
+    tagEl.classList.add('hidden');
+  }
+
+  // Discount info for avulso
+  const discountDiv = document.getElementById('modal-discount');
+  if (p.tipo === 'avulso') {
+    discountDiv.classList.remove('hidden');
+    const totalQtd = totalAvulsoQtd();
+    const precoAtual = getPrecoAvulso(totalQtd);
+    // Next tier
+    let nextMsg = '';
+    const tiers = S.descontos.length > 0 ? S.descontos : [
+      {qtd_min:25,preco_unitario:9.50},{qtd_min:50,preco_unitario:9.00},{qtd_min:100,preco_unitario:8.50}
+    ];
+    const nextTier = tiers.find(t => t.qtd_min > totalQtd);
+    if (nextTier) nextMsg = `Mais ${nextTier.qtd_min - totalQtd} unid. para ${fmt(nextTier.preco_unitario)}/un.`;
+    document.getElementById('modal-discount-next').textContent = nextMsg;
+    updateModalPrice();
+  } else {
+    discountDiv.classList.add('hidden');
+    updateModalPrice();
+  }
+
+  document.getElementById('modal-qty-val').textContent = '1';
+  openModal('product-modal');
+}
+
+function updateModalPrice() {
+  const p = S.modalProduto;
+  if (!p) return;
+  let price;
+  if (p.tipo === 'avulso') {
+    const existing = totalAvulsoQtd();
+    price = getPrecoAvulso(existing + (S.modalQty - 1));
+  } else {
+    price = p.preco;
+  }
+  document.getElementById('modal-preco').textContent = fmt(price * S.modalQty);
+}
+
+function modalQty(delta) {
+  S.modalQty = Math.max(1, S.modalQty + delta);
+  document.getElementById('modal-qty-val').textContent = S.modalQty;
+  updateModalPrice();
+}
+
+function addModalToCart() {
+  const p = S.modalProduto;
+  if (!p) return;
+  const precoUnit = p.tipo === 'avulso' ? getPrecoAvulso(totalAvulsoQtd()) : p.preco;
+  addToCart({
+    tipo: p.tipo === 'avulso' ? 'avulso' : 'produto',
+    produto_id: p.id,
+    nome: p.nome,
+    quantidade: S.modalQty,
+    is_especial_mes: p.is_especial_mes || false,
+    preco_unitario: +precoUnit,
+    preco_total: +(precoUnit * S.modalQty).toFixed(2),
+    imagem_url: p.imagem_url,
+  });
+  closeModal();
+  renderGrid(); // refresh to update discount badges
+}
+
+// ── BOX CONFIGURATOR ──────────────────────────────────────────────────────────
+function openBoxModal(produto) {
+  const tamanho = produto.config?.tamanho || 6;
+  S.boxConfig = { produto_id: produto.id, nome: produto.nome, tamanho, itens: {}, preco_min: produto.preco_min };
+
+  document.getElementById('box-title').textContent = `Caixa com ${tamanho} Pães de Mel`;
+  document.getElementById('box-total-size').textContent = tamanho;
+
+  // Render flavor list
+  const avulsos = S.produtos.filter(p => p.tipo === 'avulso');
+  const fl = document.getElementById('box-flavors');
+  fl.innerHTML = '';
+  avulsos.forEach(p => {
+    S.boxConfig.itens[p.id] = { nome: p.nome, preco: p.preco, qtd: 0 };
+    const row = document.createElement('div');
+    row.className = 'flex items-center justify-between gap-3 bg-white rounded-xl p-3';
+    row.style.boxShadow = '0 2px 8px rgba(114,56,28,.07)';
+    row.innerHTML = `
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl overflow-hidden flex-shrink-0" style="background:#e2d4c4;">
+          <img src="${p.imagem_url||''}" alt="${p.nome}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/80x80/e2d4c4/8c4820?text=🍫'">
+        </div>
+        <p class="font-fig text-marrom-dk text-sm font-semibold">${p.nome}</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <button class="qty-btn w-8 h-8 rounded-lg bg-cream font-bold text-marrom-dk flex items-center justify-center" onclick="boxQty('${p.id}',-1)">−</button>
+        <span id="box-qty-${p.id}" class="font-pipo font-bold text-marrom-dk w-5 text-center text-sm">0</span>
+        <button class="qty-btn w-8 h-8 rounded-lg bg-cream font-bold text-marrom-dk flex items-center justify-center" onclick="boxQty('${p.id}',1)">+</button>
+      </div>`;
+    fl.appendChild(row);
+  });
+
+  updateBoxUI();
+  // Close product modal if open, open box modal
+  document.getElementById('product-modal').classList.replace('open','closed');
+  document.getElementById('ov-modal').classList.replace('show-ov','show-ov');
+  openModal('box-modal');
+}
+
+function boxQty(prodId, delta) {
+  const item = S.boxConfig.itens[prodId];
+  const totalSelected = Object.values(S.boxConfig.itens).reduce((s,i) => s + i.qtd, 0);
+  if (delta > 0 && totalSelected >= S.boxConfig.tamanho) {
+    showToast(`Máximo de ${S.boxConfig.tamanho} pães atingido`, 'info'); return;
+  }
+  item.qtd = Math.max(0, item.qtd + delta);
+  document.getElementById(`box-qty-${prodId}`).textContent = item.qtd;
+  updateBoxUI();
+}
+
+function updateBoxUI() {
+  const total = Object.values(S.boxConfig.itens).reduce((s,i) => s + i.qtd, 0);
+  const tam   = S.boxConfig.tamanho;
+  document.getElementById('box-selected-count').textContent = total;
+  document.getElementById('box-progress').style.width = `${Math.min(100,(total/tam)*100)}%`;
+
+  // Price: embalagem + sum of pão prices
+  const precoItens = Object.values(S.boxConfig.itens).reduce((s,i) => s + i.qtd * i.preco, 0);
+  const precoTotal = EMBALAGEM_FEE + precoItens;
+  document.getElementById('box-price-live').textContent = fmt(precoTotal);
+
+  const btn = document.getElementById('box-add-btn');
+  btn.disabled = total < tam;
+}
+
+function addBoxToCart() {
+  const tam = S.boxConfig.tamanho;
+  const itens = Object.values(S.boxConfig.itens).filter(i => i.qtd > 0);
+  const precoItens = itens.reduce((s,i) => s + i.qtd * i.preco, 0);
+  const precoTotal = EMBALAGEM_FEE + precoItens;
+
+  addToCart({
+    tipo: 'caixa',
+    produto_id: S.boxConfig.produto_id,
+    nome: S.boxConfig.nome,
+    tamanho: tam,
+    quantidade: 1,
+    itens: itens,
+    preco_embalagem: EMBALAGEM_FEE,
+    preco_unitario: precoTotal,
+    preco_total: precoTotal,
+    imagem_url: S.produtos.find(p => p.id === S.boxConfig.produto_id)?.imagem_url || '',
+  });
+  closeBoxModal();
+}
+
+function closeBoxModal() {
+  document.getElementById('box-modal').classList.replace('open','closed');
+  document.getElementById('ov-modal').classList.replace('show-ov','hidden-ov');
+}
+
+// ── MODAL OPEN/CLOSE ──────────────────────────────────────────────────────────
+function openModal(id) {
+  document.getElementById(id).classList.replace('closed','open');
+  document.getElementById('ov-modal').classList.replace('hidden-ov','show-ov');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  ['product-modal','box-modal'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.classList.replace('open','closed');
+  });
+  document.getElementById('ov-modal').classList.replace('show-ov','hidden-ov');
+  document.body.style.overflow = '';
+}
+
+// ── CART SIDEBAR ──────────────────────────────────────────────────────────────
+function openCart() {
+  renderCartSidebar();
+  document.getElementById('cart-sidebar').classList.replace('closed','open');
+  document.getElementById('ov-cart').classList.replace('hidden-ov','show-ov');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeCart() {
+  document.getElementById('cart-sidebar').classList.replace('open','closed');
+  document.getElementById('ov-cart').classList.replace('show-ov','hidden-ov');
+  document.body.style.overflow = '';
+}
+
+function renderCartSidebar() {
+  const items  = document.getElementById('cart-items');
+  const empty  = document.getElementById('cart-empty');
+  const footer = document.getElementById('cart-footer');
+
+  if (S.carrinho.length === 0) {
+    items.innerHTML = '';
+    empty.classList.remove('hidden');
+    footer.classList.add('hidden');
+    document.getElementById('cart-count-badge').textContent = '';
+    return;
+  }
+
+  empty.classList.add('hidden');
+  footer.classList.remove('hidden');
+
+  const totalQtd = S.carrinho.reduce((s,i) => s + i.quantidade, 0);
+  document.getElementById('cart-count-badge').textContent = `${totalQtd} item${totalQtd !== 1 ? 's' : ''}`;
+
+  items.innerHTML = '';
+  S.carrinho.forEach(item => {
+    const div = document.createElement('div');
+    div.className = 'bg-white rounded-2xl p-3 flex gap-3 items-start';
+    div.style.boxShadow = '0 2px 8px rgba(114,56,28,.06)';
+
+    const imgSrc = item.imagem_url || 'https://placehold.co/80x80/e2d4c4/8c4820?text=🍫';
+    const label = item.tipo === 'caixa'
+      ? `${item.nome}<br><span class="text-marrom-dk/50 text-[11px]">${item.itens.map(i=>`${i.nome}×${i.qtd||i.quantidade}`).join(', ')}</span>`
+      : item.nome;
+
+    div.innerHTML = `
+      <div class="w-12 h-12 rounded-xl overflow-hidden flex-shrink-0 bg-cream">
+        <img src="${imgSrc}" alt="${item.nome}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/80x80/e2d4c4/8c4820?text=🍫'">
+      </div>
+      <div class="flex-1 min-w-0">
+        <p class="font-fig text-marrom-dk text-sm font-semibold leading-tight mb-1">${label}</p>
+        <p class="font-pipo font-bold text-marrom-dk text-sm">${fmt(item.preco_total)}</p>
+      </div>
+      <div class="flex flex-col items-end gap-1 flex-shrink-0">
+        ${item.tipo !== 'caixa' ? `
+        <div class="flex items-center gap-1">
+          <button class="qty-btn w-6 h-6 rounded-lg bg-cream text-marrom-dk text-sm font-bold flex items-center justify-center" onclick="updateItemQty('${item.id}',-1)">−</button>
+          <span class="font-fig text-marrom-dk text-sm w-4 text-center">${item.quantidade}</span>
+          <button class="qty-btn w-6 h-6 rounded-lg bg-cream text-marrom-dk text-sm font-bold flex items-center justify-center" onclick="updateItemQty('${item.id}',1)">+</button>
+        </div>` : `<span class="font-fig text-marrom-dk/40 text-xs">×1</span>`}
+        <button class="font-fig text-marrom-dk/30 text-xs hover:text-rosa" style="transition:color .15s;" onclick="removeItem('${item.id}')">remover</button>
+      </div>`;
+    items.appendChild(div);
+  });
+
+  const total = getTotal();
+  document.getElementById('cart-subtotal').textContent = fmt(total);
+
+  // Discount badge
+  const totalAvulso = totalAvulsoQtd();
+  const precoAtual = getPrecoAvulso(totalAvulso);
+  const badge = document.getElementById('cart-discount-badge');
+  const badgeText = document.getElementById('cart-discount-text');
+  if (totalAvulso >= 25) {
+    badge.classList.remove('hidden');
+    badgeText.textContent = `Desconto aplicado! Pães de mel a ${fmt(precoAtual)}/un.`;
+  } else {
+    badge.classList.add('hidden');
+  }
+  updateCartBadge();
+}
+
+// ── CHECKOUT ──────────────────────────────────────────────────────────────────
+const CO_LABELS = [
+  '', 'Revisão', 'Seus Dados', 'Entrega', 'Data', 'Pagamento', 'Confirmar'
+];
+const CO_SUBTITLES = [
+  '', 'Confirme seus itens', 'Como podemos te contatar?',
+  'Como vai receber?', 'Quando vai receber?',
+  'Última etapa!', 'Tudo pronto!'
+];
+
+function openCheckout() {
+  closeCart();
+  S.checkoutStep = 1;
+  renderCheckoutStep(1);
+  document.getElementById('ov-checkout').classList.replace('hidden-ov','show-ov');
+  document.getElementById('checkout-wrap').classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
+  renderCheckoutReview();
+}
+
+function closeCheckout() {
+  document.getElementById('checkout-wrap').classList.add('hidden');
+  document.getElementById('ov-checkout').classList.replace('show-ov','hidden-ov');
+  document.body.style.overflow = '';
+}
+
+function renderCheckoutStep(n) {
+  // Hide all panels
+  for(let i=1;i<=6;i++) {
+    const p = document.getElementById(`co-panel-${i}`);
+    p.classList.toggle('active', i === n);
+  }
+  // Update stepper dots
+  for(let i=1;i<=6;i++) {
+    const dot = document.getElementById(`sdot-${i}`);
+    dot.className = 'step-dot w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0';
+    if (i < n) {
+      dot.classList.add('done'); dot.style.color = 'white'; dot.textContent = '✓';
+    } else if (i === n) {
+      dot.classList.add('active'); dot.style.color = '#3d1a08'; dot.textContent = i;
+    } else {
+      dot.style.background = 'rgba(114,56,28,.15)'; dot.style.color = 'rgba(114,56,28,.4)'; dot.textContent = i;
+    }
+  }
+  document.getElementById('co-step-label').textContent = `Passo ${n} de 6`;
+  document.getElementById('co-step-title').textContent = CO_LABELS[n];
+}
+
+function coNext() {
+  const next = S.checkoutStep + 1;
+  S.checkoutStep = next;
+  renderCheckoutStep(next);
+  // Load dates on step 4
+  if (next === 4) renderDates();
+  // Render summary on step 6
+  if (next === 6) renderSummary();
+}
+
+function renderCheckoutReview() {
+  const container = document.getElementById('co-review-items');
+  container.innerHTML = '';
+  S.carrinho.forEach(item => {
+    const row = document.createElement('div');
+    row.className = 'flex items-start justify-between gap-3 py-2 border-b border-marrom/8';
+    row.innerHTML = `
+      <p class="font-fig text-marrom-dk text-sm flex-1">${item.nome}${item.tipo==='caixa'?` (${item.tamanho} pães)`:''} ×${item.quantidade}</p>
+      <p class="font-pipo font-bold text-marrom-dk text-sm flex-shrink-0">${fmt(item.preco_total)}</p>`;
+    container.appendChild(row);
+  });
+  document.getElementById('co-review-subtotal').textContent = fmt(getTotal());
+}
+
+async function coStep2Continue() {
+  const nome = document.getElementById('co-nome').value.trim();
+  const zap  = document.getElementById('co-whatsapp').value.replace(/\D/g,'');
+  const lgpd = document.getElementById('co-lgpd').checked;
+  if (!nome) { showToast('Informe seu nome', 'erro'); return; }
+  if (zap.length < 10) { showToast('WhatsApp inválido', 'erro'); return; }
+  if (!lgpd) { showToast('Aceite os termos de uso', 'erro'); return; }
+  S.checkoutData.nome = nome;
+  S.checkoutData.whatsapp = zap;
+
+  // Save to Supabase — UUIDs gerados no client (clientes não tem SELECT policy)
+  const btn = document.querySelector('#co-panel-2 button');
+  btn.textContent = 'Salvando...'; btn.disabled = true;
+  try {
+    const clienteId = crypto.randomUUID();
+    const pedidoId  = crypto.randomUUID();
+
+    const { error: ce } = await sb.from('clientes').insert({
+      id: clienteId, nome, whatsapp: zap, lgpd_consentimento: true
+    });
+    if (ce) throw ce;
+    S.clienteId = clienteId;
+
+    const { error: pe } = await sb.from('pedidos').insert({
+      id: pedidoId, cliente_id: clienteId,
+      status: 'checkout_iniciado', subtotal: getTotal(),
+    });
+    if (pe) throw pe;
+    S.pedidoId = pedidoId;
+    coNext();
+    document.getElementById('co-endereco-retirada').textContent = S.enderecoRetirada;
+  } catch(e) {
+    console.error(e);
+    showToast('Erro ao salvar dados. Tente novamente.', 'erro');
+  } finally {
+    btn.textContent = 'Continuar →'; btn.disabled = false;
+  }
+}
+
+let entregaMode = null;
+function setEntrega(mode) {
+  entregaMode = mode;
+  const rdR = document.getElementById('rd-retirada');
+  const rdE = document.getElementById('rd-entrega');
+  const fields = document.getElementById('co-delivery-fields');
+  const sel = 'background:#ffcc1c;border-color:#ffcc1c;';
+  const unsel = '';
+  rdR.style.cssText = mode==='retirada' ? sel : unsel;
+  rdE.style.cssText = mode==='entrega'  ? sel : unsel;
+  fields.classList.toggle('hidden', mode !== 'entrega');
+  document.getElementById('co-frete-result').classList.add('hidden');
+}
+
+function onCepInput(el) {
+  let v = el.value.replace(/\D/g,'');
+  if (v.length > 5) v = v.slice(0,5) + '-' + v.slice(5,8);
+  el.value = v;
+}
+
+async function buscarCEP() {
+  const cep = document.getElementById('co-cep').value.replace(/\D/g,'');
+  if (cep.length !== 8) { showToast('CEP inválido', 'erro'); return; }
+  try {
+    const via = await fetch(`https://viacep.com.br/ws/${cep}/json/`).then(r=>r.json());
+    if (via.erro) throw new Error('CEP não encontrado');
+    document.getElementById('co-logradouro').value = via.logradouro || '';
+    document.getElementById('co-bairro').value = via.bairro || '';
+
+    // Lookup frete
+    const bairroNorm = (via.bairro||'').toLowerCase()
+      .normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();
+    const { data: freteData } = await sb.from('frete_bairros')
+      .select('valor').eq('bairro', bairroNorm).maybeSingle();
+
+    const freteResult = document.getElementById('co-frete-result');
+    const freteText   = document.getElementById('co-frete-text');
+    freteResult.classList.remove('hidden');
+    if (freteData?.valor != null) {
+      S.checkoutData.frete = freteData.valor;
+      S.checkoutData.frete_a_confirmar = false;
+      freteText.textContent = `Frete para ${via.bairro}: ${fmt(freteData.valor)}`;
+    } else {
+      S.checkoutData.frete = null;
+      S.checkoutData.frete_a_confirmar = true;
+      freteText.textContent = `Frete para ${via.bairro}: a confirmar com nossa equipe`;
+    }
+    S.checkoutData.logradouro = via.logradouro;
+    S.checkoutData.bairro = via.bairro;
+    S.checkoutData.cidade = via.localidade;
+    S.checkoutData.estado = via.uf;
+    S.checkoutData.cep = cep;
+  } catch(e) {
+    showToast(e.message || 'Erro ao buscar CEP', 'erro');
+  }
+}
+
+async function coStep3Continue() {
+  if (!entregaMode) { showToast('Escolha retirada ou entrega', 'erro'); return; }
+  S.checkoutData.tipo_entrega = entregaMode;
+  if (entregaMode === 'entrega') {
+    const numero = document.getElementById('co-numero').value.trim();
+    if (!numero) { showToast('Informe o número do endereço', 'erro'); return; }
+    S.checkoutData.numero = numero;
+    S.checkoutData.complemento = document.getElementById('co-complemento').value.trim();
+  }
+  if (S.pedidoId) {
+    const patch = { status: 'endereco_preenchido', tipo_entrega: entregaMode };
+    if (entregaMode === 'entrega') Object.assign(patch, {
+      cep: S.checkoutData.cep, logradouro: S.checkoutData.logradouro,
+      numero: S.checkoutData.numero, complemento: S.checkoutData.complemento,
+      bairro: S.checkoutData.bairro, cidade: S.checkoutData.cidade,
+      estado: S.checkoutData.estado,
+      frete: S.checkoutData.frete,
+      frete_a_confirmar: S.checkoutData.frete_a_confirmar || false,
+    });
+    await sb.from('pedidos').update(patch).eq('id', S.pedidoId);
+  }
+  coNext();
+}
+
+let selectedDate = null;
+function renderDates() {
+  const container = document.getElementById('co-dates');
+  const empty = document.getElementById('co-dates-empty');
+  container.innerHTML = '';
+  selectedDate = null;
+  if (S.datas.length === 0) {
+    empty.classList.remove('hidden'); container.classList.add('hidden'); return;
+  }
+  empty.classList.add('hidden'); container.classList.remove('hidden');
+  S.datas.forEach(d => {
+    const dt = new Date(d.data + 'T12:00:00');
+    const btn = document.createElement('button');
+    btn.className = 'btn border-2 border-marrom/15 rounded-xl py-2 px-2 text-center';
+    btn.style.transition = 'border-color .15s ease, background .15s ease, color .15s ease';
+    const dayNames = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+    btn.innerHTML = `<p class="font-fig text-marrom-dk/50 text-[11px]">${dayNames[dt.getDay()]}</p>
+      <p class="font-pipo font-bold text-marrom-dk text-sm">${String(dt.getDate()).padStart(2,'0')}</p>
+      <p class="font-fig text-marrom-dk/50 text-[11px]">${dt.toLocaleString('pt-BR',{month:'short'})}</p>`;
+    btn.onclick = () => {
+      container.querySelectorAll('button').forEach(b => {
+        b.style.background=''; b.style.borderColor=''; b.style.color='';
+      });
+      btn.style.background = '#ffcc1c';
+      btn.style.borderColor = '#ffcc1c';
+      btn.querySelectorAll('p').forEach(p => p.style.color = '#3d1a08');
+      selectedDate = d.data;
+    };
+    container.appendChild(btn);
+  });
+}
+
+async function coStep4Continue() {
+  if (!selectedDate) { showToast('Selecione uma data', 'erro'); return; }
+  S.checkoutData.data_entrega = selectedDate;
+  if (S.pedidoId) {
+    await sb.from('pedidos').update({ status: 'data_selecionada', data_entrega: selectedDate }).eq('id', S.pedidoId);
+  }
+  coNext();
+}
+
+let pagamentoMode = null;
+function setPagamento(mode) {
+  pagamentoMode = mode;
+  const pix = document.getElementById('rd-pix');
+  const cred = document.getElementById('rd-credito');
+  const sel = 'background:#ffcc1c;border-color:#ffcc1c;';
+  pix.style.cssText  = mode === 'pix'     ? sel : '';
+  cred.style.cssText = mode === 'credito' ? sel : '';
+}
+
+async function coStep5Continue() {
+  if (!pagamentoMode) { showToast('Selecione a forma de pagamento', 'erro'); return; }
+  S.checkoutData.pagamento = pagamentoMode;
+  S.checkoutData.observacao = document.getElementById('co-obs').value.trim();
+  if (S.pedidoId) {
+    await sb.from('pedidos').update({
+      status: 'pagamento_selecionado',
+      pagamento: pagamentoMode,
+      observacao: S.checkoutData.observacao,
+    }).eq('id', S.pedidoId);
+  }
+  coNext();
+}
+
+function renderSummary() {
+  const cd = S.checkoutData;
+  const total = getTotal();
+  const freteVal = (cd.tipo_entrega !== 'retirada' && cd.frete != null) ? cd.frete : 0;
+  const totalFinal = total + freteVal;
+  const freteLabel = cd.frete_a_confirmar ? 'A confirmar' : cd.tipo_entrega === 'retirada' ? 'Não se aplica' : fmt(freteVal);
+
+  const dtFormatted = cd.data_entrega
+    ? new Date(cd.data_entrega + 'T12:00:00').toLocaleDateString('pt-BR', {day:'2-digit',month:'long',year:'numeric'})
+    : '—';
+  const enderecoStr = cd.tipo_entrega === 'retirada'
+    ? `Retirada — ${S.enderecoRetirada}`
+    : `${cd.logradouro}, ${cd.numero}${cd.complemento ? ', ' + cd.complemento : ''}, ${cd.bairro}, ${cd.cidade} — ${cd.estado}`;
+  const pagStr = cd.pagamento === 'pix' ? 'PIX' : 'Cartão de Crédito';
+
+  document.getElementById('co-summary').innerHTML = `
+    <div class="flex flex-col gap-2 text-sm font-fig text-marrom-dk/70">
+      <div class="flex justify-between"><span>Cliente:</span><span class="font-semibold text-marrom-dk">${cd.nome}</span></div>
+      <div class="flex justify-between"><span>WhatsApp:</span><span class="font-semibold text-marrom-dk">${formatZap(cd.whatsapp)}</span></div>
+      <div class="py-2 border-t border-marrom/10">
+        <p class="font-semibold text-marrom-dk mb-1">Itens:</p>
+        ${S.carrinho.map(i => `<p>${i.nome}${i.tipo==='caixa' ? ` (${i.tamanho} pães)` : ''} x${i.quantidade} — ${fmt(i.preco_total)}</p>`).join('')}
+      </div>
+      <div class="flex justify-between border-t border-marrom/10 pt-2"><span>Subtotal:</span><span class="font-semibold text-marrom-dk">${fmt(total)}</span></div>
+      <div class="flex justify-between"><span>Frete:</span><span class="font-semibold text-marrom-dk">${freteLabel}</span></div>
+      <div class="flex justify-between text-base border-t border-marrom/10 pt-2">
+        <span class="font-semibold text-marrom-dk">Total:</span>
+        <span class="font-pipo font-bold text-marrom-dk">${fmt(totalFinal)}</span>
+      </div>
+      <div class="pt-2 border-t border-marrom/10 flex flex-col gap-1">
+        <p><span class="text-marrom-dk/50">Data:</span> <strong class="text-marrom-dk">${dtFormatted}</strong></p>
+        <p><span class="text-marrom-dk/50">Entrega:</span> <strong class="text-marrom-dk">${enderecoStr}</strong></p>
+        <p><span class="text-marrom-dk/50">Pagamento:</span> <strong class="text-marrom-dk">${pagStr}</strong></p>
+        ${cd.observacao ? `<p><span class="text-marrom-dk/50">Obs:</span> ${cd.observacao}</p>` : ''}
+      </div>
+    </div>`;
+}
+
+async function finalizarPedido() {
+  const btn = document.getElementById('co-zap-btn');
+  btn.textContent = 'Enviando...'; btn.disabled = true;
+
+  try {
+    // 1. Save pedido_itens
+    const itensSave = S.carrinho.map(item => ({
+      pedido_id: S.pedidoId,
+      tipo: item.tipo,
+      produto_id: item.produto_id,
+      nome: item.nome,
+      quantidade: item.quantidade,
+      preco_unitario: item.preco_unitario,
+      preco_total: item.preco_total,
+      config_caixa: item.tipo === 'caixa' ? { tamanho: item.tamanho, itens: item.itens } : null,
+    }));
+    const { error: ie } = await sb.from('pedido_itens').insert(itensSave);
+    if (ie) throw ie;
+
+    // 2. Generate code + finalize pedido
+    const now = new Date();
+    const d = now.toISOString().slice(0,10).replace(/-/g,'');
+    const { count } = await sb.from('pedidos').select('*', {count:'exact',head:true}).like('codigo', `SF-${d}-%`);
+    const codigo = `SF-${d}-${String((count||0)+1).padStart(4,'0')}`;
+
+    const cd = S.checkoutData;
+    const total = getTotal();
+    const frete = cd.frete || 0;
+    await sb.from('pedidos').update({
+      status: 'finalizado',
+      codigo,
+      total: total + frete,
+    }).eq('id', S.pedidoId);
+
+    // 3. Build WhatsApp message
+    const zapUrl = buildZapMsg(codigo, cd, total, frete);
+
+    // 4. Clear cart
+    S.carrinho = [];
+    saveCarrinho();
+
+    // 5. Redirect
+    window.location.href = zapUrl;
+  } catch(e) {
+    console.error(e);
+    showToast('Erro ao finalizar. Tente novamente.', 'erro');
+    btn.innerHTML = `<svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382..."/></svg> Enviar pelo WhatsApp`;
+    btn.disabled = false;
+  }
+}
+
+function buildZapMsg(codigo, cd, subtotal, frete) {
+  const dtFormatted = cd.data_entrega
+    ? new Date(cd.data_entrega + 'T12:00:00').toLocaleDateString('pt-BR')
+    : '—';
+  const endStr = cd.tipo_entrega === 'retirada'
+    ? `Retirada — ${S.enderecoRetirada}`
+    : `${cd.logradouro}, ${cd.numero}${cd.complemento ? ', ' + cd.complemento : ''}, ${cd.bairro}, ${cd.cidade} — ${cd.estado}`;
+  const freteStr = cd.frete_a_confirmar ? 'A confirmar' : fmt(frete);
+  const pagStr = cd.pagamento === 'pix' ? 'PIX' : 'Cartao de Credito';
+  const zapFormatted = formatZap(cd.whatsapp);
+
+  let itensStr = S.carrinho.map(item => {
+    if (item.tipo === 'caixa') {
+      const sabores = item.itens.map(i => `${i.nome} x ${i.qtd || i.quantidade}`).join(', ');
+      return `• ${item.nome} (${sabores}) — ${fmt(item.preco_total)}`;
+    }
+    return `• ${item.quantidade}x ${item.nome} — ${fmt(item.preco_total)}`;
+  }).join('\n');
+
+  const totalFinal = subtotal + (cd.tipo_entrega !== 'retirada' ? (cd.frete || 0) : 0);
+
+  let msg = `Pedido de Pascoa - Santo Favo\n\n`;
+  msg += `*Cliente:* ${cd.nome}\n`;
+  msg += `*WhatsApp:* ${zapFormatted}\n\n`;
+  msg += `*Itens:*\n${itensStr}\n\n`;
+  msg += `*Subtotal:* ${fmt(subtotal)}\n`;
+  if (cd.tipo_entrega !== 'retirada') msg += `*Frete:* ${freteStr}\n`;
+  msg += `*Total:* ${fmt(totalFinal)}\n\n`;
+  msg += `*Data:* ${dtFormatted}\n`;
+  msg += `*Entrega:* ${endStr}\n`;
+  msg += `*Pagamento:* ${pagStr}`;
+  if (cd.observacao) msg += `\n*Obs:* ${cd.observacao}`;
+
+  const encoded = encodeURIComponent(msg);
+  const url = `https://wa.me/${ZAP_NUMBER}?text=${encoded}`;
+  // Truncate if too long (max ~4096 chars in url)
+  if (url.length > 4096) {
+    const short = `Pedido de Pascoa - Santo Favo\n\n*Cliente:* ${cd.nome}\n*WhatsApp:* ${zapFormatted}\n\n(${S.carrinho.length} item(ns)) — Total: ${fmt(totalFinal)}\n\n*Data:* ${dtFormatted}\n*Entrega:* ${endStr}`;
+    return `https://wa.me/${ZAP_NUMBER}?text=${encodeURIComponent(short)}`;
+  }
+  return url;
+}
+
+// ── MOBILE MENU ───────────────────────────────────────────────────────────────
+function openMenu() {
+  document.getElementById('mobile-menu').classList.replace('closed','open');
+  const ov = document.getElementById('ov-menu');
+  ov.classList.replace('hidden-ov','show-ov');
+  document.body.style.overflow = 'hidden';
+}
+function closeMenu() {
+  document.getElementById('mobile-menu').classList.replace('open','closed');
+  document.getElementById('ov-menu').classList.replace('show-ov','hidden-ov');
+  document.body.style.overflow = '';
+}
+
+// ── TOAST ─────────────────────────────────────────────────────────────────────
+const TOAST_COLORS = { sucesso: '#96cc70', erro: '#ff4d79', info: '#ffcc1c' };
+function showToast(msg, type = 'sucesso') {
+  const container = document.getElementById('toast-container');
+  const toast = document.createElement('div');
+  toast.className = 'toast-item pointer-events-auto flex items-center gap-2 px-4 py-3 rounded-2xl font-fig text-sm text-white';
+  toast.style.cssText = `background:${TOAST_COLORS[type]||'#96cc70'};color:${type==='info'?'#3d1a08':'white'};box-shadow:0 4px 16px rgba(0,0,0,.2);max-width:280px;`;
+  toast.textContent = msg;
+  container.appendChild(toast);
+  setTimeout(() => {
+    toast.classList.add('removing');
+    setTimeout(() => toast.remove(), 300);
+  }, 3000);
+}
+
+// ── UTILS ─────────────────────────────────────────────────────────────────────
+function fmt(val) {
+  return `R$ ${(+val || 0).toFixed(2).replace('.',',')}`;
+}
+function formatZap(num) {
+  const n = num.replace(/\D/g,'');
+  if (n.length === 11) return `(${n.slice(0,2)}) ${n.slice(2,7)}-${n.slice(7)}`;
+  return num;
+}
+function maskPhone(el) {
+  let v = el.value.replace(/\D/g,'');
+  if (v.length > 11) v = v.slice(0,11);
+  if (v.length > 6) v = `(${v.slice(0,2)}) ${v.slice(2,7)}-${v.slice(7)}`;
+  else if (v.length > 2) v = `(${v.slice(0,2)}) ${v.slice(2)}`;
+  el.value = v;
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  loadData();
+  updateCartBadge();
+});
+</script>
+</body>
+</html>

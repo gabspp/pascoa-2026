@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Santo Favo — Páscoa 2026</title>
+  <meta name="description" content="Chocolates artesanais feitos com mel. Páscoa 2026 da Santo Favo.">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            amarelo:     '#ffcc1c',
+            marrom:      '#8c4820',
+            'marrom-dk': '#72381c',
+            'marrom-xdk':'#3d1a08',
+            verde:       '#96cc70',
+            rosa:        '#ff4d79',
+            roxo:        '#a890cc',
+            cream:       '#fdf8f0',
+          },
+          fontFamily: {
+            pipo: ['Pipo', 'Georgia', 'serif'],
+            fig:  ['FigGrotesk', 'system-ui', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+
+  <style>
+    @font-face {
+      font-family: 'Pipo';
+      src: url('./fonts/Pipo/Pipo-Bold.otf') format('opentype');
+      font-weight: 700; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: 'Pipo';
+      src: url('./fonts/Pipo/Pipo-SemiBold.otf') format('opentype');
+      font-weight: 600; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: 'Pipo';
+      src: url('./fonts/Pipo/Pipo-Regular.otf') format('opentype');
+      font-weight: 400; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: 'FigGrotesk';
+      src: url('./fonts/Fig Grotesk/FigGrotesk-Regular.otf') format('opentype');
+      font-weight: 400; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: 'FigGrotesk';
+      src: url('./fonts/Fig Grotesk/FigGrotesk-RegularItalic.otf') format('opentype');
+      font-weight: 400; font-style: italic; font-display: swap;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: 'FigGrotesk', system-ui, sans-serif;
+      line-height: 1.7;
+      background-color: #fdf8f0;
+      color: #72381c;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Pipo', Georgia, serif;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+    }
+
+    /* ── Keyframes ── */
+    @keyframes float {
+      0%   { transform: translateY(0px) rotate(-3deg); }
+      38%  { transform: translateY(-14px) rotate(5deg); }
+      72%  { transform: translateY(-5px) rotate(-1deg); }
+      100% { transform: translateY(0px) rotate(-3deg); }
+    }
+    @keyframes floatSlow {
+      0%   { transform: translateY(0) rotate(-7deg) scale(1); }
+      32%  { transform: translateY(-19px) rotate(8deg) scale(1.08); }
+      68%  { transform: translateY(-8px) rotate(-3deg) scale(0.95); }
+      100% { transform: translateY(0) rotate(-7deg) scale(1); }
+    }
+    @keyframes geoDrift {
+      0%   { transform: rotate(0deg) translateY(0px) scale(1); }
+      28%  { transform: rotate(14deg) translateY(-8px) scale(1.08); }
+      62%  { transform: rotate(-9deg) translateY(-3px) scale(0.93); }
+      100% { transform: rotate(0deg) translateY(0px) scale(1); }
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .float      { animation: float     3.2s ease-in-out infinite; }
+    .float-slow { animation: floatSlow 5.5s ease-in-out infinite; }
+    .float-d1   { animation: float     4.2s ease-in-out infinite 0.9s; }
+    .float-d2   { animation: float     3.8s ease-in-out infinite 1.7s; }
+
+    /* ── Scroll entrance ── */
+    .enter {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.4s ease,
+                  transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .enter.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── Carousel ── */
+    .carousel-track {
+      transition: transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .carousel-dot { transition: transform 0.2s ease, opacity 0.2s ease; }
+    .carousel-dot.active  { transform: scale(1.5); opacity: 1; }
+    .carousel-dot:not(.active) { opacity: 0.45; }
+
+    /* ── Product card ── */
+    .product-card {
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 16px 40px rgba(114,56,28,.16), 0 4px 10px rgba(114,56,28,.1);
+    }
+    .product-card:active { transform: scale(0.98); }
+
+    /* ── Card wrapper filter ── */
+    .card-wrap {
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+    .card-wrap.hidden-card {
+      opacity: 0; transform: scale(0.96); pointer-events: none;
+    }
+
+    /* ── Buttons ── */
+    .btn {
+      transition: transform 0.15s ease, box-shadow 0.15s ease,
+                  background-color 0.15s ease, color 0.15s ease;
+    }
+    .btn:active { transform: scale(0.97); }
+    .btn:focus-visible { outline: 3px solid #ffcc1c; outline-offset: 3px; border-radius: 12px; }
+
+    .btn-yellow:hover { box-shadow: 0 4px 12px rgba(255,204,28,.25); transform: translateY(-2px); }
+    .btn-outline:hover { background-color: #72381c; color: white; }
+
+    /* ── Category buttons ── */
+    .cat-btn {
+      transition: transform 0.15s ease, background-color 0.18s ease,
+                  color 0.18s ease, border-color 0.18s ease;
+      white-space: nowrap;
+    }
+    .cat-btn:hover { transform: translateY(-1px); }
+    .cat-btn:active { transform: scale(0.97); }
+    .cat-btn.active { background-color: #ffcc1c; color: #72381c; border-color: #ffcc1c; }
+
+    /* ── Nav links ── */
+    .nav-link { transition: color 0.15s ease; }
+    .nav-link:hover { color: #ffcc1c; }
+    .nav-link:focus-visible { outline: 2px solid #ffcc1c; outline-offset: 4px; border-radius: 4px; }
+
+    /* ── Mobile menu ── */
+    .mobile-menu {
+      transition: transform 0.32s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.32s ease;
+    }
+    .mobile-menu.closed { transform: translateX(100%); opacity: 0; pointer-events: none; }
+    .mobile-menu.open   { transform: translateX(0);    opacity: 1; }
+
+    /* ── Step cards ── */
+    .step-card {
+      transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.22s ease;
+    }
+    .step-card:hover { transform: translateY(-5px); }
+
+    /* ── Social links ── */
+    .social-link { transition: transform 0.15s ease, opacity 0.15s ease; }
+    .social-link:hover { transform: translateY(-2px); opacity: 0.8; }
+    .social-link:active { transform: scale(0.95); }
+    .social-link:focus-visible { outline: 2px solid #ffcc1c; outline-offset: 3px; border-radius: 8px; }
+
+    /* ── Scrollbar hide ── */
+    .scrollbar-hide::-webkit-scrollbar { display: none; }
+    .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+    /* ── Grain texture ── */
+    .grain-bg::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      background-size: 300px 300px;
+      pointer-events: none; z-index: 0; opacity: 0.5;
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- ────────────────────────────────────────
+     MOBILE MENU OVERLAY
+──────────────────────────────────────── -->
+<div id="overlay"
+     class="fixed inset-0 bg-marrom-xdk/75 z-40"
+     style="opacity:0; pointer-events:none; transition:opacity .3s ease;"
+     onclick="closeMenu()"></div>
+
+<!-- ────────────────────────────────────────
+     MOBILE MENU DRAWER
+──────────────────────────────────────── -->
+<aside id="mobile-menu" class="mobile-menu closed fixed right-0 top-0 h-full w-72 bg-marrom-dk z-50 flex flex-col py-8 px-6">
+  <div class="flex items-center justify-between mb-10">
+    <img src="brand_assets/Santo-Favo-Logo-Amarelo-Horizontal.png" alt="Santo Favo" class="h-8 w-auto">
+    <button onclick="closeMenu()" class="btn text-white p-2 rounded-xl hover:bg-white/10" aria-label="Fechar menu">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+        <path d="M18 6L6 18M6 6l12 12"/>
+      </svg>
+    </button>
+  </div>
+  <nav class="flex flex-col gap-1">
+    <a href="#"                class="nav-link text-white font-fig text-lg py-3 px-4 rounded-xl hover:bg-white/10">Início</a>
+    <a href="loja.html"        class="nav-link text-white font-fig text-lg py-3 px-4 rounded-xl hover:bg-white/10">Loja</a>
+    <a href="informacoes.html" class="nav-link text-white font-fig text-lg py-3 px-4 rounded-xl hover:bg-white/10">Informações</a>
+    <a href="#contato"         class="nav-link text-white font-fig text-lg py-3 px-4 rounded-xl hover:bg-white/10">Contato</a>
+  </nav>
+  <div class="mt-auto">
+    <a href="loja.html" class="btn btn-yellow block text-center bg-amarelo text-marrom-dk font-pipo font-bold text-lg py-4 px-6 rounded-2xl">
+      Faça seu Pedido
+    </a>
+  </div>
+</aside>
+
+
+<!-- ────────────────────────────────────────
+     HEADER
+──────────────────────────────────────── -->
+<header class="sticky top-0 z-30 bg-marrom-dk"
+        style="box-shadow: 0 2px 16px rgba(61,26,8,.4), 0 1px 4px rgba(61,26,8,.3);">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-4 flex items-center justify-between gap-4">
+
+    <a href="#" class="flex-shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amarelo rounded-lg">
+      <img src="brand_assets/Santo-Favo-Logo-Amarelo-Horizontal.png" alt="Santo Favo" class="h-9 sm:h-10 w-auto">
+    </a>
+
+    <nav class="hidden lg:flex items-center gap-8">
+      <a href="#"                class="nav-link text-white/85 font-fig text-[15px]">Início</a>
+      <a href="loja.html"        class="nav-link text-white/85 font-fig text-[15px]">Loja</a>
+      <a href="informacoes.html" class="nav-link text-white/85 font-fig text-[15px]">Informações</a>
+      <a href="#contato"         class="nav-link text-white/85 font-fig text-[15px]">Contato</a>
+    </nav>
+
+    <div class="flex items-center gap-3">
+      <a href="loja.html"
+         class="btn btn-yellow hidden sm:inline-flex items-center gap-2 bg-amarelo text-marrom-dk font-pipo font-bold text-[15px] py-2.5 px-5 rounded-xl">
+        Faça seu Pedido
+      </a>
+      <button onclick="openMenu()" class="btn lg:hidden text-white p-2 rounded-xl hover:bg-white/10" aria-label="Abrir menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+          <path d="M3 6h18M3 12h18M3 18h18"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+
+<!-- ────────────────────────────────────────
+     HERO CAROUSEL
+──────────────────────────────────────── -->
+<section id="carousel"
+         class="relative overflow-hidden bg-marrom-xdk select-none"
+         style="height: min(88vh, 700px); min-height: 500px;">
+
+  <div id="track" class="carousel-track flex h-full" style="width:400%;">
+
+    <!-- Slide 1 -->
+    <div class="relative flex-shrink-0 h-full overflow-hidden" style="width:25%;">
+      <img src="img/todos_ovos.jpg" alt="Ovos de Páscoa Santo Favo"
+           class="absolute inset-0 w-full h-full object-cover object-center">
+      <div class="absolute inset-0"
+           style="background:linear-gradient(to top,rgba(61,26,8,.92) 0%,rgba(61,26,8,.3) 52%,rgba(61,26,8,.05) 100%);"></div>
+      <img src="brand_assets/ovo_amarelo.png" alt="" aria-hidden="true"
+           class="absolute top-8 right-12 sm:right-20 w-20 sm:w-32 float pointer-events-none hidden sm:block" style="opacity:.9;">
+      <img src="brand_assets/cenoura.png" alt="" aria-hidden="true"
+           class="absolute top-20 right-32 sm:right-48 w-8 sm:w-10 float-d1 pointer-events-none hidden sm:block" style="opacity:.7;">
+      <div class="absolute inset-0 flex flex-col justify-end p-7 sm:p-12 lg:p-16 pb-16 sm:pb-20"
+           style="animation:fadeInUp .55s ease .1s both;">
+        <span class="inline-flex items-center gap-1.5 self-start bg-amarelo text-marrom-dk font-pipo font-bold text-xs sm:text-sm px-3 py-1.5 rounded-full mb-4">✦ Páscoa 2026</span>
+        <h1 class="font-pipo font-bold text-white text-[2rem] sm:text-5xl lg:text-6xl mb-3 max-w-xl"
+            style="letter-spacing:-0.03em;line-height:1.08;">
+          Páscoa que derrete<br>na boca
+        </h1>
+        <p class="font-fig text-white/75 text-base sm:text-lg mb-7 max-w-md">
+          Chocolates artesanais feitos com ingredientes selecionados e muito amor.
+        </p>
+        <a href="loja.html"
+           class="btn btn-yellow self-start inline-flex items-center gap-2 bg-amarelo text-marrom-dk font-pipo font-bold text-base sm:text-lg py-3 px-7 rounded-2xl">
+          Ver Produtos
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Slide 2 -->
+    <div class="relative flex-shrink-0 h-full overflow-hidden" style="width:25%;">
+      <img src="img/caixa_15_pdm.jpg" alt="Caixa de Presente Santo Favo"
+           class="absolute inset-0 w-full h-full object-cover object-center">
+      <div class="absolute inset-0"
+           style="background:linear-gradient(to top,rgba(61,26,8,.92) 0%,rgba(114,56,28,.3) 55%,transparent 100%);"></div>
+      <img src="brand_assets/ovo_rosa.png" alt="" aria-hidden="true"
+           class="absolute top-8 right-12 sm:right-20 w-20 sm:w-32 float-slow pointer-events-none hidden sm:block" style="opacity:.9;">
+      <div class="absolute inset-0 flex flex-col justify-end p-7 sm:p-12 lg:p-16 pb-16 sm:pb-20"
+           style="animation:fadeInUp .55s ease .1s both;">
+        <span class="inline-flex items-center gap-1.5 self-start bg-rosa text-white font-pipo font-bold text-xs sm:text-sm px-3 py-1.5 rounded-full mb-4">🎁 Presenteie com amor</span>
+        <h2 class="font-pipo font-bold text-white text-[2rem] sm:text-5xl lg:text-6xl mb-3 max-w-xl"
+            style="letter-spacing:-0.03em;line-height:1.08;">
+          Caixas de presente<br>perfeitas
+        </h2>
+        <p class="font-fig text-white/75 text-base sm:text-lg mb-7 max-w-md">
+          Monte sua caixa com os sabores favoritos. Embalagem especial para surpreender.
+        </p>
+        <a href="loja.html"
+           class="btn btn-yellow self-start inline-flex items-center gap-2 bg-amarelo text-marrom-dk font-pipo font-bold text-base sm:text-lg py-3 px-7 rounded-2xl">
+          Montar Caixa
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Slide 3 -->
+    <div class="relative flex-shrink-0 h-full overflow-hidden" style="width:25%;">
+      <img src="img/barra_cajutella.jpg" alt="Barra Cajutella Santo Favo"
+           class="absolute inset-0 w-full h-full object-cover object-center">
+      <div class="absolute inset-0"
+           style="background:linear-gradient(to top,rgba(61,26,8,.92) 0%,rgba(255,77,121,.12) 55%,transparent 100%);"></div>
+      <img src="brand_assets/flor-1.png" alt="" aria-hidden="true"
+           class="absolute top-8 right-12 sm:right-20 w-16 sm:w-24 float-d1 pointer-events-none hidden sm:block" style="opacity:.75;">
+      <div class="absolute inset-0 flex flex-col justify-end p-7 sm:p-12 lg:p-16 pb-16 sm:pb-20"
+           style="animation:fadeInUp .55s ease .1s both;">
+        <span class="inline-flex items-center gap-1.5 self-start bg-verde text-marrom-dk font-pipo font-bold text-xs sm:text-sm px-3 py-1.5 rounded-full mb-4">⭐ Novidade 2026</span>
+        <h2 class="font-pipo font-bold text-white text-[2rem] sm:text-5xl lg:text-6xl mb-3 max-w-xl"
+            style="letter-spacing:-0.03em;line-height:1.08;">
+          Barras que<br>conquistam
+        </h2>
+        <p class="font-fig text-white/75 text-base sm:text-lg mb-7 max-w-md">
+          Cajutella irresistível em um chocolate que vai viver na sua memória afetiva.
+        </p>
+        <a href="loja.html"
+           class="btn btn-yellow self-start inline-flex items-center gap-2 bg-amarelo text-marrom-dk font-pipo font-bold text-base sm:text-lg py-3 px-7 rounded-2xl">
+          Experimentar
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Slide 4 -->
+    <div class="relative flex-shrink-0 h-full overflow-hidden" style="width:25%;">
+      <img src="img/barra_caramelo.jpg" alt="Barra Caramelo Santo Favo"
+           class="absolute inset-0 w-full h-full object-cover object-center">
+      <div class="absolute inset-0"
+           style="background:linear-gradient(to top,rgba(61,26,8,.92) 0%,rgba(168,144,204,.15) 55%,transparent 100%);"></div>
+      <img src="brand_assets/ovo_roxo.png" alt="" aria-hidden="true"
+           class="absolute top-8 right-12 sm:right-20 w-20 sm:w-32 float-d2 pointer-events-none hidden sm:block" style="opacity:.9;">
+      <div class="absolute inset-0 flex flex-col justify-end p-7 sm:p-12 lg:p-16 pb-16 sm:pb-20"
+           style="animation:fadeInUp .55s ease .1s both;">
+        <span class="inline-flex items-center gap-1.5 self-start bg-roxo text-white font-pipo font-bold text-xs sm:text-sm px-3 py-1.5 rounded-full mb-4">🍯 Com mel artesanal</span>
+        <h2 class="font-pipo font-bold text-white text-[2rem] sm:text-5xl lg:text-6xl mb-3 max-w-xl"
+            style="letter-spacing:-0.03em;line-height:1.08;">
+          Caramelo que não<br>sai da cabeça
+        </h2>
+        <p class="font-fig text-white/75 text-base sm:text-lg mb-7 max-w-md">
+          Chocolate com caramelo salgado. Equilíbrio perfeito entre doce e sofisticado.
+        </p>
+        <a href="loja.html"
+           class="btn btn-yellow self-start inline-flex items-center gap-2 bg-amarelo text-marrom-dk font-pipo font-bold text-base sm:text-lg py-3 px-7 rounded-2xl">
+          Pedir Agora
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+
+  </div><!-- /track -->
+
+  <!-- Controls -->
+  <button onclick="prevSlide()"
+          class="btn absolute left-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/15 backdrop-blur-sm text-white flex items-center justify-center hover:bg-white/30"
+          style="box-shadow:0 2px 8px rgba(0,0,0,.2);" aria-label="Slide anterior">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+  </button>
+  <button onclick="nextSlide()"
+          class="btn absolute right-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/15 backdrop-blur-sm text-white flex items-center justify-center hover:bg-white/30"
+          style="box-shadow:0 2px 8px rgba(0,0,0,.2);" aria-label="Próximo slide">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
+  </button>
+
+  <!-- Dots -->
+  <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2.5" role="tablist">
+    <button class="carousel-dot active w-2.5 h-2.5 rounded-full bg-white" onclick="goTo(0)" aria-label="Slide 1"></button>
+    <button class="carousel-dot        w-2.5 h-2.5 rounded-full bg-white" onclick="goTo(1)" aria-label="Slide 2"></button>
+    <button class="carousel-dot        w-2.5 h-2.5 rounded-full bg-white" onclick="goTo(2)" aria-label="Slide 3"></button>
+    <button class="carousel-dot        w-2.5 h-2.5 rounded-full bg-white" onclick="goTo(3)" aria-label="Slide 4"></button>
+  </div>
+
+  <!-- Mini mosaico decorativo no hero -->
+  <div class="absolute top-6 left-6 hidden xl:block pointer-events-none" aria-hidden="true"
+       style="opacity:.35;animation:geoDrift 18s ease-in-out infinite 2s;">
+    <div style="display:grid;grid-template-columns:repeat(2,14px);gap:2px;">
+      <div style="width:14px;height:14px;background:#ffcc1c;border-radius:2px;"></div>
+      <div style="width:14px;height:14px;background:#ff4d79;border-radius:50%;"></div>
+      <div style="width:14px;height:14px;background:#96cc70;clip-path:polygon(50% 0%,100% 100%,0% 100%);"></div>
+      <div style="width:14px;height:14px;background:#a890cc;border-radius:2px;"></div>
+    </div>
+  </div>
+
+  <!-- Coelho (desktop) -->
+  <img src="brand_assets/coelho.png" alt="" aria-hidden="true"
+       class="absolute bottom-0 right-10 w-28 lg:w-36 float pointer-events-none hidden lg:block" style="opacity:.95;">
+
+</section>
+
+
+<!-- ── Faixa geométrica colorida ── -->
+<div class="flex overflow-hidden" style="height:10px;" aria-hidden="true">
+  <div style="flex:2.5;background:#ffcc1c;"></div>
+  <div style="flex:1;background:#ff4d79;"></div>
+  <div style="flex:1.5;background:#96cc70;"></div>
+  <div style="flex:1;background:#a890cc;"></div>
+  <div style="flex:0.8;background:#72381c;"></div>
+  <div style="flex:2;background:#ffcc1c;"></div>
+  <div style="flex:1.2;background:#ff4d79;"></div>
+  <div style="flex:0.7;background:#96cc70;"></div>
+</div>
+
+<!-- ────────────────────────────────────────
+     CATÁLOGO RESUMIDO
+──────────────────────────────────────── -->
+<section class="relative py-16 sm:py-24 grain-bg"
+         style="background: radial-gradient(ellipse at 15% 60%,rgba(255,204,28,.09) 0%,transparent 55%),
+                             radial-gradient(ellipse at 85% 20%,rgba(255,77,121,.07) 0%,transparent 50%),
+                             #fdf8f0;">
+
+  <!-- Formas geométricas de fundo (grandes, sutis) -->
+  <div class="absolute pointer-events-none" aria-hidden="true"
+       style="top:-30px;left:-30px;width:180px;height:180px;border-radius:50%;background:#a890cc;opacity:.07;"></div>
+  <div class="absolute pointer-events-none" aria-hidden="true"
+       style="bottom:-40px;right:-20px;width:220px;height:220px;background:#ff4d79;opacity:.06;clip-path:polygon(50% 0%,100% 100%,0% 100%);"></div>
+  <div class="absolute pointer-events-none hidden lg:block" aria-hidden="true"
+       style="top:40%;right:-15px;width:110px;height:110px;background:#ffcc1c;opacity:.07;transform:rotate(22deg);border-radius:10px;"></div>
+  <div class="absolute pointer-events-none hidden lg:block" aria-hidden="true"
+       style="top:60%;left:2%;width:80px;height:80px;border-radius:50%;background:#96cc70;opacity:.08;"></div>
+
+  <!-- Formas geométricas pequenas animadas (visíveis, com personalidade) -->
+  <div class="absolute pointer-events-none hidden sm:block" aria-hidden="true"
+       style="top:20%;left:3%;width:18px;height:18px;border-radius:50%;background:#ff4d79;opacity:.55;animation:geoDrift 7s ease-in-out infinite;"></div>
+  <div class="absolute pointer-events-none hidden sm:block" aria-hidden="true"
+       style="top:70%;right:4%;width:22px;height:22px;background:#ffcc1c;opacity:.5;transform:rotate(12deg);animation:geoDrift 10s ease-in-out infinite 2s;"></div>
+  <div class="absolute pointer-events-none hidden lg:block" aria-hidden="true"
+       style="top:48%;left:5%;width:14px;height:14px;background:#a890cc;opacity:.6;clip-path:polygon(50% 0%,100% 100%,0% 100%);animation:geoDrift 9s ease-in-out infinite 1s;"></div>
+  <div class="absolute pointer-events-none hidden lg:block" aria-hidden="true"
+       style="bottom:32%;right:7%;width:12px;height:12px;border-radius:50%;background:#96cc70;opacity:.65;animation:geoDrift 8s ease-in-out infinite 3.5s;"></div>
+  <div class="absolute pointer-events-none hidden lg:block" aria-hidden="true"
+       style="top:12%;right:12%;width:16px;height:16px;background:#ff4d79;opacity:.35;transform:rotate(30deg);animation:geoDrift 12s ease-in-out infinite 0.5s;"></div>
+  <div class="absolute pointer-events-none hidden sm:block" aria-hidden="true"
+       style="bottom:15%;left:8%;width:10px;height:10px;background:#ffcc1c;opacity:.6;clip-path:polygon(50% 0%,100% 100%,0% 100%);animation:geoDrift 6s ease-in-out infinite 4s;"></div>
+
+  <!-- Mini mosaicos de tiles (referência ao catálogo) -->
+  <div class="absolute top-8 right-20 hidden xl:block pointer-events-none" aria-hidden="true"
+       style="animation:geoDrift 16s ease-in-out infinite;opacity:.45;">
+    <div style="display:grid;grid-template-columns:repeat(3,18px);gap:3px;">
+      <div style="width:18px;height:18px;background:#ffcc1c;border-radius:3px;"></div>
+      <div style="width:18px;height:18px;background:#ff4d79;border-radius:50%;"></div>
+      <div style="width:18px;height:18px;background:#96cc70;border-radius:3px;"></div>
+      <div style="width:18px;height:9px;background:#a890cc;border-radius:2px;"></div>
+      <div style="width:18px;height:18px;background:#ffcc1c;border-radius:3px;clip-path:polygon(50% 0%,100% 100%,0% 100%);"></div>
+      <div style="width:18px;height:18px;background:#72381c;border-radius:50%;"></div>
+    </div>
+  </div>
+  <div class="absolute bottom-24 left-16 hidden xl:block pointer-events-none" aria-hidden="true"
+       style="animation:geoDrift 20s ease-in-out infinite 5s;opacity:.4;">
+    <div style="display:grid;grid-template-columns:repeat(2,16px);gap:3px;">
+      <div style="width:16px;height:16px;background:#96cc70;border-radius:50%;"></div>
+      <div style="width:16px;height:16px;background:#ff4d79;border-radius:3px;"></div>
+      <div style="width:16px;height:16px;background:#ffcc1c;clip-path:polygon(50% 0%,100% 100%,0% 100%);"></div>
+      <div style="width:16px;height:16px;background:#a890cc;border-radius:3px;"></div>
+    </div>
+  </div>
+
+  <!-- Ícones flutuantes (mais visíveis) -->
+  <img src="brand_assets/ovo_amarelo.png" alt="" aria-hidden="true"
+       class="absolute top-12 left-3 w-10 sm:w-14 float opacity-75 pointer-events-none hidden sm:block">
+  <img src="brand_assets/ovo_verde.png" alt="" aria-hidden="true"
+       class="absolute bottom-16 right-4 w-10 sm:w-12 float-d1 opacity-70 pointer-events-none hidden sm:block">
+  <img src="brand_assets/flor-2.png" alt="" aria-hidden="true"
+       class="absolute top-28 right-7 w-11 float-slow opacity-65 pointer-events-none hidden lg:block">
+  <img src="brand_assets/flor-5.png" alt="" aria-hidden="true"
+       class="absolute bottom-32 left-8 w-10 float-d2 opacity-60 pointer-events-none hidden lg:block">
+
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 relative z-10">
+
+    <!-- Header -->
+    <div class="text-center mb-10 enter">
+      <span class="inline-block text-rosa font-fig text-xs tracking-[.18em] uppercase mb-3">Catálogo</span>
+      <h2 class="font-pipo font-bold text-marrom-dk text-3xl sm:text-[2.6rem] lg:text-5xl mb-4">
+        Nossos Produtos de Páscoa
+      </h2>
+      <p class="font-fig text-marrom/70 text-base sm:text-lg max-w-lg mx-auto">
+        Do ovo de colher à caixa personalizada, tudo feito com cuidado e ingredientes de verdade.
+      </p>
+    </div>
+
+    <!-- Category bar -->
+    <div class="flex gap-3 overflow-x-auto scrollbar-hide pb-2 mb-10 -mx-5 px-5 sm:mx-0 sm:px-0 sm:justify-center sm:flex-wrap enter" style="transition-delay:.08s;">
+      <button class="cat-btn active btn font-fig text-sm py-2 px-5 rounded-full border-2 border-marrom-dk text-marrom-dk"
+              data-cat="todos"      onclick="filter('todos',this)">Todos</button>
+      <button class="cat-btn btn font-fig text-sm py-2 px-5 rounded-full border-2 border-marrom-dk text-marrom-dk bg-transparent"
+              data-cat="pao-de-mel" onclick="filter('pao-de-mel',this)">Pão de Mel</button>
+      <button class="cat-btn btn font-fig text-sm py-2 px-5 rounded-full border-2 border-marrom-dk text-marrom-dk bg-transparent"
+              data-cat="barras"     onclick="filter('barras',this)">Barras</button>
+      <button class="cat-btn btn font-fig text-sm py-2 px-5 rounded-full border-2 border-marrom-dk text-marrom-dk bg-transparent"
+              data-cat="caixas"     onclick="filter('caixas',this)">Caixas de Presente</button>
+    </div>
+
+    <!-- Product grid -->
+    <div id="grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 sm:gap-6">
+
+      <!-- Card 1: Ovo Amendoim -->
+      <article class="card-wrap enter" data-categoria="pao-de-mel">
+        <div class="product-card rounded-2xl overflow-hidden"
+             style="box-shadow:0 2px 10px rgba(114,56,28,.1),0 1px 3px rgba(114,56,28,.07);">
+          <div class="relative overflow-hidden" style="height:220px;">
+            <img src="img/ovo_amendoim.jpg" alt="Ovo Pão de Mel Amendoim" class="w-full h-full object-cover">
+            <div class="absolute inset-0" style="background:linear-gradient(to top,rgba(114,56,28,.55) 0%,transparent 60%);"></div>
+            <span class="absolute top-3 left-3 bg-verde text-marrom-dk font-pipo font-bold text-xs px-2.5 py-1 rounded-full">Clássico</span>
+          </div>
+          <div class="bg-amarelo px-4 pt-3 pb-2">
+            <h3 class="font-pipo font-bold text-marrom-dk text-[15px] leading-tight">Ovo Pão de Mel</h3>
+            <p class="font-fig text-marrom-dk/65 text-xs italic">Recheio de Amendoim</p>
+          </div>
+          <div class="bg-cream px-4 py-2.5">
+            <p class="font-fig text-marrom/75 text-sm leading-relaxed">Casca de chocolate ao leite com recheio cremoso de amendoim. Irresistível.</p>
+          </div>
+          <div class="bg-marrom-dk px-4 py-3 flex items-center justify-between">
+            <span class="font-pipo font-bold text-white text-lg">R$ 65,00</span>
+            <button class="btn w-9 h-9 bg-rosa text-white rounded-full flex items-center justify-center"
+                    style="box-shadow:0 2px 8px rgba(255,77,121,.4);" aria-label="Adicionar ao carrinho">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 2: Ovo Casca Caramelo -->
+      <article class="card-wrap enter" data-categoria="pao-de-mel" style="transition-delay:.06s;">
+        <div class="product-card rounded-2xl overflow-hidden"
+             style="box-shadow:0 2px 10px rgba(114,56,28,.1),0 1px 3px rgba(114,56,28,.07);">
+          <div class="relative overflow-hidden" style="height:220px;">
+            <img src="img/ovo_casca-caramelo.jpg" alt="Ovo Casca Caramelo" class="w-full h-full object-cover">
+            <div class="absolute inset-0" style="background:linear-gradient(to top,rgba(114,56,28,.55) 0%,transparent 60%);"></div>
+            <span class="absolute top-3 left-3 bg-rosa text-white font-pipo font-bold text-xs px-2.5 py-1 rounded-full">Campeão de Vendas</span>
+          </div>
+          <div class="bg-amarelo px-4 pt-3 pb-2">
+            <h3 class="font-pipo font-bold text-marrom-dk text-[15px] leading-tight">Ovo Casca Caramelo</h3>
+            <p class="font-fig text-marrom-dk/65 text-xs italic">Caramelo Salgado</p>
+          </div>
+          <div class="bg-cream px-4 py-2.5">
+            <p class="font-fig text-marrom/75 text-sm leading-relaxed">Casca de chocolate com caramelo salgado. Equilíbrio perfeito entre doce e sofisticado.</p>
+          </div>
+          <div class="bg-marrom-dk px-4 py-3 flex items-center justify-between">
+            <span class="font-pipo font-bold text-white text-lg">R$ 75,00</span>
+            <button class="btn w-9 h-9 bg-rosa text-white rounded-full flex items-center justify-center"
+                    style="box-shadow:0 2px 8px rgba(255,77,121,.4);" aria-label="Adicionar ao carrinho">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 3: Ovo Fudge -->
+      <article class="card-wrap enter" data-categoria="pao-de-mel" style="transition-delay:.12s;">
+        <div class="product-card rounded-2xl overflow-hidden"
+             style="box-shadow:0 2px 10px rgba(114,56,28,.1),0 1px 3px rgba(114,56,28,.07);">
+          <div class="relative overflow-hidden" style="height:220px;">
+            <img src="img/ovo_fudge.jpg" alt="Ovo Fudge" class="w-full h-full object-cover">
+            <div class="absolute inset-0" style="background:linear-gradient(to top,rgba(114,56,28,.55) 0%,transparent 60%);"></div>
+            <span class="absolute top-3 left-3 bg-amarelo text-marrom-dk font-pipo font-bold text-xs px-2.5 py-1 rounded-full">Novidade</span>
+          </div>
+          <div class="bg-roxo px-4 pt-3 pb-2">
+            <h3 class="font-pipo font-bold text-white text-[15px] leading-tight">Ovo Fudge</h3>
+            <p class="font-fig text-white/65 text-xs italic">Chocolate Intenso</p>
+          </div>
+          <div class="bg-cream px-4 py-2.5">
+            <p class="font-fig text-marrom/75 text-sm leading-relaxed">Recheio de fudge de chocolate intenso. Para os amantes de chocolate puro.</p>
+          </div>
+          <div class="bg-marrom-dk px-4 py-3 flex items-center justify-between">
+            <span class="font-pipo font-bold text-white text-lg">R$ 70,00</span>
+            <button class="btn w-9 h-9 bg-rosa text-white rounded-full flex items-center justify-center"
+                    style="box-shadow:0 2px 8px rgba(255,77,121,.4);" aria-label="Adicionar ao carrinho">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 4: Barra Cajutella -->
+      <article class="card-wrap enter" data-categoria="barras" style="transition-delay:.18s;">
+        <div class="product-card rounded-2xl overflow-hidden"
+             style="box-shadow:0 2px 10px rgba(114,56,28,.1),0 1px 3px rgba(114,56,28,.07);">
+          <div class="relative overflow-hidden" style="height:220px;">
+            <img src="img/barra_cajutella.jpg" alt="Barra Cajutella" class="w-full h-full object-cover">
+            <div class="absolute inset-0" style="background:linear-gradient(to top,rgba(114,56,28,.55) 0%,transparent 60%);"></div>
+            <span class="absolute top-3 left-3 bg-amarelo text-marrom-dk font-pipo font-bold text-xs px-2.5 py-1 rounded-full">Novidade</span>
+          </div>
+          <div class="bg-rosa px-4 pt-3 pb-2">
+            <h3 class="font-pipo font-bold text-white text-[15px] leading-tight">Barra Cajutella</h3>
+            <p class="font-fig text-white/65 text-xs italic">Chocolate com Pasta de Caju</p>
+          </div>
+          <div class="bg-cream px-4 py-2.5">
+            <p class="font-fig text-marrom/75 text-sm leading-relaxed">Chocolate artesanal com cajutella cremosa. Uma combinação que conquistou o público.</p>
+          </div>
+          <div class="bg-marrom-dk px-4 py-3 flex items-center justify-between">
+            <span class="font-pipo font-bold text-white text-lg">R$ 55,00</span>
+            <button class="btn w-9 h-9 bg-rosa text-white rounded-full flex items-center justify-center"
+                    style="box-shadow:0 2px 8px rgba(255,77,121,.4);" aria-label="Adicionar ao carrinho">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 5: Caixa 9 PDM -->
+      <article class="card-wrap enter" data-categoria="caixas" style="transition-delay:.24s;">
+        <div class="product-card rounded-2xl overflow-hidden"
+             style="box-shadow:0 2px 10px rgba(114,56,28,.1),0 1px 3px rgba(114,56,28,.07);">
+          <div class="relative overflow-hidden" style="height:220px;">
+            <img src="img/caixa_9_pdm.jpg" alt="Caixa 9 Pão de Mel" class="w-full h-full object-cover">
+            <div class="absolute inset-0" style="background:linear-gradient(to top,rgba(114,56,28,.55) 0%,transparent 60%);"></div>
+            <span class="absolute top-3 left-3 bg-verde text-marrom-dk font-pipo font-bold text-xs px-2.5 py-1 rounded-full">Clássico</span>
+          </div>
+          <div class="bg-verde px-4 pt-3 pb-2">
+            <h3 class="font-pipo font-bold text-marrom-dk text-[15px] leading-tight">Caixa com 9 Unidades</h3>
+            <p class="font-fig text-marrom-dk/65 text-xs italic">Pão de Mel Personalizado</p>
+          </div>
+          <div class="bg-cream px-4 py-2.5">
+            <p class="font-fig text-marrom/75 text-sm leading-relaxed">Monte do seu jeito com 9 pães de mel. Embalagem especial para presentear com estilo.</p>
+          </div>
+          <div class="bg-marrom-dk px-4 py-3 flex items-center justify-between">
+            <span class="font-pipo font-bold text-white text-lg">R$ 95,00</span>
+            <button class="btn w-9 h-9 bg-rosa text-white rounded-full flex items-center justify-center"
+                    style="box-shadow:0 2px 8px rgba(255,77,121,.4);" aria-label="Adicionar ao carrinho">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 6: Caixa 15 PDM -->
+      <article class="card-wrap enter" data-categoria="caixas" style="transition-delay:.30s;">
+        <div class="product-card rounded-2xl overflow-hidden"
+             style="box-shadow:0 2px 10px rgba(114,56,28,.1),0 1px 3px rgba(114,56,28,.07);">
+          <div class="relative overflow-hidden" style="height:220px;">
+            <img src="img/caixa_15_pdm.jpg" alt="Caixa 15 Pão de Mel" class="w-full h-full object-cover">
+            <div class="absolute inset-0" style="background:linear-gradient(to top,rgba(114,56,28,.55) 0%,transparent 60%);"></div>
+            <span class="absolute top-3 left-3 bg-rosa text-white font-pipo font-bold text-xs px-2.5 py-1 rounded-full">Campeão de Vendas</span>
+          </div>
+          <div class="bg-marrom-dk px-4 pt-3 pb-2">
+            <h3 class="font-pipo font-bold text-white text-[15px] leading-tight">Caixa com 15 Unidades</h3>
+            <p class="font-fig text-white/65 text-xs italic">Pão de Mel Personalizado</p>
+          </div>
+          <div class="bg-cream px-4 py-2.5">
+            <p class="font-fig text-marrom/75 text-sm leading-relaxed">A caixa mais completa! 15 pães de mel à sua escolha para os momentos mais especiais.</p>
+          </div>
+          <div class="bg-marrom-dk px-4 py-3 flex items-center justify-between">
+            <span class="font-pipo font-bold text-white text-lg">R$ 155,00</span>
+            <button class="btn w-9 h-9 bg-rosa text-white rounded-full flex items-center justify-center"
+                    style="box-shadow:0 2px 8px rgba(255,77,121,.4);" aria-label="Adicionar ao carrinho">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+            </button>
+          </div>
+        </div>
+      </article>
+
+    </div><!-- /grid -->
+
+    <!-- Ver todos -->
+    <div class="text-center mt-12 enter">
+      <a href="loja.html"
+         class="btn btn-outline inline-flex items-center gap-2 border-2 border-marrom-dk text-marrom-dk font-pipo font-bold text-base py-3 px-8 rounded-2xl">
+        Ver todos os produtos
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ── Faixa geométrica colorida ── -->
+<div class="flex overflow-hidden" style="height:10px;" aria-hidden="true">
+  <div style="flex:1;background:#96cc70;"></div>
+  <div style="flex:1.5;background:#a890cc;"></div>
+  <div style="flex:2;background:#ffcc1c;"></div>
+  <div style="flex:1;background:#72381c;"></div>
+  <div style="flex:1.5;background:#ff4d79;"></div>
+  <div style="flex:0.8;background:#96cc70;"></div>
+  <div style="flex:2;background:#ffcc1c;"></div>
+  <div style="flex:1;background:#a890cc;"></div>
+</div>
+
+<!-- ────────────────────────────────────────
+     COMO COMPRAR
+──────────────────────────────────────── -->
+<section class="relative py-16 sm:py-24 bg-marrom-dk overflow-hidden grain-bg">
+  <div class="absolute inset-0 pointer-events-none"
+       style="background:radial-gradient(ellipse at 75% 50%,rgba(255,204,28,.09) 0%,transparent 60%),radial-gradient(ellipse at 20% 80%,rgba(150,204,112,.06) 0%,transparent 50%);"></div>
+  <!-- Formas geométricas decorativas -->
+  <div class="absolute pointer-events-none hidden sm:block" aria-hidden="true"
+       style="top:18%;right:3%;width:16px;height:16px;background:#ffcc1c;opacity:.35;clip-path:polygon(50% 0%,100% 100%,0% 100%);animation:geoDrift 8s ease-in-out infinite;"></div>
+  <div class="absolute pointer-events-none hidden sm:block" aria-hidden="true"
+       style="bottom:22%;left:3%;width:14px;height:14px;border-radius:50%;background:#96cc70;opacity:.35;animation:geoDrift 11s ease-in-out infinite 2s;"></div>
+  <div class="absolute pointer-events-none hidden lg:block" aria-hidden="true"
+       style="top:55%;left:48%;width:10px;height:10px;background:#ff4d79;opacity:.28;transform:rotate(20deg);animation:geoDrift 14s ease-in-out infinite 1s;"></div>
+  <img src="brand_assets/flor-3.png" alt="" aria-hidden="true"
+       class="absolute -top-6 -left-6 w-32 sm:w-44 opacity-15 float pointer-events-none">
+  <img src="brand_assets/flor-4.png" alt="" aria-hidden="true"
+       class="absolute -bottom-6 -right-6 w-32 sm:w-44 opacity-15 float-d1 pointer-events-none">
+
+  <div class="max-w-6xl mx-auto px-5 sm:px-8 lg:px-12 relative z-10">
+
+    <div class="text-center mb-12 enter">
+      <span class="inline-block text-amarelo font-fig text-xs tracking-[.18em] uppercase mb-3">Simples assim</span>
+      <h2 class="font-pipo font-bold text-white text-3xl sm:text-[2.6rem] lg:text-5xl mb-4">Como Comprar</h2>
+      <p class="font-fig text-white/65 text-base sm:text-lg max-w-lg mx-auto">
+        Em poucos passos você garante seus chocolates de Páscoa com entrega em casa ou retirada.
+      </p>
+    </div>
+
+    <div class="flex flex-col sm:flex-row gap-5 mb-12">
+
+      <!-- Step 1 -->
+      <div class="step-card enter flex-1 bg-amarelo rounded-3xl p-7 sm:p-8"
+           style="box-shadow:0 10px 30px rgba(255,204,28,.22),0 3px 8px rgba(0,0,0,.18);">
+        <div class="w-14 h-14 bg-marrom-dk rounded-2xl flex items-center justify-center mb-5"
+             style="box-shadow:0 4px 12px rgba(61,26,8,.35);">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          </svg>
+        </div>
+        <div class="font-pipo font-bold text-marrom-dk/[.15] text-6xl mb-2 leading-none select-none" aria-hidden="true">01</div>
+        <h3 class="font-pipo font-bold text-marrom-dk text-xl sm:text-2xl mb-2">Escolha seus produtos</h3>
+        <p class="font-fig text-marrom-dk/70 text-sm sm:text-[15px]">Navegue pelo catálogo e selecione seus chocolates. Monte sua caixa do jeito que quiser.</p>
+      </div>
+
+      <div class="hidden sm:flex items-center flex-shrink-0 text-white/25 self-center">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="step-card enter flex-1 bg-verde rounded-3xl p-7 sm:p-8"
+           style="box-shadow:0 10px 30px rgba(150,204,112,.22),0 3px 8px rgba(0,0,0,.18);transition-delay:.1s;">
+        <div class="w-14 h-14 bg-marrom-dk rounded-2xl flex items-center justify-center mb-5"
+             style="box-shadow:0 4px 12px rgba(61,26,8,.35);">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 11l3 3L22 4"/>
+            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+          </svg>
+        </div>
+        <div class="font-pipo font-bold text-marrom-dk/[.15] text-6xl mb-2 leading-none select-none" aria-hidden="true">02</div>
+        <h3 class="font-pipo font-bold text-marrom-dk text-xl sm:text-2xl mb-2">Finalize seu pedido</h3>
+        <p class="font-fig text-marrom-dk/70 text-sm sm:text-[15px]">Preencha seus dados, escolha entrega ou retirada, selecione a data e confirme via WhatsApp.</p>
+      </div>
+
+      <div class="hidden sm:flex items-center flex-shrink-0 text-white/25 self-center">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="step-card enter flex-1 bg-rosa rounded-3xl p-7 sm:p-8"
+           style="box-shadow:0 10px 30px rgba(255,77,121,.22),0 3px 8px rgba(0,0,0,.18);transition-delay:.2s;">
+        <div class="w-14 h-14 bg-marrom-dk rounded-2xl flex items-center justify-center mb-5"
+             style="box-shadow:0 4px 12px rgba(61,26,8,.35);">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="1" y="3" width="15" height="13" rx="2"/>
+            <path d="M16 8h5l3 3v3h-8V8z"/>
+            <circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>
+          </svg>
+        </div>
+        <div class="font-pipo font-bold text-white/[.15] text-6xl mb-2 leading-none select-none" aria-hidden="true">03</div>
+        <h3 class="font-pipo font-bold text-white text-xl sm:text-2xl mb-2">Receba suas delícias</h3>
+        <p class="font-fig text-white/75 text-sm sm:text-[15px]">Entregamos no Rio de Janeiro ou retire no local. Sua Páscoa chega fresquinha e com muito carinho.</p>
+      </div>
+
+    </div>
+
+    <div class="text-center enter">
+      <a href="informacoes.html"
+         class="btn btn-yellow inline-flex items-center gap-2 bg-amarelo text-marrom-dk font-pipo font-bold text-base sm:text-lg py-3.5 px-8 rounded-2xl">
+        Saiba mais
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ────────────────────────────────────────
+     FOOTER
+──────────────────────────────────────── -->
+<footer id="contato" class="bg-marrom-xdk pt-14 pb-8" style="border-top:3px solid #ffcc1c;">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 mb-12">
+
+      <!-- Marca -->
+      <div>
+        <img src="brand_assets/Santo-Favo-Logo-Amarelo-Horizontal.png" alt="Santo Favo" class="h-9 w-auto mb-4">
+        <p class="font-fig text-white/55 text-sm leading-relaxed max-w-xs">
+          Chocolates artesanais feitos com mel e muito amor. Desde 2015 adoçando a vida dos nossos clientes.
+        </p>
+        <img src="brand_assets/selo.png" alt="Desde 2015" class="w-14 mt-5 opacity-50">
+      </div>
+
+      <!-- Navegação -->
+      <div>
+        <h4 class="font-pipo font-bold text-amarelo text-[15px] mb-5">Navegação</h4>
+        <nav class="flex flex-col gap-2.5">
+          <a href="#"                class="nav-link font-fig text-white/60 text-sm hover:text-amarelo">Início</a>
+          <a href="loja.html"        class="nav-link font-fig text-white/60 text-sm hover:text-amarelo">Loja</a>
+          <a href="informacoes.html" class="nav-link font-fig text-white/60 text-sm hover:text-amarelo">Informações</a>
+          <a href="privacidade.html" class="nav-link font-fig text-white/60 text-sm hover:text-amarelo">Política de Privacidade</a>
+        </nav>
+      </div>
+
+      <!-- Contato -->
+      <div>
+        <h4 class="font-pipo font-bold text-amarelo text-[15px] mb-5">Fale Conosco</h4>
+        <div class="flex flex-col gap-3.5">
+          <a href="https://wa.me/5521967643537" target="_blank" rel="noopener" class="social-link flex items-center gap-3">
+            <div class="w-9 h-9 bg-verde rounded-xl flex items-center justify-center flex-shrink-0"
+                 style="box-shadow:0 2px 8px rgba(150,204,112,.3);">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="white">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/>
+              </svg>
+            </div>
+            <div>
+              <p class="font-fig text-white/85 text-sm">(21) 96764-3537</p>
+              <p class="font-fig text-white/35 text-xs">WhatsApp</p>
+            </div>
+          </a>
+          <a href="https://instagram.com/santofavo" target="_blank" rel="noopener" class="social-link flex items-center gap-3">
+            <div class="w-9 h-9 bg-rosa rounded-xl flex items-center justify-center flex-shrink-0"
+                 style="box-shadow:0 2px 8px rgba(255,77,121,.3);">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round">
+                <rect x="2" y="2" width="20" height="20" rx="5"/>
+                <circle cx="12" cy="12" r="4"/>
+                <circle cx="17.5" cy="6.5" r="1" fill="white" stroke="none"/>
+              </svg>
+            </div>
+            <div>
+              <p class="font-fig text-white/85 text-sm">@santofavo</p>
+              <p class="font-fig text-white/35 text-xs">Instagram</p>
+            </div>
+          </a>
+          <a href="mailto:santofavo@gmail.com" class="social-link flex items-center gap-3">
+            <div class="w-9 h-9 bg-roxo rounded-xl flex items-center justify-center flex-shrink-0"
+                 style="box-shadow:0 2px 8px rgba(168,144,204,.3);">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                <polyline points="22,6 12,13 2,6"/>
+              </svg>
+            </div>
+            <div>
+              <p class="font-fig text-white/85 text-sm">santofavo@gmail.com</p>
+              <p class="font-fig text-white/35 text-xs">E-mail</p>
+            </div>
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="border-t border-white/10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <p class="font-fig text-white/35 text-xs text-center sm:text-left">
+        © 2026 Santo Favo · Feito com ♥ pela Santo Favo ·
+        <a href="privacidade.html" class="hover:text-amarelo" style="transition:color .15s ease;">Política de Privacidade</a>
+        · LGPD
+      </p>
+    </div>
+
+  </div>
+</footer>
+
+
+<!-- ────────────────────────────────────────
+     WHATSAPP FLOATING BUTTON
+──────────────────────────────────────── -->
+<a href="https://wa.me/5521967643537" target="_blank" rel="noopener"
+   class="fixed bottom-6 right-6 z-20 w-14 h-14 bg-verde rounded-full flex items-center justify-center social-link"
+   style="box-shadow:0 4px 20px rgba(150,204,112,.5),0 2px 6px rgba(0,0,0,.2);"
+   aria-label="Falar no WhatsApp">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="white">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/>
+  </svg>
+</a>
+
+
+<!-- ────────────────────────────────────────
+     SCRIPTS
+──────────────────────────────────────── -->
+<script>
+// ── CAROUSEL ──────────────────────────────
+let cur = 0;
+const TOTAL = 4;
+const track = document.getElementById('track');
+const dots  = document.querySelectorAll('.carousel-dot');
+let timer;
+
+function goTo(n) {
+  cur = ((n % TOTAL) + TOTAL) % TOTAL;
+  track.style.transform = `translateX(-${cur * 25}%)`;
+  dots.forEach((d, i) => d.classList.toggle('active', i === cur));
+}
+function nextSlide() { goTo(cur + 1); restart(); }
+function prevSlide()  { goTo(cur - 1); restart(); }
+function restart()    { clearInterval(timer); timer = setInterval(() => goTo(cur + 1), 4200); }
+
+const carouselEl = document.getElementById('carousel');
+carouselEl.addEventListener('mouseenter', () => clearInterval(timer));
+carouselEl.addEventListener('mouseleave', restart);
+
+let tx = 0;
+carouselEl.addEventListener('touchstart', e => { tx = e.changedTouches[0].clientX; }, { passive: true });
+carouselEl.addEventListener('touchend',   e => {
+  const dx = tx - e.changedTouches[0].clientX;
+  if (Math.abs(dx) > 44) dx > 0 ? nextSlide() : prevSlide();
+}, { passive: true });
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowLeft')  prevSlide();
+  if (e.key === 'ArrowRight') nextSlide();
+});
+
+restart();
+
+
+// ── MOBILE MENU ───────────────────────────
+function openMenu() {
+  document.getElementById('mobile-menu').classList.replace('closed','open');
+  const ov = document.getElementById('overlay');
+  ov.style.opacity = '1'; ov.style.pointerEvents = 'auto';
+  document.body.style.overflow = 'hidden';
+}
+function closeMenu() {
+  document.getElementById('mobile-menu').classList.replace('open','closed');
+  const ov = document.getElementById('overlay');
+  ov.style.opacity = '0'; ov.style.pointerEvents = 'none';
+  document.body.style.overflow = '';
+}
+
+
+// ── PRODUCT FILTER ────────────────────────
+function filter(cat, btn) {
+  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  document.querySelectorAll('.card-wrap').forEach(card => {
+    const match = cat === 'todos' || card.dataset.categoria === cat;
+    if (match) {
+      card.classList.remove('hidden-card');
+      card.style.display = '';
+    } else {
+      card.classList.add('hidden-card');
+      setTimeout(() => { if (card.classList.contains('hidden-card')) card.style.display = 'none'; }, 260);
+    }
+  });
+}
+
+
+// ── SCROLL ANIMATIONS ─────────────────────
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+  });
+}, { threshold: 0.08, rootMargin: '0px 0px -32px 0px' });
+
+document.querySelectorAll('.enter').forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Santo Favo - Home Estilo Poster</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&amp;family=DM+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#ffcc1c", // Amarelo
+              secondary: "#72381c", // Marrom Escuro
+              tertiary: "#8c4820", // Marrom
+              accent: "#ff4d79", // Rosa
+              success: "#96cc70", // Verde
+              highlight: "#a890cc", // Roxo
+              "background-light": "#fdf8f4", 
+              "background-dark": "#1a120b", 
+            },
+            fontFamily: {
+              display: ["Pacifico", "cursive"],
+              body: ["DM Sans", "sans-serif"],
+            },
+            borderRadius: {
+              DEFAULT: "12px",
+              'xl': "20px",
+              '2xl': "24px",
+            },
+          },
+        },
+      };
+    </script>
+<style>
+        .geometric-pattern {
+            background-image: radial-gradient(#8c4820 1px, transparent 1px);
+            background-size: 20px 20px;
+        }.snap-x {
+            scroll-snap-type: x mandatory;
+        }
+        .snap-center {
+            scroll-snap-align: center;
+        }.no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }.no-scrollbar {
+            -ms-overflow-style: none;scrollbar-width: none;}
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-secondary dark:text-gray-100 font-body antialiased min-h-screen pb-24">
+<header class="relative overflow-hidden bg-white dark:bg-gray-800 shadow-sm rounded-b-3xl">
+<div class="grid grid-cols-4 h-24">
+<div class="bg-highlight h-full"></div>
+<div class="bg-primary h-full rounded-bl-full"></div>
+<div class="bg-secondary h-full rounded-br-full relative overflow-hidden">
+<div class="absolute inset-0 bg-secondary opacity-90"></div>
+</div>
+<div class="bg-success h-full" style="clip-path: polygon(0 0, 100% 0, 100% 100%);"></div>
+</div>
+<div class="absolute top-0 left-0 w-full p-4 flex justify-between items-center z-10">
+<div class="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-md">
+<span class="material-icons-round text-secondary">hive</span>
+</div>
+<h1 class="font-display text-3xl text-secondary dark:text-primary drop-shadow-sm">Santo Favo</h1>
+<div class="w-10 h-10 bg-secondary rounded-full flex items-center justify-center text-primary shadow-md">
+<span class="material-icons-round text-sm">shopping_basket</span>
+</div>
+</div>
+<div class="bg-primary pb-8 relative overflow-hidden">
+<div class="absolute top-0 right-0 w-24 h-24 bg-accent rounded-bl-full opacity-20 pointer-events-none z-10"></div>
+<div class="absolute bottom-0 left-0 w-16 h-16 bg-tertiary rounded-tr-full opacity-20 pointer-events-none z-10"></div>
+<div class="flex overflow-x-auto snap-x snap-mandatory w-full h-80 no-scrollbar relative z-0">
+<div class="flex-none w-full h-full snap-center flex flex-col items-center justify-center px-6 pt-8 pb-4">
+<div class="text-center relative z-10">
+<p class="text-tertiary font-bold tracking-widest uppercase text-xs mb-2">Páscoa 2026</p>
+<h2 class="font-display text-4xl text-secondary mb-2">Doçura do Mel</h2>
+<p class="text-secondary/80 text-sm mb-6 max-w-[200px] mx-auto">Ovos artesanais com a sutil doçura do mel silvestre.</p>
+<button class="bg-secondary text-white px-8 py-3 rounded-full font-bold shadow-lg transform active:scale-95 transition-transform flex items-center justify-center mx-auto gap-2">
+                                    Faça seu Pedido
+                                    <span class="material-icons-round text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+<div class="flex-none w-full h-full snap-center relative">
+<img alt="Ovos de Páscoa" class="w-full h-full object-cover opacity-80" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBkU-ybfopBY6TdLHx6DEvyTygZYK0Hq_W2a3pOHktDmmiN5eIxWZJJ2k307Eu5DPJdpyg8n4AP-uKq4WMroKJb5HcfDW-kFrxAGG3qcLnIfZBH-x-FJ3RrzCUKY-noxpt2CCCl8VwZIuC-B2_5e4pv8VNNpmDXkBM2poUIpWU-xgVZqpXf2N9SosjAPftpwJZ6e1Sj0_py4Bh5a_PNpaub4mTj8ndvlEFLNRwXlBT8eY2fcy_q01fUyJ-NzTIr395mmS0yK54RBVo"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/90 to-transparent flex flex-col justify-end items-center pb-12">
+<h2 class="font-display text-3xl text-secondary mb-2">Novidades</h2>
+<p class="text-secondary font-medium text-sm">Descubra sabores únicos</p>
+</div>
+</div>
+<div class="flex-none w-full h-full snap-center relative">
+<img alt="Trufas" class="w-full h-full object-cover opacity-80" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1rRrgRW5z6mHnH3gWMLhh9OkZCG4PgKYtU_qkG7XSlWf9uJWNx9FrCDQqk2cthZchMDFFvzaIBE1RrFbvukV_mth00wig_8fDqkrCfs_vkHi0XCF8XvTiViGXfCTNP_mrSoPUk7fyvrozMGdf2s9KSaj2G6inFrRE_gdMexbF_UTYQDlV9u9ow2Ki0rrdI7_5nSezRGfbwZRHQM9vSDmoB1yoFsRRTo1U2QTQvziAuaheyA8cdyPy0ojpZQc8Y1RTqPMb5R3apqk"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/90 to-transparent flex flex-col justify-end items-center pb-12">
+<h2 class="font-display text-3xl text-secondary mb-2">Artesanal</h2>
+<p class="text-secondary font-medium text-sm">Feito com carinho</p>
+</div>
+</div>
+</div>
+<div class="flex justify-center gap-2 absolute bottom-4 w-full z-10">
+<div class="w-2 h-2 rounded-full bg-secondary"></div>
+<div class="w-2 h-2 rounded-full bg-secondary/30"></div>
+<div class="w-2 h-2 rounded-full bg-secondary/30"></div>
+</div>
+</div>
+<div class="flex h-4">
+<div class="flex-1 bg-accent"></div>
+<div class="flex-1 bg-highlight"></div>
+<div class="flex-1 bg-tertiary"></div>
+<div class="flex-1 bg-success"></div>
+</div>
+</header>
+<section class="mt-6 px-4">
+<h3 class="font-bold text-lg text-secondary dark:text-primary mb-4 flex items-center gap-2">
+<span class="material-icons-round text-accent">category</span>
+            Categorias
+        </h3>
+<div class="grid grid-cols-4 gap-3">
+<div class="flex flex-col items-center gap-2">
+<div class="w-16 h-16 bg-accent rounded-xl flex items-center justify-center shadow-sm transform hover:rotate-3 transition-transform">
+<span class="material-icons-round text-white text-3xl">egg</span>
+</div>
+<span class="text-xs font-medium text-center leading-tight dark:text-gray-300">Ovos de<br/>Páscoa</span>
+</div>
+<div class="flex flex-col items-center gap-2">
+<div class="w-16 h-16 bg-primary rounded-full border-2 border-secondary flex items-center justify-center shadow-sm transform hover:-rotate-3 transition-transform">
+<span class="material-icons-round text-secondary text-3xl">cookie</span>
+</div>
+<span class="text-xs font-medium text-center leading-tight dark:text-gray-300">Pães de<br/>Mel</span>
+</div>
+<div class="flex flex-col items-center gap-2">
+<div class="w-16 h-16 bg-success rounded-t-full rounded-b-lg flex items-center justify-center shadow-sm">
+<span class="material-icons-round text-white text-3xl">local_cafe</span>
+</div>
+<span class="text-xs font-medium text-center leading-tight dark:text-gray-300">Barras<br/>Recheadas</span>
+</div>
+<div class="flex flex-col items-center gap-2">
+<div class="w-16 h-16 bg-highlight rounded-lg rotate-3 flex items-center justify-center shadow-sm">
+<span class="material-icons-round text-white text-3xl -rotate-3">star</span>
+</div>
+<span class="text-xs font-medium text-center leading-tight dark:text-gray-300">Outras<br/>Delícias</span>
+</div>
+</div>
+</section>
+<section class="mt-8 px-4">
+<div class="flex justify-between items-end mb-4">
+<h3 class="font-bold text-lg text-secondary dark:text-primary">Destaques da Colmeia</h3>
+<a class="text-sm text-tertiary font-medium underline decoration-2 underline-offset-2" href="#">Ver tudo</a>
+</div>
+<div class="grid grid-cols-1 gap-6">
+<div class="relative bg-white dark:bg-gray-800 rounded-3xl shadow-md overflow-hidden group">
+<div class="absolute top-0 right-0 w-32 h-32 bg-primary rounded-bl-full z-0 opacity-20"></div>
+<div class="relative z-10 p-4">
+<div class="w-full h-48 bg-gray-100 rounded-2xl mb-4 overflow-hidden relative">
+<span class="absolute top-3 left-3 bg-primary text-secondary text-xs font-bold px-2 py-1 rounded shadow-sm z-20">CLÁSSICO</span>
+<img alt="Ovo de chocolate com amêndoas" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBkU-ybfopBY6TdLHx6DEvyTygZYK0Hq_W2a3pOHktDmmiN5eIxWZJJ2k307Eu5DPJdpyg8n4AP-uKq4WMroKJb5HcfDW-kFrxAGG3qcLnIfZBH-x-FJ3RrzCUKY-noxpt2CCCl8VwZIuC-B2_5e4pv8VNNpmDXkBM2poUIpWU-xgVZqpXf2N9SosjAPftpwJZ6e1Sj0_py4Bh5a_PNpaub4mTj8ndvlEFLNRwXlBT8eY2fcy_q01fUyJ-NzTIr395mmS0yK54RBVo"/>
+</div>
+<div class="flex justify-between items-start mb-2">
+<div>
+<h4 class="font-display text-xl text-secondary dark:text-white">Ovo ao Leite Clássico</h4>
+<p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Chocolate suíço cremoso com surpresa.</p>
+</div>
+<span class="bg-accent/10 text-accent font-bold px-3 py-1 rounded-full text-sm">R$24,90</span>
+</div>
+<button class="w-full mt-4 bg-secondary dark:bg-tertiary text-white py-3 rounded-xl font-bold text-sm hover:bg-opacity-90 transition-colors">
+                        ADICIONAR À CESTA
+                    </button>
+</div>
+<div class="h-2 w-full bg-gradient-to-r from-accent via-primary to-highlight"></div>
+</div>
+<div class="relative bg-secondary dark:bg-gray-900 rounded-3xl shadow-md overflow-hidden text-white">
+<div class="absolute bottom-0 left-0 w-full h-1/2 bg-tertiary/50 z-0 skew-y-3 origin-bottom-left"></div>
+<div class="relative z-10 p-4">
+<div class="w-full h-48 bg-white/10 rounded-2xl mb-4 overflow-hidden relative backdrop-blur-sm">
+<span class="absolute top-3 left-3 bg-highlight text-white text-xs font-bold px-2 py-1 rounded shadow-sm z-20">GOURMET</span>
+<img alt="Caixa de trufas artesanais" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1rRrgRW5z6mHnH3gWMLhh9OkZCG4PgKYtU_qkG7XSlWf9uJWNx9FrCDQqk2cthZchMDFFvzaIBE1RrFbvukV_mth00wig_8fDqkrCfs_vkHi0XCF8XvTiViGXfCTNP_mrSoPUk7fyvrozMGdf2s9KSaj2G6inFrRE_gdMexbF_UTYQDlV9u9ow2Ki0rrdI7_5nSezRGfbwZRHQM9vSDmoB1yoFsRRTo1U2QTQvziAuaheyA8cdyPy0ojpZQc8Y1RTqPMb5R3apqk"/>
+</div>
+<div class="flex justify-between items-start mb-2">
+<div>
+<h4 class="font-display text-xl text-primary">Trufas Artesanais Dark</h4>
+<p class="text-xs text-white/70 mt-1">Seleção de 12 trufas feitas à mão.</p>
+</div>
+<span class="bg-white text-secondary font-bold px-3 py-1 rounded-full text-sm">R$32,00</span>
+</div>
+<button class="w-full mt-4 bg-primary text-secondary py-3 rounded-xl font-bold text-sm hover:bg-white transition-colors">
+                        ADICIONAR À CESTA
+                    </button>
+</div>
+</div>
+</div>
+</section>
+<section class="mt-8 mx-4 mb-8">
+<div class="bg-highlight/20 dark:bg-highlight/10 rounded-3xl p-6 relative overflow-hidden">
+<div class="absolute -right-4 -top-4 w-20 h-20 bg-highlight rounded-full opacity-50"></div>
+<div class="absolute left-10 bottom-0 w-0 h-0 border-l-[20px] border-l-transparent border-r-[20px] border-r-transparent border-b-[40px] border-b-success opacity-50"></div>
+<div class="relative z-10">
+<h3 class="font-display text-2xl text-secondary dark:text-primary mb-4 text-center">Como Receber Suas Delícias</h3>
+<div class="space-y-4">
+<div class="flex items-center bg-white dark:bg-gray-800 p-3 rounded-xl shadow-sm border border-secondary/10">
+<div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center font-bold text-secondary border-2 border-secondary shrink-0">1</div>
+<div class="ml-3">
+<h4 class="font-bold text-sm text-secondary dark:text-white">Escolha os Produtos</h4>
+<p class="text-xs text-gray-500 dark:text-gray-400">Navegue pelo catálogo e escolha seus favoritos.</p>
+</div>
+</div>
+<div class="flex items-center bg-white dark:bg-gray-800 p-3 rounded-xl shadow-sm border border-secondary/10">
+<div class="w-10 h-10 rounded-full bg-accent flex items-center justify-center font-bold text-white border-2 border-secondary shrink-0">2</div>
+<div class="ml-3">
+<h4 class="font-bold text-sm text-secondary dark:text-white">Faça seu Pedido</h4>
+<p class="text-xs text-gray-500 dark:text-gray-400">Adicione à cesta e finalize a compra.</p>
+</div>
+</div>
+<div class="flex items-center bg-white dark:bg-gray-800 p-3 rounded-xl shadow-sm border border-secondary/10">
+<div class="w-10 h-10 rounded-full bg-highlight flex items-center justify-center font-bold text-white border-2 border-secondary shrink-0">3</div>
+<div class="ml-3">
+<h4 class="font-bold text-sm text-secondary dark:text-white">Entrega Rápida</h4>
+<p class="text-xs text-gray-500 dark:text-gray-400">Receba suas delícias em 24h na sua porta.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<footer class="bg-secondary text-primary py-10 px-6 rounded-t-3xl mt-8">
+<div class="flex justify-center gap-4 mb-8">
+<div class="w-12 h-12 bg-white rounded-full flex items-center justify-center text-secondary">
+<span class="material-icons-round">mail</span>
+</div>
+<div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-secondary border-2 border-white">
+<span class="material-icons-round">call</span>
+</div>
+<div class="w-12 h-12 bg-accent rounded-full flex items-center justify-center text-white">
+<span class="material-icons-round">location_on</span>
+</div>
+</div>
+<div class="text-center">
+<h2 class="font-display text-2xl mb-2">Santo Favo</h2>
+<p class="text-xs font-bold tracking-widest uppercase opacity-70 mb-4">Confeitaria Artesanal</p>
+<p class="text-sm opacity-80 mb-6 font-light">Rua do Chocolate, 123, Cidade Doce.<br/>Aberto Diariamente 9h - 20h.</p>
+<p class="text-[10px] opacity-50">© 2026 CAMPANHA DE PÁSCOA</p>
+</div>
+</footer>
+<nav class="fixed bottom-0 left-0 w-full bg-white dark:bg-gray-800 border-t border-gray-100 dark:border-gray-700 pb-safe pt-2 px-6 flex justify-between items-end shadow-[0_-5px_10px_rgba(0,0,0,0.05)] z-50">
+<a class="flex flex-col items-center gap-1 p-2 text-secondary dark:text-white w-16 group" href="#">
+<span class="material-icons-round group-hover:text-tertiary transition-colors">home</span>
+<span class="text-[10px] font-medium">Início</span>
+</a>
+<a class="flex flex-col items-center gap-1 p-2 text-gray-400 hover:text-secondary dark:hover:text-white transition-colors w-16" href="#">
+<span class="material-icons-round">storefront</span>
+<span class="text-[10px] font-medium">Loja</span>
+</a>
+<div class="relative -top-6">
+<button class="w-14 h-14 bg-primary rounded-full shadow-lg border-4 border-white dark:border-gray-800 flex items-center justify-center text-secondary transform transition-transform hover:-translate-y-1 active:scale-95">
+<span class="material-icons-round">shopping_cart</span>
+</button>
+</div>
+<a class="flex flex-col items-center gap-1 p-2 text-gray-400 hover:text-secondary dark:hover:text-white transition-colors w-16" href="#">
+<span class="material-icons-round">receipt_long</span>
+<span class="text-[10px] font-medium">Pedidos</span>
+</a>
+<a class="flex flex-col items-center gap-1 p-2 text-gray-400 hover:text-secondary dark:hover:text-white transition-colors w-16" href="#">
+<span class="material-icons-round">person</span>
+<span class="text-[10px] font-medium">Perfil</span>
+</a>
+</nav>
+<div class="h-20"></div>
+</body></html>

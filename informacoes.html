@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Informações — Santo Favo Páscoa 2026</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: { extend: {
+        colors: {
+          amarelo: '#ffcc1c', marrom: '#8c4820', 'marrom-dk': '#72381c',
+          'marrom-xdk': '#3d1a08', verde: '#96cc70', rosa: '#ff4d79',
+          roxo: '#a890cc', cream: '#fdf8f0',
+        },
+        fontFamily: { pipo: ['Pipo','Georgia','serif'], fig: ['FigGrotesk','system-ui','sans-serif'] }
+      }}
+    }
+  </script>
+  <style>
+    @font-face { font-family:'Pipo'; src:url('./fonts/Pipo/Pipo-Bold.otf') format('opentype'); font-weight:700; font-display:swap; }
+    @font-face { font-family:'Pipo'; src:url('./fonts/Pipo/Pipo-SemiBold.otf') format('opentype'); font-weight:600; font-display:swap; }
+    @font-face { font-family:'Pipo'; src:url('./fonts/Pipo/Pipo-Regular.otf') format('opentype'); font-weight:400; font-display:swap; }
+    @font-face { font-family:'FigGrotesk'; src:url('./fonts/Fig Grotesk/FigGrotesk-Regular.otf') format('opentype'); font-weight:400; font-display:swap; }
+    *, *::before, *::after { box-sizing:border-box; }
+    body { font-family:'FigGrotesk',system-ui,sans-serif; line-height:1.7; background:#fdf8f0; color:#72381c; overflow-x:hidden; }
+    h1,h2,h3,h4 { font-family:'Pipo',Georgia,serif; letter-spacing:-0.03em; line-height:1.1; }
+
+    @keyframes float { 0%{transform:translateY(0) rotate(-3deg)} 38%{transform:translateY(-14px) rotate(5deg)} 72%{transform:translateY(-5px) rotate(-1deg)} 100%{transform:translateY(0) rotate(-3deg)} }
+    @keyframes slideUp { from{transform:translateY(30px);opacity:0} to{transform:translateY(0);opacity:1} }
+
+    .btn { transition:transform .15s ease, box-shadow .15s ease, background-color .15s ease, color .15s ease; }
+    .btn:active { transform:scale(0.97); }
+    .btn:focus-visible { outline:3px solid #ffcc1c; outline-offset:3px; border-radius:12px; }
+    .btn-yellow:hover { box-shadow:0 4px 12px rgba(255,204,28,.25); transform:translateY(-2px); }
+    .nav-link { transition:color .15s ease; }
+    .nav-link:hover { color:#ffcc1c; }
+    .mobile-menu { transition:transform .32s cubic-bezier(0.34,1.56,0.64,1), opacity .32s ease; }
+    .mobile-menu.closed { transform:translateX(100%); opacity:0; pointer-events:none; }
+    .mobile-menu.open  { transform:translateX(0); opacity:1; }
+    .social-link { transition:transform .15s ease, opacity .15s ease; }
+    .social-link:hover { transform:translateY(-2px); opacity:.8; }
+    .overlay { transition:opacity .25s ease; }
+    .overlay.hidden-ov { opacity:0; pointer-events:none; }
+    .overlay.show-ov { opacity:1; pointer-events:auto; }
+
+    /* Info cards */
+    .info-card { transition:transform .2s ease, box-shadow .2s ease; }
+    .info-card:hover { transform:translateY(-3px); box-shadow:0 12px 32px rgba(114,56,28,.12),0 3px 8px rgba(114,56,28,.07); }
+
+    /* FAQ accordion */
+    .faq-item details summary { list-style:none; cursor:pointer; }
+    .faq-item details summary::-webkit-details-marker { display:none; }
+    .faq-item details[open] summary .faq-icon { transform:rotate(45deg); }
+    .faq-icon { transition:transform .25s cubic-bezier(0.34,1.56,0.64,1); }
+    .faq-item details[open] .faq-body { animation:slideUp .2s ease; }
+
+    /* Float icon */
+    .float-icon { animation:float 3.5s ease-in-out infinite; }
+
+    .grain::before { content:''; position:absolute; inset:0; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"); background-size:300px; pointer-events:none; z-index:0; opacity:.5; }
+  </style>
+</head>
+<body>
+
+<!-- ── OVERLAYS ── -->
+<div id="ov-menu" class="overlay hidden-ov fixed inset-0 bg-marrom-xdk/75 z-40" onclick="closeMenu()"></div>
+
+<!-- ── MOBILE MENU ── -->
+<aside id="mobile-menu" class="mobile-menu closed fixed right-0 top-0 h-full w-72 bg-marrom-dk z-50 flex flex-col py-8 px-6">
+  <div class="flex items-center justify-between mb-10">
+    <img src="brand_assets/Santo-Favo-Logo-Amarelo-Horizontal.png" alt="Santo Favo" class="h-8 w-auto">
+    <button onclick="closeMenu()" class="btn text-white p-2 rounded-xl hover:bg-white/10">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <nav class="flex flex-col gap-1">
+    <a href="index.html"       class="nav-link text-white/70 font-fig text-lg py-3 px-4 rounded-xl hover:bg-white/10">Início</a>
+    <a href="loja.html"        class="nav-link text-white/70 font-fig text-lg py-3 px-4 rounded-xl hover:bg-white/10">Loja</a>
+    <a href="informacoes.html" class="nav-link text-amarelo font-fig text-lg py-3 px-4 rounded-xl bg-white/10">Informações</a>
+    <a href="index.html#contato" class="nav-link text-white/70 font-fig text-lg py-3 px-4 rounded-xl hover:bg-white/10">Contato</a>
+  </nav>
+</aside>
+
+<!-- ── HEADER ── -->
+<header class="sticky top-0 z-30 bg-marrom-dk" style="box-shadow:0 2px 16px rgba(61,26,8,.4),0 1px 4px rgba(61,26,8,.3);">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-4 flex items-center justify-between gap-4">
+    <a href="index.html" class="flex-shrink-0">
+      <img src="brand_assets/Santo-Favo-Logo-Amarelo-Horizontal.png" alt="Santo Favo" class="h-9 sm:h-10 w-auto">
+    </a>
+    <nav class="hidden lg:flex items-center gap-8">
+      <a href="index.html"        class="nav-link text-white/70 font-fig text-[15px]">Início</a>
+      <a href="loja.html"         class="nav-link text-white/70 font-fig text-[15px]">Loja</a>
+      <a href="informacoes.html"  class="nav-link text-amarelo font-fig text-[15px] font-semibold">Informações</a>
+      <a href="index.html#contato" class="nav-link text-white/70 font-fig text-[15px]">Contato</a>
+    </nav>
+    <div class="flex items-center gap-3">
+      <a href="loja.html" class="btn btn-yellow hidden sm:flex items-center gap-2 bg-amarelo text-marrom-dk font-pipo font-bold text-[15px] py-2.5 px-5 rounded-xl">
+        Ver Loja
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <button onclick="openMenu()" class="btn lg:hidden text-white p-2 rounded-xl hover:bg-white/10">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ── COLOR STRIPE ── -->
+<div class="h-[10px] flex w-full">
+  <div class="flex-1 bg-amarelo"></div>
+  <div class="flex-1 bg-rosa"></div>
+  <div class="flex-1 bg-roxo"></div>
+  <div class="flex-1 bg-verde"></div>
+  <div class="flex-1 bg-marrom"></div>
+  <div class="flex-1 bg-amarelo"></div>
+</div>
+
+<!-- ── HERO ── -->
+<section class="relative bg-marrom-dk overflow-hidden py-10 sm:py-14 grain">
+  <div class="absolute inset-0 pointer-events-none" style="z-index:0;">
+    <div style="position:absolute;top:-40px;right:-60px;width:320px;height:320px;background:radial-gradient(circle,rgba(255,204,28,.12) 0%,transparent 70%);border-radius:50%;"></div>
+    <div style="position:absolute;bottom:-20px;left:-40px;width:240px;height:240px;background:radial-gradient(circle,rgba(150,204,112,.08) 0%,transparent 70%);border-radius:50%;"></div>
+    <div class="float-icon" style="position:absolute;top:18px;right:22%;width:22px;height:22px;background:#ffcc1c;border-radius:50%;opacity:.45;animation-delay:.3s;"></div>
+    <div class="float-icon" style="position:absolute;bottom:24px;left:14%;width:0;height:0;border-left:10px solid transparent;border-right:10px solid transparent;border-bottom:18px solid #ff4d79;opacity:.4;animation-delay:1.1s;"></div>
+    <div class="float-icon" style="position:absolute;top:32px;left:26%;width:16px;height:16px;background:#96cc70;transform:rotate(45deg);opacity:.4;animation-delay:.7s;"></div>
+  </div>
+  <div class="relative z-10 max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
+    <p class="font-fig text-amarelo/70 text-sm tracking-widest uppercase mb-2">Santo Favo · Páscoa 2026</p>
+    <h1 class="font-pipo font-bold text-white text-4xl sm:text-5xl mb-3">Informações</h1>
+    <p class="font-fig text-white/60 text-base sm:text-lg max-w-lg">Tudo o que você precisa saber antes de fazer seu pedido. Leia com carinho — promete que é rápido!</p>
+  </div>
+</section>
+
+<!-- ── INFORMAÇÕES IMPORTANTES ── -->
+<section class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-14 sm:py-20">
+
+  <div class="mb-10">
+    <p class="font-fig text-marrom-dk/50 text-sm uppercase tracking-widest mb-2">Antes de pedir</p>
+    <h2 class="font-pipo font-bold text-marrom-dk text-3xl sm:text-4xl">Informações Importantes</h2>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+
+    <!-- Conservação -->
+    <div class="info-card bg-white rounded-3xl p-6" style="box-shadow:0 4px 20px rgba(114,56,28,.08),0 1px 6px rgba(114,56,28,.05);">
+      <div class="w-12 h-12 rounded-2xl flex items-center justify-center mb-4 flex-shrink-0 bg-amarelo/20">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#72381c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M12 6v6l4 2"/>
+        </svg>
+      </div>
+      <h3 class="font-pipo font-bold text-marrom-dk text-lg mb-2">Como Conservar</h3>
+      <p class="font-fig text-marrom-dk/65 text-sm leading-relaxed">Guarde em local fresco, seco e arejado. Em dias quentes, pode ir para a geladeira — só lembre de tirar uns 10 minutinhos antes de comer para apreciar do jeito certo!</p>
+    </div>
+
+    <!-- Validade -->
+    <div class="info-card bg-white rounded-3xl p-6" style="box-shadow:0 4px 20px rgba(114,56,28,.08),0 1px 6px rgba(114,56,28,.05);">
+      <div class="w-12 h-12 rounded-2xl flex items-center justify-center mb-4 flex-shrink-0 bg-verde/20">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#72381c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M8 14h.01M12 14h.01M16 14h.01"/>
+        </svg>
+      </div>
+      <h3 class="font-pipo font-bold text-marrom-dk text-lg mb-2">Frescor Garantido</h3>
+      <p class="font-fig text-marrom-dk/65 text-sm leading-relaxed">Nossos produtos são artesanais e feitos com carinho! Via de regra, são produzidos no dia anterior à entrega ou retirada. Consulte sempre a validade indicada na embalagem.</p>
+    </div>
+
+    <!-- Prazo de encomenda -->
+    <div class="info-card bg-white rounded-3xl p-6" style="box-shadow:0 4px 20px rgba(114,56,28,.08),0 1px 6px rgba(114,56,28,.05);">
+      <div class="w-12 h-12 rounded-2xl flex items-center justify-center mb-4 flex-shrink-0 bg-rosa/15">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#72381c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+        </svg>
+      </div>
+      <h3 class="font-pipo font-bold text-marrom-dk text-lg mb-2">Prazo de Encomenda</h3>
+      <p class="font-fig text-marrom-dk/65 text-sm leading-relaxed">Os pedidos precisam ser feitos com pelo menos <strong>2 dias de antecedência</strong> e estão sujeitos à disponibilidade de produção. Aceitamos encomendas até <strong>30 de março</strong> — ou enquanto houver estoque!</p>
+    </div>
+
+    <!-- Pagamento -->
+    <div class="info-card bg-white rounded-3xl p-6" style="box-shadow:0 4px 20px rgba(114,56,28,.08),0 1px 6px rgba(114,56,28,.05);">
+      <div class="w-12 h-12 rounded-2xl flex items-center justify-center mb-4 flex-shrink-0 bg-roxo/20">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#72381c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/>
+        </svg>
+      </div>
+      <h3 class="font-pipo font-bold text-marrom-dk text-lg mb-2">Pagamento</h3>
+      <p class="font-fig text-marrom-dk/65 text-sm leading-relaxed">O pagamento é <strong>integral e antecipado</strong>, via chave PIX ou link de pagamento. O pedido só é confirmado de verdade após o envio do comprovante — então não esquece!</p>
+    </div>
+
+    <!-- Entrega -->
+    <div class="info-card bg-white rounded-3xl p-6" style="box-shadow:0 4px 20px rgba(114,56,28,.08),0 1px 6px rgba(114,56,28,.05);">
+      <div class="w-12 h-12 rounded-2xl flex items-center justify-center mb-4 flex-shrink-0 bg-amarelo/20">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#72381c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h5l3 3v3h-8V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>
+        </svg>
+      </div>
+      <h3 class="font-pipo font-bold text-marrom-dk text-lg mb-2">Taxa de Entrega</h3>
+      <p class="font-fig text-marrom-dk/65 text-sm leading-relaxed">A taxa de entrega varia de acordo com a distância. Não marcamos horário fixo — caso você tenha alguma restrição de horário para receber, nos avise no momento do pedido!</p>
+    </div>
+
+    <!-- Presentear -->
+    <div class="info-card bg-white rounded-3xl p-6" style="box-shadow:0 4px 20px rgba(114,56,28,.08),0 1px 6px rgba(114,56,28,.05);">
+      <div class="w-12 h-12 rounded-2xl flex items-center justify-center mb-4 flex-shrink-0 bg-rosa/15">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#72381c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5" rx="1"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>
+        </svg>
+      </div>
+      <h3 class="font-pipo font-bold text-marrom-dk text-lg mb-2">Presenteando Alguém?</h3>
+      <p class="font-fig text-marrom-dk/65 text-sm leading-relaxed">Certifique-se de que a pessoa estará em casa para receber — ou que o presente possa ser deixado na portaria. Se o entregador precisar retornar, uma nova taxa de entrega será cobrada.</p>
+    </div>
+
+  </div>
+
+  <!-- CTA inline -->
+  <div class="mt-10 flex flex-col sm:flex-row items-start sm:items-center gap-4 bg-marrom-dk/5 border border-marrom/10 rounded-3xl p-6">
+    <div class="text-3xl">🍫</div>
+    <div class="flex-1">
+      <p class="font-pipo font-bold text-marrom-dk text-lg">Pronto para pedir?</p>
+      <p class="font-fig text-marrom-dk/60 text-sm">Acesse nossa loja e monte seu pedido — é rápido e fácil!</p>
+    </div>
+    <a href="loja.html" class="btn btn-yellow flex-shrink-0 bg-amarelo text-marrom-dk font-pipo font-bold text-base py-3 px-6 rounded-2xl flex items-center gap-2">
+      Ir para a Loja
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+
+</section>
+
+<!-- ── COLOR STRIPE 2 ── -->
+<div class="h-[6px] flex w-full">
+  <div class="flex-1 bg-verde"></div>
+  <div class="flex-1 bg-amarelo"></div>
+  <div class="flex-1 bg-rosa"></div>
+  <div class="flex-1 bg-roxo"></div>
+  <div class="flex-1 bg-marrom"></div>
+  <div class="flex-1 bg-verde"></div>
+</div>
+
+<!-- ── FAQ ── -->
+<section class="bg-white py-14 sm:py-20">
+  <div class="max-w-3xl mx-auto px-5 sm:px-8">
+
+    <div class="mb-10">
+      <p class="font-fig text-marrom-dk/50 text-sm uppercase tracking-widest mb-2">Dúvidas?</p>
+      <h2 class="font-pipo font-bold text-marrom-dk text-3xl sm:text-4xl">Perguntas Frequentes</h2>
+      <p class="font-fig text-marrom-dk/55 text-base mt-2">Se ainda tiver dúvidas, fale com a gente pelo WhatsApp — adoramos conversar!</p>
+    </div>
+
+    <!-- Loading skeleton -->
+    <div id="faq-loading" class="flex flex-col gap-3">
+      <div class="h-16 rounded-2xl" style="background:#e2d4c4;animation:pulse 1.4s ease-in-out infinite;"></div>
+      <div class="h-16 rounded-2xl" style="background:#e2d4c4;animation:pulse 1.4s ease-in-out infinite;animation-delay:.15s;"></div>
+      <div class="h-16 rounded-2xl" style="background:#e2d4c4;animation:pulse 1.4s ease-in-out infinite;animation-delay:.3s;"></div>
+    </div>
+
+    <!-- FAQ list -->
+    <div id="faq-list" class="hidden flex flex-col gap-3"></div>
+
+    <!-- Empty state -->
+    <div id="faq-empty" class="hidden text-center py-10">
+      <p class="font-fig text-marrom-dk/40">Nenhuma pergunta cadastrada ainda.</p>
+    </div>
+
+    <!-- WhatsApp CTA -->
+    <div class="mt-10 text-center">
+      <p class="font-fig text-marrom-dk/55 text-sm mb-3">Não encontrou sua resposta?</p>
+      <a href="https://wa.me/5521967643537" target="_blank" rel="noopener"
+         class="btn inline-flex items-center gap-2.5 bg-verde text-white font-pipo font-bold text-base py-3.5 px-6 rounded-2xl"
+         style="box-shadow:0 4px 20px rgba(150,204,112,.35);transition:transform .15s ease,box-shadow .15s ease;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Falar pelo WhatsApp
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer class="bg-marrom-xdk pt-14 pb-8" style="border-top:3px solid #ffcc1c;">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 mb-12">
+      <div>
+        <img src="brand_assets/Santo-Favo-Logo-Amarelo-Horizontal.png" alt="Santo Favo" class="h-9 w-auto mb-4">
+        <p class="font-fig text-white/55 text-sm leading-relaxed max-w-xs">Chocolates artesanais feitos com mel e muito amor. Desde 2015 adoçando a vida dos nossos clientes.</p>
+      </div>
+      <div>
+        <h4 class="font-pipo font-bold text-amarelo text-[15px] mb-5">Navegação</h4>
+        <nav class="flex flex-col gap-2.5">
+          <a href="index.html"        class="nav-link font-fig text-white/60 text-sm hover:text-amarelo">Início</a>
+          <a href="loja.html"         class="nav-link font-fig text-white/60 text-sm hover:text-amarelo">Loja</a>
+          <a href="informacoes.html"  class="nav-link font-fig text-white/60 text-sm hover:text-amarelo">Informações</a>
+          <a href="privacidade.html"  class="nav-link font-fig text-white/60 text-sm hover:text-amarelo">Política de Privacidade</a>
+        </nav>
+      </div>
+      <div>
+        <h4 class="font-pipo font-bold text-amarelo text-[15px] mb-5">Fale Conosco</h4>
+        <div class="flex flex-col gap-3.5">
+          <a href="https://wa.me/5521967643537" target="_blank" rel="noopener" class="social-link flex items-center gap-3">
+            <div class="w-9 h-9 bg-verde rounded-xl flex items-center justify-center" style="box-shadow:0 2px 8px rgba(150,204,112,.3);">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            </div>
+            <div>
+              <p class="font-fig text-white/85 text-sm">(21) 96764-3537</p>
+              <p class="font-fig text-white/35 text-xs">WhatsApp</p>
+            </div>
+          </a>
+          <a href="https://instagram.com/santofavo" target="_blank" rel="noopener" class="social-link flex items-center gap-3">
+            <div class="w-9 h-9 bg-rosa rounded-xl flex items-center justify-center" style="box-shadow:0 2px 8px rgba(255,77,121,.3);">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round">
+                <rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="white" stroke="none"/>
+              </svg>
+            </div>
+            <div>
+              <p class="font-fig text-white/85 text-sm">@santofavo</p>
+              <p class="font-fig text-white/35 text-xs">Instagram</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="border-t border-white/10 pt-6">
+      <p class="font-fig text-white/35 text-xs text-center">© 2026 Santo Favo · Feito com ♥ pela Santo Favo · <a href="privacidade.html" class="hover:text-amarelo" style="transition:color .15s;">Política de Privacidade</a></p>
+    </div>
+  </div>
+</footer>
+
+<!-- ── WHATSAPP FLOAT ── -->
+<a href="https://wa.me/5521967643537" target="_blank" rel="noopener"
+   class="fixed bottom-6 right-6 z-20 w-14 h-14 bg-verde rounded-full flex items-center justify-center social-link"
+   style="box-shadow:0 4px 20px rgba(150,204,112,.5),0 2px 6px rgba(0,0,0,.2);" aria-label="WhatsApp">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<!-- ── SUPABASE CDN ── -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script>
+const SUPABASE_URL = 'https://lbdlvkaplyxcjdogtoec.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_WU7ZyjUZnRpSv6lKnGiGGQ_ijE7fn-t';
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// ── FAQ ───────────────────────────────────────────────────────────────────────
+const DEMO_FAQS = [
+  { pergunta: 'Como faço meu pedido?',             resposta: 'Acesse nossa loja, escolha seus produtos, monte sua cesta e finalize pelo WhatsApp. É simples e rápido!' },
+  { pergunta: 'Qual o prazo para confirmar?',       resposta: 'O pedido é confirmado após o envio do comprovante de pagamento. Assim que recebermos, mandamos uma mensagem confirmando tudo.' },
+  { pergunta: 'Vocês entregam onde?',               resposta: 'Entregamos em toda a cidade do Rio de Janeiro — Capital. Para outras regiões, entre em contato antes de fechar o pedido.' },
+  { pergunta: 'Como funciona a caixa personalizada?', resposta: 'Você escolhe o tamanho (3, 6, 9 ou 15 pães) e seleciona os sabores que quiser. O preço é a soma dos pães mais R$ 5,00 da embalagem especial.' },
+  { pergunta: 'Quais as formas de pagamento?',      resposta: 'Aceitamos PIX e Cartão de Crédito. O pagamento é integral e antecipado — o pedido entra em produção após a confirmação.' },
+  { pergunta: 'Posso cancelar ou alterar meu pedido?', resposta: 'Alterações são bem-vindas com antecedência! Entre em contato pelo WhatsApp assim que possível e faremos o possível para ajudar.' },
+];
+
+async function loadFaqs() {
+  try {
+    const { data, error } = await sb.from('faqs').select('*').eq('ativo', true).order('ordem');
+    const faqs = (!error && data && data.length > 0) ? data : DEMO_FAQS;
+    renderFaqs(faqs);
+  } catch(e) {
+    renderFaqs(DEMO_FAQS);
+  }
+}
+
+function renderFaqs(faqs) {
+  document.getElementById('faq-loading').classList.add('hidden');
+  const list = document.getElementById('faq-list');
+  if (!faqs.length) { document.getElementById('faq-empty').classList.remove('hidden'); return; }
+  list.classList.remove('hidden');
+  list.innerHTML = '';
+  faqs.forEach((faq, i) => {
+    const item = document.createElement('div');
+    item.className = 'faq-item';
+    item.innerHTML = `
+      <details class="group bg-white rounded-2xl overflow-hidden" style="box-shadow:0 2px 12px rgba(114,56,28,.07);">
+        <summary class="flex items-center justify-between gap-4 px-6 py-5 select-none">
+          <span class="font-fig font-semibold text-marrom-dk text-base">${faq.pergunta}</span>
+          <span class="faq-icon flex-shrink-0 w-7 h-7 rounded-full bg-amarelo/20 flex items-center justify-center text-marrom-dk text-lg leading-none font-bold">+</span>
+        </summary>
+        <div class="faq-body px-6 pb-5 pt-0">
+          <div class="h-px bg-marrom/8 mb-4"></div>
+          <p class="font-fig text-marrom-dk/65 text-sm leading-relaxed">${faq.resposta}</p>
+        </div>
+      </details>`;
+    list.appendChild(item);
+  });
+}
+
+// ── MOBILE MENU ───────────────────────────────────────────────────────────────
+function openMenu() {
+  document.getElementById('mobile-menu').classList.replace('closed','open');
+  document.getElementById('ov-menu').classList.replace('hidden-ov','show-ov');
+  document.body.style.overflow = 'hidden';
+}
+function closeMenu() {
+  document.getElementById('mobile-menu').classList.replace('open','closed');
+  document.getElementById('ov-menu').classList.replace('show-ov','hidden-ov');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('DOMContentLoaded', loadFaqs);
+</script>
+</body>
+</html>
