@@ -285,7 +285,7 @@
 </a>
 
 <!-- ── TOAST CONTAINER ── -->
-<div id="toast-container" class="fixed bottom-24 right-4 z-[70] flex flex-col gap-2 items-end pointer-events-none"></div>
+<div id="toast-container" class="fixed bottom-44 right-4 z-[70] flex flex-col gap-2 items-end pointer-events-none"></div>
 
 <!-- ── PRODUCT MODAL ── -->
 <div id="product-modal" class="modal-wrap closed fixed inset-0 z-[45] flex items-end sm:items-center justify-center p-0 sm:p-4">
@@ -883,6 +883,7 @@ function updateCartBadge() {
   badge.textContent = total;
   badge.classList.toggle('hidden', total === 0);
   badge.classList.toggle('flex', total > 0);
+  updateCartFab();
 }
 
 function addToCart(item) {
