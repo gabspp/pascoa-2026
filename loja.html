@@ -271,8 +271,9 @@
    onmouseenter="this.style.transform='scale(1.08)'" onmouseleave="this.style.transform='scale(1)'"
    aria-label="Ver cesta">
   <div class="relative w-10 h-10">
-    <div id="fab-eggs" class="absolute left-0 w-full pointer-events-none" style="top:-6px;height:18px;"></div>
-    <img src="brand_assets/cesta.png" class="absolute inset-0 w-full h-full object-contain" style="filter:drop-shadow(0 1px 2px rgba(61,26,8,.2));">
+    <!-- eggs sit behind basket at z:1; basket z:2 covers their lower half -->
+    <div id="fab-eggs" class="absolute inset-0 pointer-events-none" style="z-index:1;"></div>
+    <img src="brand_assets/cesta.png" class="absolute inset-0 w-full h-full object-contain" style="z-index:2;filter:drop-shadow(0 1px 2px rgba(61,26,8,.2));">
   </div>
 </button>
 
@@ -1204,7 +1205,14 @@ function renderCartSidebar() {
 }
 
 const FAB_EGG_COLORS = ['amarelo','rosa','roxo','verde'];
-const FAB_EGG_X = { 1:[0], 2:[-7,7], 3:[-13,0,13], 4:[-15,-5,5,15], 5:[-18,-9,0,9,18] };
+// dx = horizontal offset from center; dy = vertical offset (more negative = higher up = more "behind")
+const FAB_EGG_POS = {
+  1: [{dx:0,   dy:0,  s:13}],
+  2: [{dx:-7,  dy:0,  s:12}, {dx:7,   dy:1,  s:13}],
+  3: [{dx:0,   dy:-2, s:11}, {dx:-8,  dy:1,  s:13}, {dx:8,   dy:1,  s:13}],
+  4: [{dx:0,   dy:-3, s:11}, {dx:-10, dy:0,  s:12}, {dx:10,  dy:0,  s:12}, {dx:0,  dy:3,  s:13}],
+  5: [{dx:0,   dy:-4, s:10}, {dx:-9,  dy:-1, s:11}, {dx:9,   dy:-1, s:11}, {dx:-6, dy:3,  s:13}, {dx:6, dy:3, s:13}],
+};
 
 function updateCartFab() {
   const container = document.getElementById('fab-eggs');
@@ -1212,11 +1220,13 @@ function updateCartFab() {
   const n = Math.min(S.carrinho.reduce((s,i) => s + i.quantidade, 0), 5);
   container.innerHTML = '';
   if (n === 0) return;
-  const offsets = FAB_EGG_X[n] || FAB_EGG_X[5];
-  offsets.forEach((dx, i) => {
+  const positions = FAB_EGG_POS[n] || FAB_EGG_POS[5];
+  // base top = inside basket opening (~35% from top of 40px container = ~14px)
+  positions.forEach(({dx, dy, s}, i) => {
+    const top = 10 + dy;
     const span = document.createElement('span');
-    span.style.cssText = `position:absolute;top:0;left:calc(50% + ${dx}px);transform:translateX(-50%);animation:eggPop .35s cubic-bezier(.34,1.56,.64,1) both;animation-delay:${i * 40}ms;`;
-    span.innerHTML = `<img src="brand_assets/ovo_${FAB_EGG_COLORS[i % 4]}.png" style="width:14px;height:14px;object-fit:contain;">`;
+    span.style.cssText = `position:absolute;top:${top}px;left:calc(50% + ${dx}px);transform:translateX(-50%);z-index:${i+1};animation:eggPop .35s cubic-bezier(.34,1.56,.64,1) both;animation-delay:${i*40}ms;`;
+    span.innerHTML = `<img src="brand_assets/ovo_${FAB_EGG_COLORS[i % 4]}.png" style="width:${s}px;height:${s}px;object-fit:contain;display:block;">`;
     container.appendChild(span);
   });
 }
@@ -1659,6 +1669,7 @@ function maskPhone(el) {
 document.addEventListener('DOMContentLoaded', () => {
   loadData();
   updateCartBadge();
+  updateCartFab();
 });
 </script>
 </body>
