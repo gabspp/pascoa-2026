@@ -789,7 +789,7 @@ function makeCard(p) {
 
   let precoStr = '';
   if (p.tipo === 'caixa')       precoStr = `A partir de <strong>${fmt(p.preco_min)}</strong>`;
-  else if (p.tipo === 'avulso') precoStr = `<strong>${fmt(precoAvulso)}</strong> <span style="font-size:11px;opacity:.5">/ un.</span>`;
+  else if (p.tipo === 'avulso') precoStr = `<strong>${fmt(p.is_especial_mes ? p.preco : precoAvulso)}</strong> <span style="font-size:11px;opacity:.5">/ un.</span>`;
   else                          precoStr = `<strong>${fmt(p.preco)}</strong>`;
 
   const tagHtml = p.tag
