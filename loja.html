@@ -1162,12 +1162,11 @@ function renderCartSidebar() {
         <p class="font-pipo font-bold text-marrom-dk text-sm">${fmt(item.preco_total)}</p>
       </div>
       <div class="flex flex-col items-end gap-1 flex-shrink-0">
-        ${item.tipo !== 'caixa' ? `
         <div class="flex items-center gap-1">
           <button class="qty-btn w-6 h-6 rounded-lg bg-cream text-marrom-dk text-sm font-bold flex items-center justify-center" onclick="updateItemQty('${item.id}',-1)">−</button>
           <span class="font-fig text-marrom-dk text-sm w-4 text-center">${item.quantidade}</span>
           <button class="qty-btn w-6 h-6 rounded-lg bg-cream text-marrom-dk text-sm font-bold flex items-center justify-center" onclick="updateItemQty('${item.id}',1)">+</button>
-        </div>` : `<span class="font-fig text-marrom-dk/40 text-xs">×1</span>`}
+        </div>
         <button class="font-fig text-marrom-dk/30 text-xs hover:text-rosa" style="transition:color .15s;" onclick="removeItem('${item.id}')">remover</button>
       </div>`;
     items.appendChild(div);
