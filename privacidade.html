@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Política de Privacidade — Santo Favo</title>
+  <meta name="description" content="Política de Privacidade da Santo Favo. Saiba como coletamos e usamos seus dados em conformidade com a LGPD.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            amarelo:      '#ffcc1c',
+            marrom:       '#8c4820',
+            'marrom-dk':  '#72381c',
+            'marrom-xdk': '#3d1a08',
+            verde:        '#96cc70',
+            rosa:         '#ff4d79',
+            roxo:         '#a890cc',
+            cream:        '#fdf8f0',
+          },
+          fontFamily: {
+            pipo: ['Pipo', 'Georgia', 'serif'],
+            fig:  ['FigGrotesk', 'system-ui', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+  <style>
+    @font-face {
+      font-family: 'Pipo';
+      src: url('./fonts/Pipo/Pipo-Bold.otf') format('opentype');
+      font-weight: 700; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: 'Pipo';
+      src: url('./fonts/Pipo/Pipo-SemiBold.otf') format('opentype');
+      font-weight: 600; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: 'Pipo';
+      src: url('./fonts/Pipo/Pipo-Regular.otf') format('opentype');
+      font-weight: 400; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: 'FigGrotesk';
+      src: url('./fonts/Fig Grotesk/FigGrotesk-Regular.otf') format('opentype');
+      font-weight: 400; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: 'FigGrotesk';
+      src: url('./fonts/Fig Grotesk/FigGrotesk-Medium.otf') format('opentype');
+      font-weight: 500; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: 'FigGrotesk';
+      src: url('./fonts/Fig Grotesk/FigGrotesk-SemiBold.otf') format('opentype');
+      font-weight: 600; font-style: normal; font-display: swap;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: #fdf8f0; color: #3d1a08; }
+
+    .nav-link {
+      transition: color .15s ease;
+    }
+    .nav-link:hover { color: #ffcc1c; }
+
+    /* Prose content */
+    .prose h2 {
+      font-family: 'Pipo', Georgia, serif;
+      font-weight: 700;
+      font-size: 1.125rem;
+      color: #3d1a08;
+      margin-top: 2.5rem;
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #ffcc1c;
+      letter-spacing: -0.02em;
+    }
+    .prose p {
+      font-family: 'FigGrotesk', system-ui, sans-serif;
+      font-size: 0.9375rem;
+      color: #72381c;
+      line-height: 1.75;
+      margin-bottom: 1rem;
+    }
+    .prose ul {
+      margin-bottom: 1rem;
+      padding-left: 1.25rem;
+    }
+    .prose ul li {
+      font-family: 'FigGrotesk', system-ui, sans-serif;
+      font-size: 0.9375rem;
+      color: #72381c;
+      line-height: 1.75;
+      margin-bottom: 0.375rem;
+      list-style-type: disc;
+    }
+    .prose a {
+      color: #8c4820;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+    .prose a:hover { color: #ffcc1c; }
+    .prose strong { font-weight: 600; color: #3d1a08; }
+
+    .social-link { transition: opacity .15s ease; }
+    .social-link:hover { opacity: .8; }
+  </style>
+</head>
+<body>
+
+<!-- ── Nav ──────────────────────────────────────────────── -->
+<header class="bg-marrom-xdk sticky top-0 z-50" style="border-bottom: 2px solid rgba(255,204,28,.15);">
+  <div class="max-w-4xl mx-auto px-5 sm:px-8 h-14 flex items-center justify-between gap-6">
+    <a href="index.html">
+      <img src="brand_assets/Santo-Favo-Logo-Amarelo-Horizontal.png" alt="Santo Favo" class="h-7 w-auto">
+    </a>
+    <nav class="flex items-center gap-5">
+      <a href="index.html"      class="nav-link font-fig text-white/60 text-sm">Início</a>
+      <a href="loja.html"       class="nav-link font-fig text-white/60 text-sm">Loja</a>
+      <a href="informacoes.html" class="nav-link font-fig text-white/60 text-sm">Informações</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ── Hero ─────────────────────────────────────────────── -->
+<section class="bg-marrom-xdk pb-12 pt-10" style="border-bottom: 3px solid #ffcc1c;">
+  <div class="max-w-4xl mx-auto px-5 sm:px-8">
+    <p class="font-fig text-amarelo/70 text-xs uppercase tracking-widest mb-3">Santo Favo · LGPD</p>
+    <h1 class="font-pipo font-bold text-white text-3xl sm:text-4xl" style="letter-spacing:-0.03em;line-height:1.15;">
+      Política de<br>Privacidade
+    </h1>
+    <p class="font-fig text-white/50 text-sm mt-3">Última atualização: março de 2026</p>
+  </div>
+</section>
+
+<!-- ── Conteúdo ──────────────────────────────────────────── -->
+<main class="max-w-4xl mx-auto px-5 sm:px-8 py-14">
+  <div class="prose">
+
+    <p>
+      A <strong>Santo Favo</strong> respeita a sua privacidade. Esta Política descreve como coletamos,
+      usamos e protegemos as informações fornecidas ao realizar pedidos em nosso site, em conformidade
+      com a <strong>Lei Geral de Proteção de Dados (LGPD — Lei nº 13.709/2018)</strong>.
+    </p>
+
+    <h2>1. Quem somos</h2>
+    <p>
+      <strong>Santo Favo</strong> é uma marca de pães de mel e outros doces artesanais sediada no Rio de Janeiro, RJ.
+      Para fins da LGPD, atuamos como <strong>Controladora</strong> dos dados pessoais coletados neste site.
+    </p>
+    <p>
+      Contato: <a href="mailto:santofavo@gmail.com">santofavo@gmail.com</a> ·
+      WhatsApp: <a href="https://wa.me/5521967643537">(21) 96764-3537</a>
+    </p>
+
+    <h2>2. Dados que coletamos</h2>
+    <p>Coletamos apenas os dados necessários para processar e entregar seu pedido:</p>
+    <ul>
+      <li><strong>Nome completo</strong> — para identificação do pedido.</li>
+      <li><strong>Número de WhatsApp</strong> — para confirmação e comunicação sobre o pedido.</li>
+      <li><strong>Endereço de entrega</strong> — bairro, rua, número e complemento (somente quando você escolhe entrega).</li>
+      <li><strong>Dados do pedido</strong> — itens escolhidos, data de entrega/retirada e forma de pagamento selecionada.</li>
+    </ul>
+    <p>
+      Não coletamos dados de pagamento (cartão, PIX etc.) diretamente. O pagamento é combinado
+      pelo WhatsApp ou presencialmente.
+    </p>
+
+    <h2>3. Como usamos seus dados</h2>
+    <p>Seus dados são usados exclusivamente para:</p>
+    <ul>
+      <li>Confirmar e processar o seu pedido.</li>
+      <li>Entrar em contato para combinar entrega, retirada e pagamento.</li>
+      <li>Organizar a produção e logística interna.</li>
+      <li>Cumprir obrigações legais, se necessário.</li>
+    </ul>
+    <p>
+      <strong>Não utilizamos seus dados para marketing sem consentimento explícito</strong> e não vendemos
+      nem compartilhamos suas informações com terceiros para fins comerciais.
+    </p>
+
+    <h2>4. Base legal para o tratamento</h2>
+    <p>O tratamento dos seus dados está fundamentado nas seguintes bases legais da LGPD:</p>
+    <ul>
+      <li><strong>Execução de contrato</strong> (art. 7º, V) — para processar e entregar seu pedido.</li>
+      <li><strong>Legítimo interesse</strong> (art. 7º, IX) — para comunicação relacionada ao pedido.</li>
+      <li><strong>Consentimento</strong> (art. 7º, I) — coletado no momento da finalização do pedido.</li>
+    </ul>
+
+    <h2>5. Compartilhamento de dados</h2>
+    <p>Seus dados podem ser acessados por:</p>
+    <ul>
+      <li><strong>Equipe interna</strong> da Santo Favo (produção e atendimento).</li>
+      <li>
+        <strong>Supabase</strong> — plataforma de banco de dados onde os pedidos são armazenados,
+        com servidores na União Europeia (conformidade GDPR/LGPD).
+      </li>
+    </ul>
+    <p>Não compartilhamos seus dados com nenhum outro terceiro.</p>
+
+    <h2>6. Retenção dos dados</h2>
+    <p>
+      Mantemos seus dados pelo tempo necessário para processar o pedido e por até <strong>5 anos</strong>
+      para fins de registro fiscal e legal, conforme a legislação brasileira.
+      Após esse período, os dados são excluídos ou anonimizados.
+    </p>
+
+    <h2>7. Seus direitos (LGPD)</h2>
+    <p>Você tem direito a:</p>
+    <ul>
+      <li>Confirmar a existência de tratamento dos seus dados.</li>
+      <li>Acessar os dados que temos sobre você.</li>
+      <li>Corrigir dados incompletos, inexatos ou desatualizados.</li>
+      <li>Solicitar a anonimização, bloqueio ou eliminação dos dados desnecessários.</li>
+      <li>Revogar o consentimento a qualquer momento.</li>
+      <li>Solicitar a portabilidade dos seus dados.</li>
+    </ul>
+    <p>
+      Para exercer qualquer direito, entre em contato conosco pelo e-mail
+      <a href="mailto:santofavo@gmail.com">santofavo@gmail.com</a> ou WhatsApp
+      <a href="https://wa.me/5521967643537">(21) 96764-3537</a>.
+      Responderemos em até 15 dias úteis.
+    </p>
+
+    <h2>8. Segurança</h2>
+    <p>
+      Adotamos medidas técnicas e organizacionais para proteger seus dados contra acessos não autorizados,
+      perda ou divulgação indevida. O tráfego do site é protegido por <strong>HTTPS</strong> e o banco
+      de dados conta com controle de acesso por políticas de segurança em nível de linha (RLS).
+    </p>
+
+    <h2>9. Cookies</h2>
+    <p>
+      Este site utiliza <strong>armazenamento local (localStorage)</strong> apenas para manter o estado
+      temporário do carrinho de compras durante a sua visita. Nenhum dado de rastreamento ou cookie de
+      terceiros é utilizado.
+    </p>
+
+    <h2>10. Alterações nesta Política</h2>
+    <p>
+      Podemos atualizar esta Política periodicamente. Em caso de alterações relevantes, publicaremos
+      a nova versão nesta página com a data de atualização. Recomendamos que você a consulte
+      periodicamente.
+    </p>
+
+    <h2>11. Contato</h2>
+    <p>
+      Dúvidas sobre esta Política ou sobre o tratamento dos seus dados? Fale conosco:
+    </p>
+    <ul>
+      <li>E-mail: <a href="mailto:santofavo@gmail.com">santofavo@gmail.com</a></li>
+      <li>WhatsApp: <a href="https://wa.me/5521967643537">(21) 96764-3537</a></li>
+      <li>Instagram: <a href="https://instagram.com/santofavo" target="_blank" rel="noopener">@santofavo</a></li>
+    </ul>
+
+  </div>
+
+  <!-- Voltar -->
+  <div class="mt-12 pt-8 border-t border-marrom/10">
+    <a href="index.html"
+       class="inline-flex items-center gap-2 font-fig text-marrom text-sm font-medium hover:text-amarelo"
+       style="transition:color .15s ease;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M19 12H5M12 5l-7 7 7 7"/>
+      </svg>
+      Voltar para o início
+    </a>
+  </div>
+</main>
+
+<!-- ── Footer ────────────────────────────────────────────── -->
+<footer class="bg-marrom-xdk pt-14 pb-8" style="border-top:3px solid #ffcc1c;">
+  <div class="max-w-4xl mx-auto px-5 sm:px-8">
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 mb-12">
+
+      <!-- Marca -->
+      <div>
+        <img src="brand_assets/Santo-Favo-Logo-Amarelo-Horizontal.png" alt="Santo Favo" class="h-9 w-auto mb-4">
+        <p class="font-fig text-white/55 text-sm leading-relaxed max-w-xs">
+          Chocolates artesanais feitos com mel e muito amor. Desde 2015 adoçando a vida dos nossos clientes.
+        </p>
+        <img src="brand_assets/selo.png" alt="Desde 2015" class="w-14 mt-5 opacity-50">
+      </div>
+
+      <!-- Navegação -->
+      <div>
+        <h4 class="font-pipo font-bold text-amarelo text-[15px] mb-5">Navegação</h4>
+        <nav class="flex flex-col gap-2.5">
+          <a href="index.html"       class="nav-link font-fig text-white/60 text-sm">Início</a>
+          <a href="loja.html"        class="nav-link font-fig text-white/60 text-sm">Loja</a>
+          <a href="informacoes.html" class="nav-link font-fig text-white/60 text-sm">Informações</a>
+          <a href="privacidade.html" class="nav-link font-fig text-white/80 text-sm">Política de Privacidade</a>
+        </nav>
+      </div>
+
+      <!-- Contato -->
+      <div>
+        <h4 class="font-pipo font-bold text-amarelo text-[15px] mb-5">Fale Conosco</h4>
+        <div class="flex flex-col gap-3.5">
+          <a href="https://wa.me/5521967643537" target="_blank" rel="noopener" class="social-link flex items-center gap-3">
+            <div class="w-9 h-9 bg-verde rounded-xl flex items-center justify-center flex-shrink-0"
+                 style="box-shadow:0 2px 8px rgba(150,204,112,.3);">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="white">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/>
+              </svg>
+            </div>
+            <div>
+              <p class="font-fig text-white/85 text-sm">(21) 96764-3537</p>
+              <p class="font-fig text-white/35 text-xs">WhatsApp</p>
+            </div>
+          </a>
+          <a href="https://instagram.com/santofavo" target="_blank" rel="noopener" class="social-link flex items-center gap-3">
+            <div class="w-9 h-9 bg-rosa rounded-xl flex items-center justify-center flex-shrink-0"
+                 style="box-shadow:0 2px 8px rgba(255,77,121,.3);">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round">
+                <rect x="2" y="2" width="20" height="20" rx="5"/>
+                <circle cx="12" cy="12" r="4"/>
+                <circle cx="17.5" cy="6.5" r="1" fill="white" stroke="none"/>
+              </svg>
+            </div>
+            <div>
+              <p class="font-fig text-white/85 text-sm">@santofavo</p>
+              <p class="font-fig text-white/35 text-xs">Instagram</p>
+            </div>
+          </a>
+          <a href="mailto:santofavo@gmail.com" class="social-link flex items-center gap-3">
+            <div class="w-9 h-9 bg-roxo rounded-xl flex items-center justify-center flex-shrink-0"
+                 style="box-shadow:0 2px 8px rgba(168,144,204,.3);">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                <polyline points="22,6 12,13 2,6"/>
+              </svg>
+            </div>
+            <div>
+              <p class="font-fig text-white/85 text-sm">santofavo@gmail.com</p>
+              <p class="font-fig text-white/35 text-xs">E-mail</p>
+            </div>
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="border-t border-white/10 pt-6">
+      <p class="font-fig text-white/35 text-xs text-center">
+        © 2026 Santo Favo · Feito com ♥ pela Santo Favo ·
+        <a href="privacidade.html" class="hover:text-amarelo" style="transition:color .15s ease;">Política de Privacidade</a>
+        · LGPD
+      </p>
+    </div>
+
+  </div>
+</footer>
+
+</body>
+</html>

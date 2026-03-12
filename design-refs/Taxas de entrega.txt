@@ -1,0 +1,183 @@
+﻿TAXAS DE ENTREGA
+🟦 ZONA NORTE
+Localidade
+	Valor
+	Andaraí
+	R$ 22,00
+	Cachambi
+	R$ 27,00
+	Engenho de Dentro
+	R$ 26,00
+	Grajaú
+	R$ 25,00
+	Jardim Sulacap
+	R$ 50,00
+	Lins de Vasconcelos
+	R$ 30,00
+	Maracanã
+	R$ 19,00
+	Méier
+	R$ 28,00
+	Penha
+	R$ 33,00
+	Penha Circular
+	R$ 30,00
+	Praça da Bandeira
+	R$ 19,00
+	São Cristóvão
+	R$ 23,00
+	Tijuca
+	R$ 22,00
+	Todos os Santos
+	R$ 25,00
+	Vila Isabel
+	R$ 20,00
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	🟩 ZONA SUL
+(Inclui Ipanema, Catete, Lagoa, Flamengo.)
+Localidade
+	Valor
+	Botafogo
+	R$ 14,00
+	Catete
+	R$ 10,00
+	Cosme Velho
+	R$ 15,00
+	Copacabana
+	R$ 16,00
+	Flamengo
+	R$ 10,00
+	Gávea
+	R$ 18,00
+	Humaitá
+	R$ 17,00
+	Ipanema
+	R$ 18,00
+	Lagoa
+	R$ 17,00
+	Laranjeiras
+	R$ 11,00
+	Leblon
+	R$ 20,00
+	Leme
+	R$ 15,00
+	Urca
+	R$ 15,00
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+🟨 CENTRO
+(Inclui Santa Teresa.)
+Localidade
+	Valor
+	Centro
+	R$ 16,00
+	Cidade Nova
+	R$ 16,00
+	Estácio
+	R$ 19,00
+	Gamboa
+	R$ 15,00
+	Glória
+	R$ 12,00
+	Santa Teresa
+	R$ 16,00
+	Santo Cristo
+	R$ 15,00
+	Saúde
+	R$ 15,00
+	
+
+	
+
+	🟧 ZONA OESTE
+Localidade
+	Valor
+	Anil
+	R$ 45,00
+	Barra da Tijuca
+	R$ 35,00
+	Barra Olímpica
+	R$ 50,00
+	Campo Grande
+	R$ 55,00
+	Jacarepaguá
+	R$ 30,00
+	Recreio dos Bandeirantes
+	R$ 60,00
+	São Conrado
+	R$ 27,00
+
+
+
+
+
+
+
+
+
+
+	🟫 ILHA DO GOVERNADOR
+Localidade
+	Valor
+	Portuguesa
+	R$ 50,00
+	🟪 NITERÓI
+Localidade
+	Valor
+	Icaraí
+	R$ 40,00

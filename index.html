@@ -511,7 +511,7 @@
     </div>
 
     <!-- Category bar -->
-    <div class="flex gap-3 overflow-x-auto scrollbar-hide pb-2 mb-10 -mx-5 px-5 sm:mx-0 sm:px-0 sm:justify-center sm:flex-wrap enter" style="transition-delay:.08s;">
+    <div class="flex gap-3 overflow-x-auto scrollbar-hide pb-2 mb-10 sm:justify-center sm:flex-wrap enter" style="transition-delay:.08s;">
       <button class="cat-btn active btn font-fig text-sm py-2 px-5 rounded-full border-2 border-marrom-dk text-marrom-dk"
               data-cat="todos"      onclick="filter('todos',this)">Todos</button>
       <button class="cat-btn btn font-fig text-sm py-2 px-5 rounded-full border-2 border-marrom-dk text-marrom-dk bg-transparent"
@@ -544,7 +544,8 @@
           <div class="bg-marrom-dk px-4 py-3 flex items-center justify-between">
             <span class="font-pipo font-bold text-white text-lg">R$ 65,00</span>
             <button class="btn w-9 h-9 bg-rosa text-white rounded-full flex items-center justify-center"
-                    style="box-shadow:0 2px 8px rgba(255,77,121,.4);" aria-label="Adicionar ao carrinho">
+                    style="box-shadow:0 2px 8px rgba(255,77,121,.4);" aria-label="Adicionar ao carrinho"
+                    onclick="event.stopPropagation();quickAdd('Ovo Pão de Mel',65,'img/ovo_amendoim.jpg')">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
             </button>
           </div>
@@ -570,7 +571,8 @@
           <div class="bg-marrom-dk px-4 py-3 flex items-center justify-between">
             <span class="font-pipo font-bold text-white text-lg">R$ 75,00</span>
             <button class="btn w-9 h-9 bg-rosa text-white rounded-full flex items-center justify-center"
-                    style="box-shadow:0 2px 8px rgba(255,77,121,.4);" aria-label="Adicionar ao carrinho">
+                    style="box-shadow:0 2px 8px rgba(255,77,121,.4);" aria-label="Adicionar ao carrinho"
+                    onclick="event.stopPropagation();quickAdd('Ovo Casca Caramelo',75,'img/ovo_casca-caramelo.jpg')">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
             </button>
           </div>
@@ -596,7 +598,8 @@
           <div class="bg-marrom-dk px-4 py-3 flex items-center justify-between">
             <span class="font-pipo font-bold text-white text-lg">R$ 70,00</span>
             <button class="btn w-9 h-9 bg-rosa text-white rounded-full flex items-center justify-center"
-                    style="box-shadow:0 2px 8px rgba(255,77,121,.4);" aria-label="Adicionar ao carrinho">
+                    style="box-shadow:0 2px 8px rgba(255,77,121,.4);" aria-label="Adicionar ao carrinho"
+                    onclick="event.stopPropagation();quickAdd('Ovo Fudge',70,'img/ovo_fudge.jpg')">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
             </button>
           </div>
@@ -622,7 +625,8 @@
           <div class="bg-marrom-dk px-4 py-3 flex items-center justify-between">
             <span class="font-pipo font-bold text-white text-lg">R$ 55,00</span>
             <button class="btn w-9 h-9 bg-rosa text-white rounded-full flex items-center justify-center"
-                    style="box-shadow:0 2px 8px rgba(255,77,121,.4);" aria-label="Adicionar ao carrinho">
+                    style="box-shadow:0 2px 8px rgba(255,77,121,.4);" aria-label="Adicionar ao carrinho"
+                    onclick="event.stopPropagation();quickAdd('Barra Cajutella',55,'img/barra_cajutella.jpg')">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
             </button>
           </div>
@@ -648,7 +652,8 @@
           <div class="bg-marrom-dk px-4 py-3 flex items-center justify-between">
             <span class="font-pipo font-bold text-white text-lg">R$ 95,00</span>
             <button class="btn w-9 h-9 bg-rosa text-white rounded-full flex items-center justify-center"
-                    style="box-shadow:0 2px 8px rgba(255,77,121,.4);" aria-label="Adicionar ao carrinho">
+                    style="box-shadow:0 2px 8px rgba(255,77,121,.4);" aria-label="Adicionar ao carrinho"
+                    onclick="event.stopPropagation();window.location.href='loja.html'">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
             </button>
           </div>
@@ -674,7 +679,8 @@
           <div class="bg-marrom-dk px-4 py-3 flex items-center justify-between">
             <span class="font-pipo font-bold text-white text-lg">R$ 155,00</span>
             <button class="btn w-9 h-9 bg-rosa text-white rounded-full flex items-center justify-center"
-                    style="box-shadow:0 2px 8px rgba(255,77,121,.4);" aria-label="Adicionar ao carrinho">
+                    style="box-shadow:0 2px 8px rgba(255,77,121,.4);" aria-label="Adicionar ao carrinho"
+                    onclick="event.stopPropagation();window.location.href='loja.html'">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
             </button>
           </div>
@@ -986,6 +992,18 @@ const io = new IntersectionObserver(entries => {
 }, { threshold: 0.08, rootMargin: '0px 0px -32px 0px' });
 
 document.querySelectorAll('.enter').forEach(el => io.observe(el));
+
+
+// ── QUICK ADD FROM HOME ────────────────────
+function quickAdd(nome, preco, img) {
+  localStorage.setItem('sf_pending_add', JSON.stringify({ nome, preco, img }));
+  window.location.href = 'loja.html';
+}
+
+document.querySelectorAll('.product-card').forEach(card => {
+  card.style.cursor = 'pointer';
+  card.addEventListener('click', () => window.location.href = 'loja.html');
+});
 </script>
 
 </body>

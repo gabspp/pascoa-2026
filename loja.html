@@ -649,6 +649,7 @@ async function loadData() {
     document.getElementById('grid-loading').classList.add('hidden');
     document.getElementById('product-grid').classList.remove('hidden');
     updateCartBadge();
+    processPendingAdd();
   } catch(e) {
     console.error(e);
     // Fallback: use demo data so design is visible
@@ -691,6 +692,30 @@ function useDemoData() {
   document.getElementById('grid-loading').classList.add('hidden');
   document.getElementById('product-grid').classList.remove('hidden');
   updateCartBadge();
+  processPendingAdd();
+}
+
+function processPendingAdd() {
+  const raw = localStorage.getItem('sf_pending_add');
+  if (!raw) return;
+  localStorage.removeItem('sf_pending_add');
+  try {
+    const { nome } = JSON.parse(raw);
+    const match = S.produtos.find(p => p.nome === nome);
+    if (!match) return;
+    const preco = match.tipo === 'avulso' ? getPrecoAvulso(totalAvulsoQtd()) : (match.preco || match.preco_min);
+    addToCart({
+      tipo: match.tipo === 'avulso' ? 'avulso' : 'produto',
+      produto_id: match.id,
+      nome: match.nome,
+      quantidade: 1,
+      is_especial_mes: match.is_especial_mes || false,
+      preco_unitario: +preco,
+      preco_total: +preco,
+      imagem_url: match.imagem_url,
+    });
+    openCart();
+  } catch(e) { console.warn('processPendingAdd', e); }
 }
 
 // ── CATEGORY BAR ─────────────────────────────────────────────────────────────
