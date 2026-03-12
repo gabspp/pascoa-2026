@@ -142,7 +142,7 @@
       transition: transform 0.15s ease, box-shadow 0.15s ease,
                   background-color 0.15s ease, color 0.15s ease;
     }
-    .btn:active { transform: scale(0.97); }
+    .btn:active { transform: scale(0.985); }
     .btn:focus-visible { outline: 3px solid #ffcc1c; outline-offset: 3px; border-radius: 12px; }
 
     .btn-yellow:hover { box-shadow: 0 4px 12px rgba(255,204,28,.25); transform: translateY(-2px); }
@@ -387,12 +387,12 @@
   <button onclick="prevSlide()"
           class="btn absolute left-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/15 backdrop-blur-sm text-white flex items-center justify-center hover:bg-white/30"
           style="box-shadow:0 2px 8px rgba(0,0,0,.2);" aria-label="Slide anterior">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="pointer-events:none;"><path d="M15 18l-6-6 6-6"/></svg>
   </button>
   <button onclick="nextSlide()"
           class="btn absolute right-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/15 backdrop-blur-sm text-white flex items-center justify-center hover:bg-white/30"
           style="box-shadow:0 2px 8px rgba(0,0,0,.2);" aria-label="Próximo slide">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="pointer-events:none;"><path d="M9 18l6-6-6-6"/></svg>
   </button>
 
   <!-- Dots -->
