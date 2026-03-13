@@ -504,11 +504,18 @@
           <div class="flex flex-col gap-4 mb-4">
             <!-- Radio: pickup or delivery -->
             <div class="flex flex-col gap-2">
-              <label class="flex items-center gap-3 p-4 border-2 border-marrom/15 rounded-xl cursor-pointer hover:border-amarelo" style="transition:border-color .15s;" onclick="setEntrega('retirada')">
-                <div id="rd-retirada" class="w-5 h-5 rounded-full border-2 border-marrom/30 flex-shrink-0 flex items-center justify-center" style="transition:background .15s,border-color .15s;"></div>
+              <label class="flex items-center gap-3 p-4 border-2 border-marrom/15 rounded-xl cursor-pointer hover:border-amarelo" style="transition:border-color .15s;" onclick="setEntrega('retirada-condor')">
+                <div id="rd-retirada-condor" class="w-5 h-5 rounded-full border-2 border-marrom/30 flex-shrink-0 flex items-center justify-center" style="transition:background .15s,border-color .15s;"></div>
                 <div>
-                  <p class="font-fig font-semibold text-marrom-dk text-sm">Retirar no local</p>
-                  <p id="co-endereco-retirada" class="font-fig text-marrom-dk/50 text-xs mt-0.5"></p>
+                  <p class="font-fig font-semibold text-marrom-dk text-sm">Retirada — Galeria Condor</p>
+                  <p class="font-fig text-marrom-dk/50 text-xs mt-0.5">Largo do Machado, 29, sl 248</p>
+                </div>
+              </label>
+              <label class="flex items-center gap-3 p-4 border-2 border-marrom/15 rounded-xl cursor-pointer hover:border-amarelo" style="transition:border-color .15s;" onclick="setEntrega('retirada-catete')">
+                <div id="rd-retirada-catete" class="w-5 h-5 rounded-full border-2 border-marrom/30 flex-shrink-0 flex items-center justify-center" style="transition:background .15s,border-color .15s;"></div>
+                <div>
+                  <p class="font-fig font-semibold text-marrom-dk text-sm">Retirada — Catete</p>
+                  <p class="font-fig text-marrom-dk/50 text-xs mt-0.5">R. Arthur Bernardes, 26, loja B</p>
                 </div>
               </label>
               <label class="flex items-center gap-3 p-4 border-2 border-marrom/15 rounded-xl cursor-pointer hover:border-amarelo" style="transition:border-color .15s;" onclick="setEntrega('entrega')">
@@ -1343,17 +1350,21 @@ async function coStep2Continue() {
   }
 }
 
+const LOJAS_RETIRADA = {
+  'retirada-condor': 'Galeria Condor — Largo do Machado, 29, sl 248',
+  'retirada-catete': 'Catete — R. Arthur Bernardes, 26, loja B',
+};
+function isRet(mode) { return mode && mode.startsWith('retirada'); }
+
 let entregaMode = null;
 function setEntrega(mode) {
   entregaMode = mode;
-  const rdR = document.getElementById('rd-retirada');
-  const rdE = document.getElementById('rd-entrega');
-  const fields = document.getElementById('co-delivery-fields');
   const sel = 'background:#ffcc1c;border-color:#ffcc1c;';
   const unsel = '';
-  rdR.style.cssText = mode==='retirada' ? sel : unsel;
-  rdE.style.cssText = mode==='entrega'  ? sel : unsel;
-  fields.classList.toggle('hidden', mode !== 'entrega');
+  document.getElementById('rd-retirada-condor').style.cssText = mode==='retirada-condor' ? sel : unsel;
+  document.getElementById('rd-retirada-catete').style.cssText = mode==='retirada-catete' ? sel : unsel;
+  document.getElementById('rd-entrega').style.cssText         = mode==='entrega'          ? sel : unsel;
+  document.getElementById('co-delivery-fields').classList.toggle('hidden', mode !== 'entrega');
   document.getElementById('co-frete-result').classList.add('hidden');
 }
 
@@ -1403,7 +1414,7 @@ async function buscarCEP() {
 async function coStep3Continue() {
   if (!entregaMode) { showToast('Escolha retirada ou entrega', 'erro'); return; }
   S.checkoutData.tipo_entrega = entregaMode;
-  if (entregaMode === 'entrega') {
+  if (!isRet(entregaMode) && entregaMode === 'entrega') {
     const numero = document.getElementById('co-numero').value.trim();
     if (!numero) { showToast('Informe o número do endereço', 'erro'); return; }
     S.checkoutData.numero = numero;
@@ -1411,7 +1422,7 @@ async function coStep3Continue() {
   }
   if (S.pedidoId) {
     const patch = { status: 'endereco_preenchido', tipo_entrega: entregaMode };
-    if (entregaMode === 'entrega') Object.assign(patch, {
+    if (!isRet(entregaMode)) Object.assign(patch, {
       cep: S.checkoutData.cep, logradouro: S.checkoutData.logradouro,
       numero: S.checkoutData.numero, complemento: S.checkoutData.complemento,
       bairro: S.checkoutData.bairro, cidade: S.checkoutData.cidade,
@@ -1492,15 +1503,15 @@ async function coStep5Continue() {
 function renderSummary() {
   const cd = S.checkoutData;
   const total = getTotal();
-  const freteVal = (cd.tipo_entrega !== 'retirada' && cd.frete != null) ? cd.frete : 0;
+  const freteVal = (!isRet(cd.tipo_entrega) && cd.frete != null) ? cd.frete : 0;
   const totalFinal = total + freteVal;
-  const freteLabel = cd.frete_a_confirmar ? 'A confirmar' : cd.tipo_entrega === 'retirada' ? 'Não se aplica' : fmt(freteVal);
+  const freteLabel = cd.frete_a_confirmar ? 'A confirmar' : isRet(cd.tipo_entrega) ? 'Não se aplica' : fmt(freteVal);
 
   const dtFormatted = cd.data_entrega
     ? new Date(cd.data_entrega + 'T12:00:00').toLocaleDateString('pt-BR', {day:'2-digit',month:'long',year:'numeric'})
     : '—';
-  const enderecoStr = cd.tipo_entrega === 'retirada'
-    ? `Retirada — ${S.enderecoRetirada}`
+  const enderecoStr = isRet(cd.tipo_entrega)
+    ? `Retirada — ${LOJAS_RETIRADA[cd.tipo_entrega] || cd.tipo_entrega}`
     : `${cd.logradouro}, ${cd.numero}${cd.complemento ? ', ' + cd.complemento : ''}, ${cd.bairro}, ${cd.cidade} — ${cd.estado}`;
   const pagStr = cd.pagamento === 'pix' ? 'PIX' : 'Cartão de Crédito';
 
@@ -1582,8 +1593,8 @@ function buildZapMsg(codigo, cd, subtotal, frete) {
   const dtFormatted = cd.data_entrega
     ? new Date(cd.data_entrega + 'T12:00:00').toLocaleDateString('pt-BR')
     : '—';
-  const endStr = cd.tipo_entrega === 'retirada'
-    ? `Retirada — ${S.enderecoRetirada}`
+  const endStr = isRet(cd.tipo_entrega)
+    ? `Retirada — ${LOJAS_RETIRADA[cd.tipo_entrega] || cd.tipo_entrega}`
     : `${cd.logradouro}, ${cd.numero}${cd.complemento ? ', ' + cd.complemento : ''}, ${cd.bairro}, ${cd.cidade} — ${cd.estado}`;
   const freteStr = cd.frete_a_confirmar ? 'A confirmar' : fmt(frete);
   const pagStr = cd.pagamento === 'pix' ? 'PIX' : 'Cartao de Credito';
@@ -1597,14 +1608,14 @@ function buildZapMsg(codigo, cd, subtotal, frete) {
     return `• ${item.quantidade}x ${item.nome} — ${fmt(item.preco_total)}`;
   }).join('\n');
 
-  const totalFinal = subtotal + (cd.tipo_entrega !== 'retirada' ? (cd.frete || 0) : 0);
+  const totalFinal = subtotal + (!isRet(cd.tipo_entrega) ? (cd.frete || 0) : 0);
 
   let msg = `Pedido de Pascoa - Santo Favo\n\n`;
   msg += `*Cliente:* ${cd.nome}\n`;
   msg += `*WhatsApp:* ${zapFormatted}\n\n`;
   msg += `*Itens:*\n${itensStr}\n\n`;
   msg += `*Subtotal:* ${fmt(subtotal)}\n`;
-  if (cd.tipo_entrega !== 'retirada') msg += `*Frete:* ${freteStr}\n`;
+  if (!isRet(cd.tipo_entrega)) msg += `*Frete:* ${freteStr}\n`;
   msg += `*Total:* ${fmt(totalFinal)}\n\n`;
   msg += `*Data:* ${dtFormatted}\n`;
   msg += `*Entrega:* ${endStr}\n`;
