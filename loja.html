@@ -728,7 +728,7 @@ function processPendingAdd() {
     const { nome } = JSON.parse(raw);
     const match = S.produtos.find(p => p.nome === nome);
     if (!match) return;
-    const preco = match.tipo === 'avulso' ? getPrecoAvulso(totalAvulsoQtd()) : (match.preco || match.preco_min);
+    const preco = match.tipo === 'avulso' ? (match.is_especial_mes ? match.preco : getPrecoAvulso(totalAvulsoQtd() + 1)) : (match.preco || match.preco_min);
     addToCart({
       tipo: match.tipo === 'avulso' ? 'avulso' : 'produto',
       produto_id: match.id,
@@ -1014,7 +1014,7 @@ function modalQty(delta) {
 function addModalToCart() {
   const p = S.modalProduto;
   if (!p) return;
-  const precoUnit = p.tipo === 'avulso' ? getPrecoAvulso(totalAvulsoQtd()) : p.preco;
+  const precoUnit = p.tipo === 'avulso' ? (p.is_especial_mes ? p.preco : getPrecoAvulso(totalAvulsoQtd() + S.modalQty)) : p.preco;
   addToCart({
     tipo: p.tipo === 'avulso' ? 'avulso' : 'produto',
     produto_id: p.id,
