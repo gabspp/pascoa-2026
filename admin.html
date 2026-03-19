@@ -326,6 +326,9 @@ function pedidoCard(p) {
         style="transition:border-color .15s;">
         ${statusOpts}
       </select>
+      <button onclick="deletePedido('${p.id}')"
+        class="ml-auto px-3 py-1.5 rounded-lg bg-red-50 text-red-500 font-fig text-xs font-semibold hover:bg-red-100 transition-colors"
+        title="Excluir pedido">Excluir</button>
     </div>
   </div>`;
 }
@@ -334,6 +337,14 @@ async function updateStatus(id, status) {
   await sb.from('pedidos').update({ status }).eq('id', id);
   const p = allPedidos.find(x => x.id === id);
   if (p) { p.status = status; renderPedidos(); }
+}
+
+async function deletePedido(id) {
+  if (!confirm('Excluir este pedido? Esta ação não pode ser desfeita.')) return;
+  await sb.from('pedido_itens').delete().eq('pedido_id', id);
+  await sb.from('pedidos').delete().eq('id', id);
+  allPedidos = allPedidos.filter(p => p.id !== id);
+  renderPedidos();
 }
 
 // ── REALTIME ──────────────────────────────────────────────────
