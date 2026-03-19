@@ -963,25 +963,14 @@ function openProductModal(produtoId) {
     tagEl.classList.add('hidden');
   }
 
-  // Discount info for avulso
+  // Discount info for avulso (hidden for especial do mês)
   const discountDiv = document.getElementById('modal-discount');
-  if (p.tipo === 'avulso') {
+  if (p.tipo === 'avulso' && !p.is_especial_mes) {
     discountDiv.classList.remove('hidden');
-    const totalQtd = totalAvulsoQtd();
-    const precoAtual = getPrecoAvulso(totalQtd);
-    // Next tier
-    let nextMsg = '';
-    const tiers = S.descontos.length > 0 ? S.descontos : [
-      {qtd_min:25,preco_unitario:9.50},{qtd_min:50,preco_unitario:9.00},{qtd_min:100,preco_unitario:8.50}
-    ];
-    const nextTier = tiers.find(t => t.qtd_min > totalQtd);
-    if (nextTier) nextMsg = `Mais ${nextTier.qtd_min - totalQtd} unid. para ${fmt(nextTier.preco_unitario)}/un.`;
-    document.getElementById('modal-discount-next').textContent = nextMsg;
-    updateModalPrice();
   } else {
     discountDiv.classList.add('hidden');
-    updateModalPrice();
   }
+  updateModalPrice();
 
   document.getElementById('modal-qty-val').textContent = '1';
   openModal('product-modal');
@@ -992,8 +981,20 @@ function updateModalPrice() {
   if (!p) return;
   let price;
   if (p.tipo === 'avulso') {
-    const existing = totalAvulsoQtd();
-    price = getPrecoAvulso(existing + (S.modalQty - 1));
+    if (p.is_especial_mes) {
+      price = p.preco;
+    } else {
+      const existing = totalAvulsoQtd();
+      const totalQtd = existing + S.modalQty;
+      price = getPrecoAvulso(totalQtd);
+      // Update next tier message
+      const tiers = S.descontos.length > 0 ? S.descontos : [
+        {qtd_min:25,preco_unitario:9.50},{qtd_min:50,preco_unitario:9.00},{qtd_min:100,preco_unitario:8.50}
+      ];
+      const nextTier = tiers.find(t => t.qtd_min > totalQtd);
+      const nextEl = document.getElementById('modal-discount-next');
+      if (nextEl) nextEl.textContent = nextTier ? `Mais ${nextTier.qtd_min - totalQtd} unid. para ${fmt(nextTier.preco_unitario)}/un.` : '';
+    }
   } else {
     price = p.preco;
   }
