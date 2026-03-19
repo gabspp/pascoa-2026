@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin — Santo Favo</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script>
+    tailwind.config = {
+      theme: { extend: {
+        colors: {
+          amarelo: '#ffcc1c', marrom: '#8c4820', 'marrom-dk': '#72381c',
+          'marrom-xdk': '#3d1a08', verde: '#96cc70', rosa: '#ff4d79',
+          roxo: '#a890cc', cream: '#fdf8f0',
+        },
+        fontFamily: { pipo: ['Pipo','Georgia','serif'], fig: ['FigGrotesk','system-ui','sans-serif'] }
+      }}
+    }
+  </script>
+  <style>
+    @font-face { font-family:'Pipo'; src:url('./fonts/Pipo/Pipo-Bold.otf') format('opentype'); font-weight:700; font-display:swap; }
+    @font-face { font-family:'Pipo'; src:url('./fonts/Pipo/Pipo-SemiBold.otf') format('opentype'); font-weight:600; font-display:swap; }
+    @font-face { font-family:'FigGrotesk'; src:url('./fonts/Fig Grotesk/FigGrotesk-Regular.otf') format('opentype'); font-weight:400; font-display:swap; }
+    @font-face { font-family:'FigGrotesk'; src:url('./fonts/Fig Grotesk/FigGrotesk-Medium.otf') format('opentype'); font-weight:500; font-display:swap; }
+    @font-face { font-family:'FigGrotesk'; src:url('./fonts/Fig Grotesk/FigGrotesk-SemiBold.otf') format('opentype'); font-weight:600; font-display:swap; }
+    *, *::before, *::after { box-sizing: border-box; margin:0; padding:0; }
+    body { font-family:'FigGrotesk',system-ui,sans-serif; background:#fdf8f0; color:#72381c; }
+
+    /* Status badge colors */
+    .status-checkout_iniciado    { background:#e5e7eb; color:#6b7280; }
+    .status-endereco_preenchido  { background:#fef3c7; color:#92400e; }
+    .status-data_selecionada     { background:#dbeafe; color:#1e40af; }
+    .status-pagamento_selecionado{ background:#ffcc1c33; color:#72381c; }
+    .status-finalizado           { background:#d1fae5; color:#065f46; }
+    .status-cancelado            { background:#fee2e2; color:#991b1b; }
+
+    .tab-btn { transition: color .15s, border-color .15s; }
+    .tab-btn.active { color:#3d1a08; border-bottom-color:#ffcc1c; }
+    .tab-btn:not(.active) { color:#8c482080; border-bottom-color:transparent; }
+
+    .toggle { position:relative; width:44px; height:24px; cursor:pointer; }
+    .toggle input { opacity:0; width:0; height:0; }
+    .toggle-track { position:absolute; inset:0; border-radius:9999px; background:#d1d5db; transition:background .2s; }
+    .toggle input:checked + .toggle-track { background:#96cc70; }
+    .toggle-thumb { position:absolute; top:3px; left:3px; width:18px; height:18px; border-radius:50%; background:white; transition:transform .2s; box-shadow:0 1px 3px rgba(0,0,0,.2); }
+    .toggle input:checked ~ .toggle-thumb { transform:translateX(20px); }
+
+    .card { background:white; border-radius:16px; box-shadow:0 2px 12px rgba(114,56,28,.08); }
+    input:focus, select:focus { outline:none; border-color:#ffcc1c !important; }
+    @keyframes pulse-new { 0%,100%{box-shadow:0 0 0 0 rgba(255,204,28,.4)} 50%{box-shadow:0 0 0 8px rgba(255,204,28,0)} }
+    .new-order { animation: pulse-new 1.5s ease 3; }
+  </style>
+</head>
+<body>
+
+<!-- ── LOGIN ─────────────────────────────────────────────── -->
+<div id="login-screen" class="min-h-screen bg-marrom-xdk flex items-center justify-center p-4">
+  <div class="w-full max-w-sm">
+    <div class="text-center mb-8">
+      <img src="brand_assets/Santo-Favo-Logo-Amarelo-Horizontal.png" alt="Santo Favo" class="h-10 w-auto mx-auto mb-2">
+      <p class="font-fig text-white/40 text-sm">Painel Administrativo</p>
+    </div>
+    <div class="bg-white rounded-3xl p-8" style="box-shadow:0 8px 40px rgba(0,0,0,.3);">
+      <h1 class="font-pipo font-bold text-marrom-xdk text-xl mb-6">Entrar</h1>
+      <div class="flex flex-col gap-4">
+        <div>
+          <label class="font-fig text-marrom-dk/70 text-xs mb-1 block">Email</label>
+          <input id="login-email" type="email" placeholder="admin@santofavo.com" autocomplete="email"
+            class="w-full border-2 border-marrom/20 rounded-xl px-4 py-3 font-fig text-marrom-dk text-sm bg-white"
+            style="transition:border-color .15s;">
+        </div>
+        <div>
+          <label class="font-fig text-marrom-dk/70 text-xs mb-1 block">Senha</label>
+          <input id="login-senha" type="password" placeholder="••••••••" autocomplete="current-password"
+            class="w-full border-2 border-marrom/20 rounded-xl px-4 py-3 font-fig text-marrom-dk text-sm bg-white"
+            style="transition:border-color .15s;"
+            onkeydown="if(event.key==='Enter')doLogin()">
+        </div>
+        <p id="login-err" class="text-rosa text-xs font-fig hidden"></p>
+        <button onclick="doLogin()"
+          class="w-full bg-amarelo text-marrom-xdk font-pipo font-bold py-3 rounded-xl text-base mt-1"
+          style="transition:opacity .15s;" id="login-btn">
+          Entrar →
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── DASHBOARD ─────────────────────────────────────────── -->
+<div id="dashboard" class="hidden min-h-screen flex flex-col">
+
+  <!-- Header -->
+  <header class="bg-marrom-xdk sticky top-0 z-30 px-4 sm:px-8 h-14 flex items-center justify-between gap-4" style="border-bottom:2px solid rgba(255,204,28,.15);">
+    <img src="brand_assets/Santo-Favo-Logo-Amarelo-Horizontal.png" alt="Santo Favo" class="h-7 w-auto">
+    <div class="flex items-center gap-3">
+      <span id="admin-email" class="font-fig text-white/40 text-xs hidden sm:block"></span>
+      <button onclick="doLogout()" class="font-fig text-white/60 text-sm hover:text-amarelo" style="transition:color .15s;">Sair</button>
+    </div>
+  </header>
+
+  <!-- Tab nav -->
+  <nav class="bg-white border-b border-marrom/10 px-4 sm:px-8 flex gap-6">
+    <button class="tab-btn active font-fig font-semibold text-sm py-3.5 border-b-2" onclick="showTab('pedidos')" id="tab-pedidos">
+      Pedidos <span id="pedidos-count" class="ml-1 bg-rosa text-white text-xs font-bold rounded-full px-1.5 py-0.5 hidden"></span>
+    </button>
+    <button class="tab-btn font-fig font-semibold text-sm py-3.5 border-b-2" onclick="showTab('datas')" id="tab-datas">Datas</button>
+    <button class="tab-btn font-fig font-semibold text-sm py-3.5 border-b-2" onclick="showTab('produtos')" id="tab-produtos">Produtos</button>
+  </nav>
+
+  <!-- Content -->
+  <main class="flex-1 p-4 sm:p-8 max-w-5xl mx-auto w-full">
+
+    <!-- ── PEDIDOS ── -->
+    <div id="panel-pedidos">
+      <!-- Filters -->
+      <div class="flex flex-wrap gap-2 mb-6">
+        <button class="filter-chip active font-fig text-sm px-4 py-1.5 rounded-full border-2 border-marrom/20" onclick="setFilter('todos')">Todos</button>
+        <button class="filter-chip font-fig text-sm px-4 py-1.5 rounded-full border-2 border-marrom/20" onclick="setFilter('andamento')">Em andamento</button>
+        <button class="filter-chip font-fig text-sm px-4 py-1.5 rounded-full border-2 border-marrom/20" onclick="setFilter('finalizado')">Finalizados</button>
+        <button class="filter-chip font-fig text-sm px-4 py-1.5 rounded-full border-2 border-marrom/20" onclick="setFilter('cancelado')">Cancelados</button>
+      </div>
+      <div id="pedidos-list" class="flex flex-col gap-4">
+        <p class="font-fig text-marrom-dk/50 text-sm">Carregando pedidos...</p>
+      </div>
+    </div>
+
+    <!-- ── DATAS ── -->
+    <div id="panel-datas" class="hidden">
+      <div class="mb-6 flex items-center justify-between">
+        <div>
+          <h2 class="font-pipo font-bold text-marrom-xdk text-xl">Abril 2026</h2>
+          <p class="font-fig text-marrom-dk/50 text-sm mt-0.5">Ative ou desative datas de entrega/retirada.</p>
+        </div>
+        <button onclick="addDataModal()" class="bg-amarelo text-marrom-xdk font-fig font-semibold text-sm px-4 py-2 rounded-xl" style="transition:opacity .15s;">+ Nova data</button>
+      </div>
+      <div id="datas-grid" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3">
+        <p class="font-fig text-marrom-dk/50 text-sm col-span-5">Carregando datas...</p>
+      </div>
+    </div>
+
+    <!-- ── PRODUTOS ── -->
+    <div id="panel-produtos" class="hidden">
+      <h2 class="font-pipo font-bold text-marrom-xdk text-xl mb-6">Produtos</h2>
+      <div id="produtos-list" class="flex flex-col gap-6">
+        <p class="font-fig text-marrom-dk/50 text-sm">Carregando produtos...</p>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ── ADD DATA MODAL ── -->
+<div id="data-modal" class="hidden fixed inset-0 bg-marrom-xdk/60 z-50 flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl p-6 w-full max-w-xs">
+    <h3 class="font-pipo font-bold text-marrom-xdk text-lg mb-4">Adicionar data</h3>
+    <input id="new-data-input" type="date" class="w-full border-2 border-marrom/20 rounded-xl px-4 py-3 font-fig text-marrom-dk text-sm mb-4" style="transition:border-color .15s;">
+    <div class="flex gap-3">
+      <button onclick="closeDataModal()" class="flex-1 border-2 border-marrom/20 text-marrom-dk font-fig font-semibold text-sm py-2.5 rounded-xl" style="transition:opacity .15s;">Cancelar</button>
+      <button onclick="saveNewData()" class="flex-1 bg-amarelo text-marrom-xdk font-fig font-semibold text-sm py-2.5 rounded-xl" style="transition:opacity .15s;">Adicionar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const SUPABASE_URL = 'https://lbdlvkaplyxcjdogtoec.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_WU7ZyjUZnRpSv6lKnGiGGQ_ijE7fn-t';
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// ── AUTH ─────────────────────────────────────────────────────
+async function doLogin() {
+  const email = document.getElementById('login-email').value.trim();
+  const senha  = document.getElementById('login-senha').value;
+  const btn    = document.getElementById('login-btn');
+  const err    = document.getElementById('login-err');
+  err.classList.add('hidden');
+  btn.textContent = 'Entrando...'; btn.disabled = true;
+  const { data, error } = await sb.auth.signInWithPassword({ email, password: senha });
+  btn.textContent = 'Entrar →'; btn.disabled = false;
+  if (error) { err.textContent = 'Email ou senha incorretos.'; err.classList.remove('hidden'); return; }
+  showDashboard(data.user);
+}
+
+async function doLogout() {
+  await sb.auth.signOut();
+  document.getElementById('dashboard').classList.add('hidden');
+  document.getElementById('login-screen').classList.remove('hidden');
+}
+
+async function checkSession() {
+  const { data: { session } } = await sb.auth.getSession();
+  if (session) showDashboard(session.user);
+}
+
+function showDashboard(user) {
+  document.getElementById('login-screen').classList.add('hidden');
+  document.getElementById('dashboard').classList.remove('hidden');
+  document.getElementById('admin-email').textContent = user.email;
+  loadPedidos();
+  loadDatas();
+  loadProdutos();
+  setupRealtime();
+}
+
+// ── TABS ─────────────────────────────────────────────────────
+function showTab(tab) {
+  ['pedidos','datas','produtos'].forEach(t => {
+    document.getElementById(`panel-${t}`).classList.toggle('hidden', t !== tab);
+    document.getElementById(`tab-${t}`).classList.toggle('active', t === tab);
+  });
+}
+
+// ── PEDIDOS ──────────────────────────────────────────────────
+let allPedidos = [];
+let currentFilter = 'todos';
+
+const STATUS_LABELS = {
+  checkout_iniciado:     'Iniciado',
+  endereco_preenchido:   'Endereço ok',
+  data_selecionada:      'Data ok',
+  pagamento_selecionado: 'Pagamento ok',
+  finalizado:            'Finalizado',
+  cancelado:             'Cancelado',
+};
+const STATUS_ALL = Object.keys(STATUS_LABELS);
+
+async function loadPedidos() {
+  const { data: pedidos } = await sb
+    .from('pedidos')
+    .select('*, clientes(nome, whatsapp), pedido_itens(*)')
+    .order('created_at', { ascending: false });
+
+  allPedidos = pedidos || [];
+  renderPedidos();
+}
+
+function setFilter(f) {
+  currentFilter = f;
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active','bg-marrom-xdk','text-white'));
+  event.target.classList.add('active','bg-marrom-xdk','text-white');
+  renderPedidos();
+}
+
+function renderPedidos() {
+  const filtered = allPedidos.filter(p => {
+    if (currentFilter === 'todos') return true;
+    if (currentFilter === 'finalizado') return p.status === 'finalizado';
+    if (currentFilter === 'cancelado') return p.status === 'cancelado';
+    if (currentFilter === 'andamento') return !['finalizado','cancelado'].includes(p.status);
+    return true;
+  });
+
+  const badge = document.getElementById('pedidos-count');
+  const ativos = allPedidos.filter(p => !['finalizado','cancelado'].includes(p.status)).length;
+  badge.textContent = ativos;
+  badge.classList.toggle('hidden', ativos === 0);
+
+  const list = document.getElementById('pedidos-list');
+  if (!filtered.length) {
+    list.innerHTML = `<p class="font-fig text-marrom-dk/50 text-sm">Nenhum pedido encontrado.</p>`;
+    return;
+  }
+  list.innerHTML = filtered.map(p => pedidoCard(p)).join('');
+}
+
+function pedidoCard(p) {
+  const cliente = p.clientes;
+  const dt = p.created_at ? new Date(p.created_at).toLocaleString('pt-BR', {day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}) : '—';
+  const dtEntrega = p.data_entrega ? new Date(p.data_entrega + 'T12:00:00').toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'}) : '—';
+  const entregaLabel = p.tipo_entrega === 'retirada-condor' ? 'Galeria Condor'
+    : p.tipo_entrega === 'retirada-catete' ? 'Catete'
+    : p.tipo_entrega === 'entrega' ? `Entrega — ${p.bairro||''}, ${p.cidade||''}` : '—';
+  const total = p.total ?? p.subtotal ?? 0;
+  const itens = (p.pedido_itens || []);
+  const itensHtml = itens.map(i => {
+    const det = i.config_caixa ? ` (${i.config_caixa.tamanho} pães)` : '';
+    return `<span class="inline-block bg-cream rounded-lg px-2 py-0.5 font-fig text-xs text-marrom-dk">${i.quantidade}× ${i.nome}${det}</span>`;
+  }).join('');
+
+  const pagLabel = p.pagamento === 'pix' ? 'PIX' : p.pagamento === 'credito' ? 'Cartão' : '—';
+
+  const statusOpts = STATUS_ALL.map(s =>
+    `<option value="${s}" ${p.status === s ? 'selected' : ''}>${STATUS_LABELS[s]}</option>`
+  ).join('');
+
+  return `
+  <div class="card p-5" id="pedido-${p.id}">
+    <div class="flex flex-wrap items-start justify-between gap-3 mb-3">
+      <div>
+        <div class="flex items-center gap-2 mb-1">
+          <span class="font-pipo font-bold text-marrom-xdk text-base">${p.codigo || p.id.slice(0,8)}</span>
+          <span class="status-${p.status} font-fig text-xs font-semibold px-2 py-0.5 rounded-full">${STATUS_LABELS[p.status]||p.status}</span>
+        </div>
+        <p class="font-fig text-marrom-dk/50 text-xs">${dt}</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="font-pipo font-bold text-marrom-xdk text-lg">R$ ${Number(total).toFixed(2).replace('.',',')}</span>
+      </div>
+    </div>
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs font-fig mb-3">
+      <div>
+        <p class="text-marrom-dk/40 mb-0.5">Cliente</p>
+        <p class="text-marrom-dk font-semibold">${cliente?.nome || '—'}</p>
+      </div>
+      <div>
+        <p class="text-marrom-dk/40 mb-0.5">WhatsApp</p>
+        <a href="https://wa.me/${(cliente?.whatsapp||'').replace(/\D/g,'')}" target="_blank"
+           class="text-verde font-semibold hover:underline">${cliente?.whatsapp || '—'}</a>
+      </div>
+      <div>
+        <p class="text-marrom-dk/40 mb-0.5">Entrega</p>
+        <p class="text-marrom-dk font-semibold">${dtEntrega}</p>
+      </div>
+      <div>
+        <p class="text-marrom-dk/40 mb-0.5">Local / Pagamento</p>
+        <p class="text-marrom-dk font-semibold">${entregaLabel} · ${pagLabel}</p>
+      </div>
+    </div>
+    ${itensHtml ? `<div class="flex flex-wrap gap-1.5 mb-3">${itensHtml}</div>` : ''}
+    ${p.observacao ? `<p class="font-fig text-marrom-dk/60 text-xs italic mb-3">Obs: ${p.observacao}</p>` : ''}
+    <div class="flex items-center gap-3 pt-3 border-t border-marrom/8">
+      <label class="font-fig text-marrom-dk/50 text-xs">Status:</label>
+      <select onchange="updateStatus('${p.id}', this.value)"
+        class="border-2 border-marrom/15 rounded-lg px-3 py-1.5 font-fig text-xs text-marrom-dk bg-white flex-1 max-w-[200px]"
+        style="transition:border-color .15s;">
+        ${statusOpts}
+      </select>
+    </div>
+  </div>`;
+}
+
+async function updateStatus(id, status) {
+  await sb.from('pedidos').update({ status }).eq('id', id);
+  const p = allPedidos.find(x => x.id === id);
+  if (p) { p.status = status; renderPedidos(); }
+}
+
+// ── REALTIME ──────────────────────────────────────────────────
+function setupRealtime() {
+  sb.channel('admin-pedidos')
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'pedidos' }, async () => {
+      await loadPedidos();
+      // Flash new order badge
+      const badge = document.getElementById('pedidos-count');
+      badge.classList.add('new-order');
+      setTimeout(() => badge.classList.remove('new-order'), 5000);
+    })
+    .subscribe();
+}
+
+// ── DATAS ────────────────────────────────────────────────────
+let allDatas = [];
+
+async function loadDatas() {
+  const { data } = await sb.from('datas_disponiveis').select('*').order('data');
+  allDatas = data || [];
+  renderDatas();
+}
+
+function renderDatas() {
+  const grid = document.getElementById('datas-grid');
+  if (!allDatas.length) { grid.innerHTML = `<p class="font-fig text-marrom-dk/50 text-sm col-span-5">Nenhuma data cadastrada.</p>`; return; }
+  grid.innerHTML = allDatas.map(d => {
+    const dt = new Date(d.data + 'T12:00:00');
+    const dia = dt.toLocaleDateString('pt-BR', { weekday:'short', day:'2-digit', month:'2-digit' });
+    return `
+    <div class="card p-3 flex flex-col items-center gap-2 text-center">
+      <p class="font-fig text-xs text-marrom-dk/50">${dia}</p>
+      <label class="toggle">
+        <input type="checkbox" ${d.ativo ? 'checked' : ''} onchange="toggleData('${d.id}', this.checked)">
+        <span class="toggle-track"></span>
+        <span class="toggle-thumb"></span>
+      </label>
+      <p class="font-fig text-[10px] font-semibold ${d.ativo ? 'text-verde' : 'text-rosa'}">${d.ativo ? 'Ativa' : 'Inativa'}</p>
+    </div>`;
+  }).join('');
+}
+
+async function toggleData(id, ativo) {
+  await sb.from('datas_disponiveis').update({ ativo }).eq('id', id);
+  const d = allDatas.find(x => x.id === id);
+  if (d) { d.ativo = ativo; renderDatas(); }
+}
+
+function addDataModal() { document.getElementById('data-modal').classList.remove('hidden'); }
+function closeDataModal() { document.getElementById('data-modal').classList.add('hidden'); }
+
+async function saveNewData() {
+  const val = document.getElementById('new-data-input').value;
+  if (!val) return;
+  const { error } = await sb.from('datas_disponiveis').insert({ data: val, ativo: true });
+  if (!error) { closeDataModal(); await loadDatas(); }
+}
+
+// ── PRODUTOS ─────────────────────────────────────────────────
+let allProdutos = [];
+const CAT_NAMES = { 'ovos-pascoa':'Ovos de Páscoa', 'barras':'Barras Recheadas', 'caixas':'Caixas de Presente', 'pao-de-mel-avulso':'Pães de Mel Avulso' };
+
+async function loadProdutos() {
+  const { data } = await sb.from('produtos').select('*').order('ordem');
+  allProdutos = data || [];
+  renderProdutos();
+}
+
+function renderProdutos() {
+  const list = document.getElementById('produtos-list');
+  const byCat = {};
+  allProdutos.forEach(p => {
+    if (!byCat[p.categoria_slug]) byCat[p.categoria_slug] = [];
+    byCat[p.categoria_slug].push(p);
+  });
+
+  list.innerHTML = Object.entries(byCat).map(([slug, prods]) => `
+    <div>
+      <h3 class="font-pipo font-bold text-marrom-xdk text-base mb-3">${CAT_NAMES[slug] || slug}</h3>
+      <div class="card overflow-hidden">
+        ${prods.map((p, i) => `
+        <div class="flex items-center gap-4 px-5 py-3.5 ${i > 0 ? 'border-t border-marrom/8' : ''}">
+          <img src="${p.imagem_url || 'https://placehold.co/48x48/e2d4c4/8c4820?text=🍫'}" alt="${p.nome}"
+            class="w-12 h-12 rounded-xl object-cover flex-shrink-0 ${p.ativo ? '' : 'opacity-40'}">
+          <div class="flex-1 min-w-0">
+            <p class="font-fig font-semibold text-marrom-xdk text-sm truncate ${p.ativo ? '' : 'opacity-50'}">${p.nome}</p>
+            <p class="font-fig text-marrom-dk/40 text-xs">${p.tipo}${p.is_especial_mes ? ' · especial do mês' : ''}</p>
+          </div>
+          ${p.tipo !== 'caixa' ? `
+          <div class="flex items-center gap-1 flex-shrink-0">
+            <span class="font-fig text-marrom-dk/50 text-xs">R$</span>
+            <input type="number" step="0.01" min="0" value="${p.preco || p.preco_min || 0}"
+              onblur="updatePreco('${p.id}', this.value, '${p.tipo}')"
+              class="w-20 border-2 border-marrom/15 rounded-lg px-2 py-1 font-fig text-sm text-marrom-dk text-right bg-white"
+              style="transition:border-color .15s;">
+          </div>` : `
+          <div class="flex-shrink-0">
+            <span class="font-fig text-marrom-dk/50 text-xs">a partir de R$ ${p.preco_min || 0}</span>
+          </div>`}
+          <label class="toggle flex-shrink-0">
+            <input type="checkbox" ${p.ativo ? 'checked' : ''} onchange="toggleProduto('${p.id}', this.checked)">
+            <span class="toggle-track"></span>
+            <span class="toggle-thumb"></span>
+          </label>
+        </div>`).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+async function toggleProduto(id, ativo) {
+  await sb.from('produtos').update({ ativo }).eq('id', id);
+  const p = allProdutos.find(x => x.id === id);
+  if (p) { p.ativo = ativo; renderProdutos(); }
+}
+
+async function updatePreco(id, val, tipo) {
+  const preco = parseFloat(val);
+  if (isNaN(preco) || preco < 0) return;
+  const field = tipo === 'caixa' ? 'preco_min' : 'preco';
+  await sb.from('produtos').update({ [field]: preco }).eq('id', id);
+  const p = allProdutos.find(x => x.id === id);
+  if (p) p[field] = preco;
+}
+
+// ── INIT ─────────────────────────────────────────────────────
+// Style active filter chip
+document.querySelectorAll('.filter-chip').forEach(c => {
+  c.addEventListener('click', () => {
+    document.querySelectorAll('.filter-chip').forEach(x => {
+      x.classList.remove('bg-marrom-xdk','text-white');
+      x.style.borderColor = '';
+    });
+    c.classList.add('bg-marrom-xdk','text-white');
+  });
+});
+document.querySelector('.filter-chip.active').classList.add('bg-marrom-xdk','text-white');
+
+checkSession();
+</script>
+</body>
+</html>
