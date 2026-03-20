@@ -1346,7 +1346,6 @@ async function coStep2Continue() {
     if (pe) throw pe;
     S.pedidoId = pedidoId;
     coNext();
-    document.getElementById('co-endereco-retirada').textContent = S.enderecoRetirada;
   } catch(e) {
     console.error(e);
     showToast('Erro ao salvar dados. Tente novamente.', 'erro');
