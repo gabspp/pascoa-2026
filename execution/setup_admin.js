@@ -29,8 +29,10 @@ const SQL = `
 -- Políticas RLS para o painel admin (usuários autenticados)
 CREATE POLICY "admin_select_pedidos"  ON pedidos           FOR SELECT TO authenticated USING (true);
 CREATE POLICY "admin_update_pedidos"  ON pedidos           FOR UPDATE TO authenticated USING (true);
+CREATE POLICY "admin_delete_pedidos"  ON pedidos           FOR DELETE TO authenticated USING (true);
 CREATE POLICY "admin_select_clientes" ON clientes          FOR SELECT TO authenticated USING (true);
 CREATE POLICY "admin_select_itens"    ON pedido_itens      FOR SELECT TO authenticated USING (true);
+CREATE POLICY "admin_delete_itens"    ON pedido_itens      FOR DELETE TO authenticated USING (true);
 CREATE POLICY "admin_update_produtos" ON produtos          FOR UPDATE TO authenticated USING (true);
 CREATE POLICY "admin_select_datas"    ON datas_disponiveis FOR SELECT TO authenticated USING (true);
 CREATE POLICY "admin_update_datas"    ON datas_disponiveis FOR UPDATE TO authenticated USING (true);
