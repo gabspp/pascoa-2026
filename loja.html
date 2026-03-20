@@ -1607,7 +1607,7 @@ function buildZapMsg(codigo, cd, subtotal, frete) {
   let itensStr = S.carrinho.map(item => {
     if (item.tipo === 'caixa') {
       const sabores = item.itens.map(i => `${i.nome} x ${i.qtd || i.quantidade}`).join(', ');
-      return `• ${item.nome} (${sabores}) — ${fmt(item.preco_total)}`;
+      return `• ${item.quantidade}x ${item.nome} (${sabores}) — ${fmt(item.preco_total)}`;
     }
     return `• ${item.quantidade}x ${item.nome} — ${fmt(item.preco_total)}`;
   }).join('\n');
