@@ -115,11 +115,18 @@
     <!-- ── PEDIDOS ── -->
     <div id="panel-pedidos">
       <!-- Filters -->
-      <div class="flex flex-wrap gap-2 mb-6">
+      <div class="flex flex-wrap items-center gap-2 mb-6">
         <button class="filter-chip active font-fig text-sm px-4 py-1.5 rounded-full border-2 border-marrom/20" onclick="setFilter('todos')">Todos</button>
         <button class="filter-chip font-fig text-sm px-4 py-1.5 rounded-full border-2 border-marrom/20" onclick="setFilter('andamento')">Em andamento</button>
         <button class="filter-chip font-fig text-sm px-4 py-1.5 rounded-full border-2 border-marrom/20" onclick="setFilter('finalizado')">Finalizados</button>
         <button class="filter-chip font-fig text-sm px-4 py-1.5 rounded-full border-2 border-marrom/20" onclick="setFilter('cancelado')">Cancelados</button>
+        <div class="flex items-center gap-1.5 ml-auto">
+          <input type="date" id="filter-date" onchange="renderPedidos()"
+            class="font-fig text-sm border-2 border-marrom/20 rounded-full px-3 py-1.5 text-marrom-dk bg-white"
+            style="transition:border-color .15s;">
+          <button onclick="document.getElementById('filter-date').value='';renderPedidos()"
+            class="font-fig text-xs text-marrom-dk/50 hover:text-marrom-dk px-2">✕</button>
+        </div>
       </div>
       <div id="pedidos-list" class="flex flex-col gap-4">
         <p class="font-fig text-marrom-dk/50 text-sm">Carregando pedidos...</p>
@@ -243,11 +250,15 @@ function setFilter(f) {
 }
 
 function renderPedidos() {
+  const dateVal = document.getElementById('filter-date')?.value; // 'YYYY-MM-DD'
   const filtered = allPedidos.filter(p => {
-    if (currentFilter === 'todos') return true;
-    if (currentFilter === 'finalizado') return p.status === 'finalizado';
-    if (currentFilter === 'cancelado') return p.status === 'cancelado';
-    if (currentFilter === 'andamento') return !['finalizado','cancelado'].includes(p.status);
+    if (currentFilter === 'finalizado' && p.status !== 'finalizado') return false;
+    if (currentFilter === 'cancelado' && p.status !== 'cancelado') return false;
+    if (currentFilter === 'andamento' && ['finalizado','cancelado'].includes(p.status)) return false;
+    if (dateVal && p.created_at) {
+      const pedidoDay = p.created_at.slice(0, 10); // 'YYYY-MM-DD'
+      if (pedidoDay !== dateVal) return false;
+    }
     return true;
   });
 
