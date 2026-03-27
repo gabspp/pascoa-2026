@@ -660,7 +660,7 @@ async function loadData() {
     S.datas      = (datasRes.data || []).filter(d => {
       const now = new Date();
       const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-      const minDays = now.getHours() < 12 ? 1 : 2; // antes do meio-dia: amanhã; depois: 2 dias
+      const minDays = now.getHours() < 17 ? 1 : 2; // até 17h: amanhã; depois das 17h: 2 dias
       const minDate = new Date(today);
       minDate.setDate(today.getDate() + minDays);
       return new Date(d.data + 'T00:00:00') >= minDate;
