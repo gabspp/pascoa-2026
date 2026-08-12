@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cartão-presente — Santo Favo</title>
+<meta name="description" content="Cartão-presente Santo Favo.">
+
+<style>
+  @font-face { font-family: 'Pipo'; src: url('./fonts/Pipo/Pipo-Thin.otf') format('opentype'); font-weight: 200; font-style: normal; font-display: swap; }
+  @font-face { font-family: 'Pipo'; src: url('./fonts/Pipo/Pipo-Light.otf') format('opentype'); font-weight: 300; font-style: normal; font-display: swap; }
+  @font-face { font-family: 'Pipo'; src: url('./fonts/Pipo/Pipo-Regular.otf') format('opentype'); font-weight: 400; font-style: normal; font-display: swap; }
+  @font-face { font-family: 'Pipo'; src: url('./fonts/Pipo/Pipo-SemiBold.otf') format('opentype'); font-weight: 600; font-style: normal; font-display: swap; }
+  @font-face { font-family: 'Pipo'; src: url('./fonts/Pipo/Pipo-Bold.otf') format('opentype'); font-weight: 700; font-style: normal; font-display: swap; }
+  @font-face { font-family: 'Fig Grotesk'; src: url('./fonts/Fig Grotesk/FigGrotesk-Regular.otf') format('opentype'); font-weight: 400; font-style: normal; font-display: swap; }
+  @font-face { font-family: 'Fig Grotesk'; src: url('./fonts/Fig Grotesk/FigGrotesk-RegularItalic.otf') format('opentype'); font-weight: 400; font-style: italic; font-display: swap; }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #fbf7ef; display: flex; justify-content: center; padding: 40px 16px; }
+  a { color: #72381c; text-decoration: none; }
+  a:hover { color: #8c4820; }
+
+  .card { width: 1080px; max-width: 100%; background: #fbf7ef; font-family: 'Fig Grotesk', ui-sans-serif, sans-serif; color: #241e17; overflow: hidden; border: 1px solid #e4d6bd; border-radius: 20px; }
+
+  .top { background: #ffcc1c; padding: 56px 64px; display: flex; align-items: flex-end; justify-content: space-between; gap: 32px; }
+  .top img { width: 300px; height: auto; display: block; }
+  .top .label { font-size: 20px; letter-spacing: 0.14em; text-transform: uppercase; color: #72381c; font-weight: 600; padding-bottom: 6px; white-space: nowrap; }
+
+  .vale { background: #72381c; padding: 72px 64px 64px; background-image: radial-gradient(circle at 50% 50%, rgba(255,204,28,.07) 0 22%, transparent 23%); background-size: 64px 64px; }
+  .vale .eyebrow { font-size: 20px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,204,28,.75); font-weight: 600; }
+  .vale .amount { display: flex; align-items: baseline; gap: 18px; margin-top: 12px; }
+  .vale .currency { font-family: 'Pipo', Georgia, serif; font-weight: 400; color: #ffcc1c; line-height: 1; font-size: 64px; }
+  .vale .value { font-family: 'Pipo', Georgia, serif; font-weight: 700; color: #ffcc1c; line-height: .9; letter-spacing: -0.01em; font-size: 168px; }
+  .vale .divider { height: 1px; background: rgba(255,204,28,.28); margin: 56px 0 44px; }
+  .vale .from-to { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+  .vale .from-to div { display: flex; flex-direction: column; gap: 10px; }
+  .vale .from-to span.eyebrow-sm { font-size: 18px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(253,248,240,.6); }
+  .vale .from-to span.name { font-family: 'Pipo', Georgia, serif; color: #fdf8f0; line-height: 1.1; font-size: 46px; }
+  .vale .message { font-family: 'Fig Grotesk', sans-serif; font-style: italic; line-height: 1.5; color: rgba(253,248,240,.85); margin: 44px 0 0; max-width: 760px; text-wrap: pretty; font-size: 28px; }
+
+  .details { background: #fdf8f0; padding: 56px 64px 60px; display: flex; flex-direction: column; gap: 40px; }
+  .details .row { display: flex; align-items: center; justify-content: space-between; gap: 40px; flex-wrap: wrap; }
+  .details .field { display: flex; flex-direction: column; gap: 12px; }
+  .details .field.right { text-align: right; }
+  .details .eyebrow { font-size: 18px; letter-spacing: 0.14em; text-transform: uppercase; color: #87724f; font-weight: 600; }
+  .details .code { font-family: ui-monospace, 'SFMono-Regular', monospace; letter-spacing: 0.12em; color: #512d1f; background: #fff; border: 1px solid #e4d6bd; border-radius: 12px; padding: 16px 28px; font-size: 40px; }
+  .details .expiry { font-family: 'Pipo', Georgia, serif; color: #72381c; font-size: 40px; }
+  .details .divider { height: 1px; background: #e4d6bd; }
+  .details .howto { display: grid; grid-template-columns: 1fr auto; gap: 48px; align-items: center; }
+  .details .howto-text { display: flex; flex-direction: column; gap: 14px; }
+  .details .howto-text p { margin: 0; line-height: 1.5; color: #514432; max-width: 640px; text-wrap: pretty; font-size: 24px; }
+  .details .seal { width: 132px; height: 132px; border-radius: 9999px; display: block; justify-self: end; }
+
+  @media (max-width: 680px) {
+    body { padding: 0; }
+    .card { border-radius: 0; border-width: 0 0 1px; }
+
+    .top { padding: 28px 24px; gap: 16px; }
+    .top img { width: 160px; }
+    .top .label { font-size: 11px; }
+
+    .vale { padding: 40px 24px 36px; }
+    .vale .eyebrow { font-size: 13px; }
+    .vale .amount { gap: 10px; margin-top: 8px; }
+    .vale .currency { font-size: 26px; }
+    .vale .value { font-size: 68px; }
+    .vale .divider { margin: 32px 0 28px; }
+    .vale .from-to { gap: 20px; }
+    .vale .from-to span.eyebrow-sm { font-size: 12px; }
+    .vale .from-to span.name { font-size: 24px; }
+    .vale .message { font-size: 17px; margin-top: 28px; }
+
+    .details { padding: 32px 24px 40px; gap: 28px; }
+    .details .row { gap: 20px; }
+    .details .field.right { text-align: left; }
+    .details .eyebrow { font-size: 12px; }
+    .details .code { font-size: 20px; padding: 10px 16px; }
+    .details .expiry { font-size: 22px; }
+    .details .howto { grid-template-columns: 1fr; gap: 20px; }
+    .details .howto-text p { font-size: 15px; }
+    .details .seal { width: 84px; height: 84px; justify-self: start; }
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+
+  <div class="top">
+    <img src="brand_assets/Santo-Favo-Logo-Marrom-Horizontal.png" alt="Santo Favo">
+    <div class="label">Cartão-presente</div>
+  </div>
+
+  <div class="vale">
+    <div class="eyebrow">Vale</div>
+    <div class="amount">
+      <span class="currency">R$</span>
+      <span class="value">120,00</span>
+    </div>
+    <div class="divider"></div>
+    <div class="from-to">
+      <div>
+        <span class="eyebrow-sm">De</span>
+        <span class="name">Francisco</span>
+      </div>
+      <div>
+        <span class="eyebrow-sm">Para</span>
+        <span class="name">Beatriz Cypriano</span>
+      </div>
+    </div>
+    <p class="message">Feliz Aniversário</p>
+  </div>
+
+  <div class="details">
+    <div class="row">
+      <div class="field">
+        <span class="eyebrow">Código do cartão</span>
+        <span class="code">FAVO 5476</span>
+      </div>
+      <div class="field right">
+        <span class="eyebrow">Válido até</span>
+        <span class="expiry">12/08/2027</span>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="howto">
+      <div class="howto-text">
+        <span class="eyebrow">Como usar</span>
+        <p>Apresente este código no balcão de qualquer uma das nossas duas lojas no Rio de Janeiro. O valor pode ser usado de uma vez ou em várias visitas, até acabar o saldo.</p>
+      </div>
+      <img class="seal" src="brand_assets/selo.png" alt="">
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
