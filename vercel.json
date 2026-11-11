@@ -1,4 +1,12 @@
 {
+  "redirects": [
+    { "source": "/", "destination": "/brindes-2026", "permanent": false },
+    { "source": "/index(.html)?", "destination": "/brindes-2026", "permanent": false },
+    { "source": "/loja(.html)?", "destination": "/brindes-2026", "permanent": false },
+    { "source": "/informacoes(.html)?", "destination": "/brindes-2026", "permanent": false },
+    { "source": "/admin(.html)?", "destination": "/brindes-2026", "permanent": false },
+    { "source": "/design-refs/:path*", "destination": "/brindes-2026", "permanent": false }
+  ],
   "rewrites": [
     { "source": "/beatrizcypriano", "destination": "/beatrizcypriano.html" },
     { "source": "/brindes-2026", "destination": "https://brindes-cooporativos.vercel.app/brindes-2026" },
