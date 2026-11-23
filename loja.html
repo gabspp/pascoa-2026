@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Loja — Santo Favo Páscoa 2026</title>
+  <title>Loja — Santo Favo Natal 2026</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -185,7 +185,7 @@
     <div class="float-icon" style="position:absolute;top:30px;left:22%;width:18px;height:18px;background:#96cc70;transform:rotate(45deg);opacity:.45;animation-delay:.7s;"></div>
   </div>
   <div class="relative z-10 max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
-    <p class="font-fig text-amarelo/70 text-sm tracking-widest uppercase mb-2">Santo Favo · Páscoa 2026</p>
+    <p class="font-fig text-amarelo/70 text-sm tracking-widest uppercase mb-2">Santo Favo · Natal 2026</p>
     <h1 class="font-pipo font-bold text-white text-4xl sm:text-5xl mb-3">Nossa Loja</h1>
     <p class="font-fig text-white/60 text-base sm:text-lg max-w-md">Ovos artesanais, pães de mel e caixas personalizadas. Tudo feito com mel e muito carinho.</p>
   </div>
@@ -312,15 +312,19 @@
         <!-- desc -->
         <p id="modal-desc" class="font-fig text-marrom-dk/70 text-sm leading-relaxed mb-6"></p>
 
+        <!-- Tamanhos (bolos) -->
+        <div id="modal-variacoes-wrap" class="hidden mb-5">
+          <p class="font-fig text-marrom-dk/70 text-sm mb-2">Escolha o tamanho</p>
+          <div id="modal-variacoes" class="grid grid-cols-2 gap-2"></div>
+        </div>
+
+        <!-- Aviso de antecedência / estoque -->
+        <p id="modal-aviso" class="hidden font-fig text-marrom-dk text-sm bg-rosa/10 border border-rosa/25 rounded-xl px-4 py-2.5 mb-5"></p>
+
         <!-- Discount info (avulso) -->
         <div id="modal-discount" class="hidden bg-amarelo/20 border border-amarelo/40 rounded-2xl p-4 mb-5">
           <p class="font-pipo font-bold text-marrom-dk text-sm mb-1">Desconto progressivo 🎁</p>
-          <div class="grid grid-cols-2 gap-1.5 text-xs font-fig text-marrom-dk/80">
-            <span>1–24 unid. → <strong>R$ 10,00</strong> cada</span>
-            <span>25–49 unid. → <strong>R$ 9,50</strong> cada</span>
-            <span>50–99 unid. → <strong>R$ 9,00</strong> cada</span>
-            <span>100+ unid. → <strong>R$ 8,50</strong> cada</span>
-          </div>
+          <div id="modal-discount-tiers" class="grid grid-cols-2 gap-1.5 text-xs font-fig text-marrom-dk/80"></div>
           <p id="modal-discount-next" class="font-fig text-marrom-dk/60 text-xs mt-2"></p>
         </div>
 
@@ -504,25 +508,18 @@
           <div class="flex flex-col gap-4 mb-4">
             <!-- Radio: pickup or delivery -->
             <div class="flex flex-col gap-2">
-              <label class="flex items-center gap-3 p-4 border-2 border-marrom/15 rounded-xl cursor-pointer hover:border-amarelo" style="transition:border-color .15s;" onclick="setEntrega('retirada-condor')">
-                <div id="rd-retirada-condor" class="w-5 h-5 rounded-full border-2 border-marrom/30 flex-shrink-0 flex items-center justify-center" style="transition:background .15s,border-color .15s;"></div>
-                <div>
-                  <p class="font-fig font-semibold text-marrom-dk text-sm">Retirada — Galeria Condor</p>
-                  <p class="font-fig text-marrom-dk/50 text-xs mt-0.5">Largo do Machado, 29, sl 248</p>
-                </div>
-              </label>
               <label class="flex items-center gap-3 p-4 border-2 border-marrom/15 rounded-xl cursor-pointer hover:border-amarelo" style="transition:border-color .15s;" onclick="setEntrega('retirada-catete')">
                 <div id="rd-retirada-catete" class="w-5 h-5 rounded-full border-2 border-marrom/30 flex-shrink-0 flex items-center justify-center" style="transition:background .15s,border-color .15s;"></div>
                 <div>
-                  <p class="font-fig font-semibold text-marrom-dk text-sm">Retirada — Catete</p>
-                  <p class="font-fig text-marrom-dk/50 text-xs mt-0.5">R. Arthur Bernardes, 26, loja B</p>
+                  <p class="font-fig font-semibold text-marrom-dk text-sm">Retirar na loja do Catete</p>
+                  <p class="font-fig text-marrom-dk/50 text-xs mt-0.5">R. Arthur Bernardes, 26, loja B · todos os dias, menos segunda</p>
                 </div>
               </label>
               <label class="flex items-center gap-3 p-4 border-2 border-marrom/15 rounded-xl cursor-pointer hover:border-amarelo" style="transition:border-color .15s;" onclick="setEntrega('entrega')">
                 <div id="rd-entrega" class="w-5 h-5 rounded-full border-2 border-marrom/30 flex-shrink-0 flex items-center justify-center" style="transition:background .15s,border-color .15s;"></div>
                 <div>
                   <p class="font-fig font-semibold text-marrom-dk text-sm">Entrega em casa</p>
-                  <p class="font-fig text-marrom-dk/50 text-xs mt-0.5">Rio de Janeiro — Capital</p>
+                  <p class="font-fig text-marrom-dk/50 text-xs mt-0.5">Cidade do Rio de Janeiro · terça a sábado</p>
                 </div>
               </label>
             </div>
@@ -553,10 +550,11 @@
 
         <!-- Step 4: Date -->
         <div id="co-panel-4" class="checkout-panel">
-          <p class="font-fig text-marrom-dk/60 text-sm mb-4">Selecione a data de entrega ou retirada:</p>
+          <p id="co-dates-title" class="font-fig text-marrom-dk/60 text-sm mb-2">Escolha a data:</p>
+          <p id="co-dates-hint" class="hidden font-fig text-marrom-dk/60 text-xs mb-4"></p>
           <div id="co-dates" class="grid grid-cols-3 gap-2 mb-6"></div>
           <div id="co-dates-empty" class="hidden text-center py-8">
-            <p class="font-fig text-marrom-dk/50">Nenhuma data disponível no momento. Entre em contato pelo WhatsApp.</p>
+            <p class="font-fig text-marrom-dk/50">Não há mais datas disponíveis para este pedido. Fale com a gente pelo WhatsApp.</p>
           </div>
           <button onclick="coStep4Continue()" class="btn btn-yellow w-full bg-amarelo text-marrom-dk font-pipo font-bold text-lg py-4 rounded-2xl">Continuar →</button>
         </div>
@@ -623,22 +621,73 @@ const EMBALAGEM_FEE = 5;
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // ── STATE ────────────────────────────────────────────────────────────────────
+const CAMPANHA_PADRAO = 'natal-2026';
+const CART_KEY        = 'sf_carrinho_natal2026';
 const S = {
+  campanha:   CAMPANHA_PADRAO,
   produtos:   [],
   categorias: [],
   descontos:  [],
-  datas:      [],
-  carrinho:   JSON.parse(localStorage.getItem('sf_carrinho') || '[]'),
+  datasAll:   [],          // todas as datas ativas; o filtro por modalidade/antecedência é feito no checkout
+  estoque:    {},          // produto_id → unidades restantes (só produtos com limite)
+  carrinho:   JSON.parse(localStorage.getItem(CART_KEY) || '[]'),
   pedidoId:   null,
-  clienteId:  null,
+  token:      null,
   checkoutStep: 1,
   checkoutData: {},
   boxConfig:  null,
   currentCat: 'todos',
   modalProduto: null,
+  modalVar:   null,
   modalQty: 1,
-  enderecoRetirada: 'Rua das Flores, 123 — Botafogo, Rio de Janeiro — RJ',
+  enderecoRetirada: 'Rua Arthur Bernardes, 26, loja B — Catete, Rio de Janeiro',
 };
+
+// ── DATAS ────────────────────────────────────────────────────────────────────
+function isoLocal(d) {
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+function hojeMais(dias) {
+  const now = new Date();
+  const d = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  d.setDate(d.getDate() + dias);
+  return isoLocal(d);
+}
+// Maior antecedência (em dias) entre os itens do carrinho; 0 se nenhum exigir
+function antecedenciaCarrinho() {
+  return S.carrinho.reduce((max, item) => {
+    const p = S.produtos.find(x => x.id === item.produto_id);
+    return Math.max(max, (p && p.antecedencia_dias) || 0);
+  }, 0);
+}
+// Primeira data possível: regra das 17h (amanhã / depois de amanhã) ou a antecedência dos itens
+function dataMinimaPedido() {
+  const regra17h = hojeMais(new Date().getHours() < 17 ? 1 : 2);
+  const ant = antecedenciaCarrinho();
+  const porItem = ant ? hojeMais(ant) : regra17h;
+  return porItem > regra17h ? porItem : regra17h;
+}
+
+// ── ESTOQUE (produtos com limite) ────────────────────────────────────────────
+function restante(produtoId) {
+  return Object.prototype.hasOwnProperty.call(S.estoque, produtoId) ? S.estoque[produtoId] : Infinity;
+}
+function qtdNoCarrinho(produtoId) {
+  return S.carrinho.filter(i => i.tipo !== 'caixa' && i.produto_id === produtoId)
+                   .reduce((s, i) => s + i.quantidade, 0);
+}
+function variacoesDe(p) {
+  const v = p && p.config && p.config.variacoes;
+  return Array.isArray(v) && v.length ? v : null;
+}
+async function atualizarEstoque() {
+  try {
+    const { data, error } = await sb.rpc('estoque_restante');
+    if (error) throw error;
+    S.estoque = {};
+    (data || []).forEach(e => { S.estoque[e.produto_id] = e.restante; });
+  } catch (e) { console.warn('estoque', e); }
+}
 
 // ── LOAD DATA ────────────────────────────────────────────────────────────────
 async function loadData() {
@@ -652,72 +701,80 @@ async function loadData() {
       sb.from('descontos_progressivos').select('*').order('qtd_min'),
       sb.from('datas_disponiveis').select('*').eq('ativo', true).order('data'),
       sb.from('configuracoes').select('*'),
+      atualizarEstoque(),
     ]);
     if (catRes.error) throw catRes.error;
-    S.categorias = catRes.data || [];
-    S.produtos   = prodRes.data || [];
-    S.descontos  = descRes.data || [];
-    S.datas      = (datasRes.data || []).filter(d => {
-      const now = new Date();
-      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-      const minDays = now.getHours() < 17 ? 1 : 2; // até 17h: amanhã; depois das 17h: 2 dias
-      const minDate = new Date(today);
-      minDate.setDate(today.getDate() + minDays);
-      return new Date(d.data + 'T00:00:00') >= minDate;
-    });
     const cfgs = configRes.data || [];
-    const er = cfgs.find(c => c.chave === 'endereco_retirada');
-    if (er) S.enderecoRetirada = er.valor;
-
-    buildCategoryBar();
-    renderGrid();
-    document.getElementById('grid-loading').classList.add('hidden');
-    document.getElementById('product-grid').classList.remove('hidden');
-    updateCartBadge();
-    processPendingAdd();
+    const cfg  = k => (cfgs.find(c => c.chave === k) || {}).valor;
+    S.campanha   = cfg('campanha_ativa') || CAMPANHA_PADRAO;
+    S.categorias = (catRes.data  || []).filter(c => !c.campanha || c.campanha === S.campanha);
+    S.produtos   = (prodRes.data || []).filter(p => !p.campanha || p.campanha === S.campanha);
+    S.descontos  = descRes.data || [];
+    S.datasAll   = datasRes.data || [];
+    if (cfg('endereco_retirada')) S.enderecoRetirada = cfg('endereco_retirada');
+    iniciarLoja();
   } catch(e) {
     console.error(e);
-    // Fallback: use demo data so design is visible
+    // Fallback: dados de exemplo para o visual aparecer
     useDemoData();
   }
 }
 
-function useDemoData() {
-  S.categorias = [
-    { slug:'ovos-pascoa',       nome:'Ovos de Páscoa',     ordem:1 },
-    { slug:'pao-de-mel-avulso', nome:'Pão de Mel Avulso',  ordem:2 },
-    { slug:'barras',            nome:'Barras',              ordem:3 },
-    { slug:'caixas',            nome:'Caixas de Presente',  ordem:4 },
-  ];
-  S.descontos = [
-    { qtd_min:1,   qtd_max:24,  preco_unitario:10.00 },
-    { qtd_min:25,  qtd_max:49,  preco_unitario:9.50  },
-    { qtd_min:50,  qtd_max:99,  preco_unitario:9.00  },
-    { qtd_min:100, qtd_max:null,preco_unitario:8.50  },
-  ];
-  S.datas = ['2026-04-05','2026-04-09','2026-04-10','2026-04-11','2026-04-12','2026-04-18','2026-04-19']
-    .map(data => ({ id: data, data, ativo: true }));
-  S.produtos = [
-    { id:'d1', categoria_slug:'ovos-pascoa',       tipo:'simples', nome:'Ovo Pão de Mel',        subtitulo:'Recheio de Amendoim',    descricao:'Casca de chocolate ao leite com pão de mel e recheio cremoso de amendoim.',        preco:65.00, imagem_url:'img/ovo_amendoim.jpg',              tag:'Clássico',            tag_cor:'verde',  cor_header:'amarelo', ativo:true, ordem:1 },
-    { id:'d2', categoria_slug:'ovos-pascoa',       tipo:'simples', nome:'Ovo Casca Caramelo',    subtitulo:'Caramelo Salgado',       descricao:'Casca de chocolate com caramelo salgado e pão de mel.',                            preco:75.00, imagem_url:'img/ovo_casca-caramelo.jpg',         tag:'Campeão de Vendas',   tag_cor:'rosa',   cor_header:'amarelo', ativo:true, ordem:2 },
-    { id:'d3', categoria_slug:'ovos-pascoa',       tipo:'simples', nome:'Ovo Fudge',             subtitulo:'Chocolate Intenso',      descricao:'Recheio de fudge de chocolate intenso com pão de mel.',                            preco:70.00, imagem_url:'img/ovo_fudge.jpg',                  tag:'Novidade',            tag_cor:'amarelo',cor_header:'roxo',   ativo:true, ordem:3 },
-    { id:'d4', categoria_slug:'pao-de-mel-avulso', tipo:'avulso',  nome:'Pão de Mel Doce de Leite', subtitulo:'Sabor Doce de Leite', descricao:'Pão de mel com cobertura de chocolate e recheio cremoso de doce de leite.',       preco:10.00, imagem_url:'img/ovo_pdm_doce_de_leite_com_nozes.jpg', tag:null,  tag_cor:null, cor_header:'amarelo', is_especial_mes:false, ativo:true, ordem:1 },
-    { id:'d5', categoria_slug:'pao-de-mel-avulso', tipo:'avulso',  nome:'Pão de Mel Amendoim',   subtitulo:'Sabor Amendoim',         descricao:'Pão de mel com cobertura de chocolate e recheio de amendoim.',                    preco:10.00, imagem_url:'img/ovo_amendoim.jpg',               tag:null,  tag_cor:null, cor_header:'amarelo', is_especial_mes:false, ativo:true, ordem:2 },
-    { id:'d6', categoria_slug:'pao-de-mel-avulso', tipo:'avulso',  nome:'Pão de Mel Caramelo',   subtitulo:'Sabor Caramelo Salgado', descricao:'Pão de mel com recheio de caramelo salgado.',                                    preco:10.00, imagem_url:'img/ovo_pdm_caramelo.jpg',           tag:null,  tag_cor:null, cor_header:'amarelo', is_especial_mes:false, ativo:true, ordem:3 },
-    { id:'d7', categoria_slug:'pao-de-mel-avulso', tipo:'avulso',  nome:'Pão de Mel da Estação', subtitulo:'Especial do Mês',        descricao:'Sabor especial do mês, feito com ingredientes sazonais. Por tempo limitado!',   preco:12.00, imagem_url:'img/ovo_casca-caramelo.jpg',         tag:'Especial',tag_cor:'rosa',cor_header:'rosa', is_especial_mes:true,  ativo:true, ordem:4 },
-    { id:'d8', categoria_slug:'barras',            tipo:'simples', nome:'Barra Cajutella',        subtitulo:'Chocolate com Pasta de Caju', descricao:'Chocolate artesanal com cajutella cremosa.',                                preco:55.00, imagem_url:'img/barra_cajutella.jpg',            tag:'Novidade',            tag_cor:'amarelo',cor_header:'rosa',   ativo:true, ordem:1 },
-    { id:'d9', categoria_slug:'barras',            tipo:'simples', nome:'Barra Caramelo Salgado', subtitulo:'Caramelo com Flor de Sal', descricao:'Chocolate artesanal com caramelo salgado e flor de sal.',                     preco:55.00, imagem_url:'img/barra_caramelo.jpg',             tag:null,  tag_cor:null, cor_header:'amarelo', ativo:true, ordem:2 },
-    { id:'e1', categoria_slug:'caixas',            tipo:'caixa',   nome:'Caixa com 3 Pães de Mel',subtitulo:'Monte do seu jeito',    descricao:'Escolha 3 sabores de pão de mel para presentear com carinho.',                  preco_min:35.00, imagem_url:'img/caixa_3_pdm.jpg',         tag:null,  tag_cor:null, cor_header:'verde',  config:{tamanho:3},   ativo:true, ordem:1 },
-    { id:'e2', categoria_slug:'caixas',            tipo:'caixa',   nome:'Caixa com 6 Pães de Mel',subtitulo:'Monte do seu jeito',    descricao:'Escolha 6 sabores de pão de mel. Embalagem especial inclusa.',                  preco_min:65.00, imagem_url:'img/caixa_9_pdm.jpg',         tag:'Popular',tag_cor:'verde',cor_header:'verde', config:{tamanho:6},  ativo:true, ordem:2 },
-    { id:'e3', categoria_slug:'caixas',            tipo:'caixa',   nome:'Caixa com 9 Pães de Mel',subtitulo:'Monte do seu jeito',    descricao:'Escolha 9 sabores de pão de mel.',                                              preco_min:95.00, imagem_url:'img/caixa_9_pdm.jpg',         tag:null,  tag_cor:null, cor_header:'amarelo',config:{tamanho:9},   ativo:true, ordem:3 },
-    { id:'e4', categoria_slug:'caixas',            tipo:'caixa',   nome:'Caixa com 15 Pães de Mel',subtitulo:'Monte do seu jeito',   descricao:'A caixa mais completa! 15 pães de mel à sua escolha.',                          preco_min:155.00,imagem_url:'img/caixa_15_pdm.jpg',        tag:'Campeão de Vendas',tag_cor:'rosa',cor_header:'marrom',config:{tamanho:15},ativo:true, ordem:4 },
-  ];
+function iniciarLoja() {
+  limparCarrinhoAntigo();
   buildCategoryBar();
   renderGrid();
   document.getElementById('grid-loading').classList.add('hidden');
   document.getElementById('product-grid').classList.remove('hidden');
   updateCartBadge();
   processPendingAdd();
+}
+
+// Remove do carrinho itens que saíram do ar (ex.: produto desativado)
+function limparCarrinhoAntigo() {
+  const ids = new Set(S.produtos.map(p => p.id));
+  const antes = S.carrinho.length;
+  S.carrinho = S.carrinho.filter(i => ids.has(i.produto_id));
+  if (S.carrinho.length !== antes) { recalcularAvulsos(); saveCarrinho(); }
+}
+
+function useDemoData() {
+  S.categorias = [
+    { slug:'caixas',            nome:'Caixinhas para presente', ordem:1 },
+    { slug:'pao-de-mel-avulso', nome:'Pães de mel avulsos',     ordem:2 },
+    { slug:'bolos',             nome:'Bolos',                   ordem:3 },
+    { slug:'sobremesas-natal',  nome:'Sobremesas de Natal',     ordem:4 },
+  ];
+  S.descontos = [
+    { qtd_min:1,   qtd_max:24,  preco_unitario:11.00 },
+    { qtd_min:25,  qtd_max:49,  preco_unitario:10.50 },
+    { qtd_min:50,  qtd_max:99,  preco_unitario:10.00 },
+    { qtd_min:100, qtd_max:null,preco_unitario:9.50  },
+  ];
+  // Dezembro: retirada todo dia menos segunda; entrega de terça a sábado; 25 fechado; 24 e 31 até 12h
+  S.datasAll = [];
+  for (let dia = 1; dia <= 31; dia++) {
+    const d = new Date(2026, 11, dia), dow = d.getDay();
+    if (dow === 1 || dia === 25) continue;
+    S.datasAll.push({ id:'dt'+dia, data: isoLocal(d), ativo:true, permite_retirada:true,
+      permite_entrega: dow >= 2 && dow <= 6, horario: (dia === 24 || dia === 31) ? 'até 12h' : null });
+  }
+  S.produtos = [
+    { id:'c3', categoria_slug:'caixas', tipo:'caixa', nome:'Caixa com 3 pães de mel', subtitulo:'Monte do seu jeito', descricao:'Escolha 3 pães de mel para presentear.', preco_min:38, imagem_url:'img/caixa_3_pdm.jpg', cor_header:'verde', config:{tamanho:3}, ativo:true },
+    { id:'c6', categoria_slug:'caixas', tipo:'caixa', nome:'Caixa com 6 pães de mel', subtitulo:'Monte do seu jeito', descricao:'Escolha 6 pães de mel.', preco_min:71, imagem_url:'img/caixa_9_pdm.jpg', tag:'Mais pedida', tag_cor:'verde', cor_header:'verde', config:{tamanho:6}, ativo:true },
+    { id:'a1', categoria_slug:'pao-de-mel-avulso', tipo:'avulso', nome:'Pão de mel doce de leite com nozes', subtitulo:'Validade: 12 dias', descricao:'Recheio de doce de leite e nozes.', preco:11, imagem_url:'img/ovo_pdm_doce_de_leite_com_nozes.jpg', cor_header:'amarelo', ativo:true },
+    { id:'a2', categoria_slug:'pao-de-mel-avulso', tipo:'avulso', nome:'Pão de mel caramelo salgado', subtitulo:'Validade: 12 dias', descricao:'Recheio de caramelo salgado.', preco:11, imagem_url:'img/ovo_pdm_caramelo.jpg', cor_header:'amarelo', ativo:true },
+    { id:'a3', categoria_slug:'pao-de-mel-avulso', tipo:'avulso', nome:'Pão de mel maracujá', subtitulo:'Validade: 7 dias', descricao:'Recheio de maracujá.', preco:11, imagem_url:'img/ovo_casca-caramelo.jpg', cor_header:'amarelo', ativo:true },
+    { id:'b1', categoria_slug:'bolos', tipo:'simples', nome:'Bolo de chocolate', subtitulo:'P (15 cm) ou G (25 cm)', descricao:'Bolo de chocolate Santo Favo.', imagem_url:'img/barra.jpg', cor_header:'marrom', ativo:true,
+      config:{ variacoes:[{nome:'P',descricao:'15 cm',preco:90},{nome:'G',descricao:'25 cm',preco:160}] } },
+    { id:'b2', categoria_slug:'bolos', tipo:'simples', nome:'Bolo de pão de mel', subtitulo:'P (15 cm) ou G (25 cm)', descricao:'Bolo de pão de mel Santo Favo.', imagem_url:'img/ovo_pdm_caramelo.jpg', cor_header:'amarelo', ativo:true,
+      config:{ variacoes:[{nome:'P',descricao:'15 cm',preco:95},{nome:'G',descricao:'25 cm',preco:170}] } },
+    { id:'s1', categoria_slug:'sobremesas-natal', tipo:'simples', nome:'Pavê rabanada', subtitulo:'Sobremesa de Natal', descricao:'Pavê com sabor de rabanada.', preco:150, imagem_url:'img/ovo_casca-caramelo.jpg', tag:'Edição de Natal', tag_cor:'rosa', cor_header:'rosa', antecedencia_dias:5, limite_unidades:10, ativo:true },
+    { id:'s2', categoria_slug:'sobremesas-natal', tipo:'simples', nome:'Pavê de cupuaçu com castanha-do-pará', subtitulo:'Sobremesa de Natal', descricao:'Pavê de cupuaçu com castanha-do-pará.', preco:150, imagem_url:'img/barra_cajutella.jpg', tag:'Edição de Natal', tag_cor:'rosa', cor_header:'rosa', antecedencia_dias:5, limite_unidades:10, ativo:true },
+    { id:'s3', categoria_slug:'sobremesas-natal', tipo:'simples', nome:'Pão de mel de travessa', subtitulo:'Sobremesa de Natal', descricao:'Pão de mel de travessa.', preco:140, imagem_url:'img/ovo_pdm_doce_de_leite_com_nozes.jpg', tag:'Edição de Natal', tag_cor:'rosa', cor_header:'rosa', antecedencia_dias:5, limite_unidades:10, ativo:true },
+  ];
+  S.estoque = { s1: 2, s2: 0, s3: 10 };
+  iniciarLoja();
 }
 
 function processPendingAdd() {
@@ -728,6 +785,7 @@ function processPendingAdd() {
     const { nome } = JSON.parse(raw);
     const match = S.produtos.find(p => p.nome === nome);
     if (!match) return;
+    if (match.tipo === 'caixa' || variacoesDe(match) || match.limite_unidades) { openProductModal(match.id); return; }
     const preco = match.tipo === 'avulso' ? (match.is_especial_mes ? match.preco : getPrecoAvulso(totalAvulsoQtd() + 1)) : (match.preco || match.preco_min);
     addToCart({
       tipo: match.tipo === 'avulso' ? 'avulso' : 'produto',
@@ -767,7 +825,7 @@ const HEADER_COLORS = { amarelo: '#ffcc1c', rosa: '#ff4d79', roxo: '#a890cc', ve
 const TAG_COLORS    = { verde: '#96cc70', rosa: '#ff4d79', roxo: '#a890cc', amarelo: '#ffcc1c' };
 
 // Ordem das categorias na view "Todos"
-const CAT_ORDER = ['ovos-pascoa','barras','caixas','pao-de-mel-avulso'];
+const CAT_ORDER = ['sobremesas-natal','caixas','pao-de-mel-avulso','bolos','do-cardapio'];
 
 function renderGrid() {
   const grid  = document.getElementById('product-grid');
@@ -806,15 +864,20 @@ function renderGrid() {
 function makeCard(p) {
   const totalAvulso = totalAvulsoQtd();
   const precoAvulso = getPrecoAvulso(totalAvulso);
+  const precoBase   = getPrecoAvulso(1);
+  const vars = variacoesDe(p);
+  const rest = restante(p.id);
+  const esgotado = rest <= 0;
   const card = document.createElement('div');
-  card.className = 'product-card bg-white rounded-3xl overflow-hidden flex flex-col cursor-pointer';
+  card.className = 'product-card bg-white rounded-3xl overflow-hidden flex flex-col' + (esgotado ? '' : ' cursor-pointer');
   card.style.boxShadow = '0 4px 20px rgba(114,56,28,.1),0 1px 6px rgba(114,56,28,.06)';
-  card.onclick = () => openProductModal(p.id);
+  if (!esgotado) card.onclick = () => openProductModal(p.id);
   const hColor = HEADER_COLORS[p.cor_header] || '#ffcc1c';
 
   let precoStr = '';
   if (p.tipo === 'caixa')       precoStr = `A partir de <strong>${fmt(p.preco_min)}</strong>`;
   else if (p.tipo === 'avulso') precoStr = `<strong>${fmt(p.is_especial_mes ? p.preco : precoAvulso)}</strong> <span style="font-size:11px;opacity:.5">/ un.</span>`;
+  else if (vars)                precoStr = `A partir de <strong>${fmt(Math.min(...vars.map(v => +v.preco)))}</strong>`;
   else                          precoStr = `<strong>${fmt(p.preco)}</strong>`;
 
   const tagHtml = p.tag
@@ -822,8 +885,15 @@ function makeCard(p) {
     : '';
 
   const discountBadge = (p.tipo === 'avulso' && !p.is_especial_mes && totalAvulso >= 25)
-    ? `<span class="absolute bottom-3 right-3 bg-verde text-white font-fig text-xs px-2 py-0.5 rounded-full font-semibold">-${Math.round((1 - precoAvulso/10)*100)}% off</span>`
+    ? `<span class="absolute bottom-3 right-3 bg-verde text-white font-fig text-xs px-2 py-0.5 rounded-full font-semibold">-${Math.round((1 - precoAvulso/precoBase)*100)}% off</span>`
     : '';
+
+  const estoqueBadge = esgotado
+    ? `<span class="absolute inset-0 flex items-center justify-center" style="background:rgba(245,237,224,.75)"><span class="font-pipo font-bold text-marrom-dk text-lg bg-white rounded-full px-4 py-1.5">Esgotado</span></span>`
+    : (rest <= 3 ? `<span class="absolute bottom-3 right-3 bg-rosa text-white font-fig text-xs px-2.5 py-1 rounded-full font-semibold">Últimas ${rest} unidades</span>` : '');
+
+  const avisoAnt = p.antecedencia_dias
+    ? `<p class="font-fig text-marrom-dk/70 text-xs mb-3">Encomende com ${p.antecedencia_dias} dias de antecedência</p>` : '';
 
   card.innerHTML = `
     <div style="height:5px;background:${hColor};flex-shrink:0;"></div>
@@ -831,17 +901,20 @@ function makeCard(p) {
       <img src="${p.imagem_url||'https://placehold.co/400x300'}" alt="${p.nome}"
         style="width:100%;height:100%;object-fit:contain;padding:10px;" loading="lazy"
         onerror="this.src='https://placehold.co/400x300/f5ede0/8c4820?text=🍫'">
-      ${tagHtml}${discountBadge}
+      ${tagHtml}${discountBadge}${estoqueBadge}
     </div>
     <div class="p-4 flex flex-col flex-1">
       <h3 class="font-pipo font-bold text-marrom-dk text-base leading-tight mb-0.5">${p.nome}</h3>
       <p class="font-fig text-marrom-dk/55 text-xs mb-3">${p.subtitulo||''}</p>
+      ${avisoAnt}
       <div class="mt-auto flex items-center justify-between gap-2">
         <p class="font-fig text-marrom-dk text-sm">${precoStr}</p>
-        <button class="btn flex-shrink-0 bg-amarelo text-marrom-dk font-pipo font-bold text-xs px-3.5 py-2 rounded-xl hover:shadow-[0_4px_12px_rgba(255,204,28,.3)]"
+        ${esgotado
+          ? `<span class="flex-shrink-0 font-fig text-xs text-marrom-dk/50 px-3.5 py-2">Esgotado</span>`
+          : `<button class="btn flex-shrink-0 bg-amarelo text-marrom-dk font-pipo font-bold text-xs px-3.5 py-2 rounded-xl hover:shadow-[0_4px_12px_rgba(255,204,28,.3)]"
           onclick="event.stopPropagation();openProductModal('${p.id}')">
-          ${p.tipo==='caixa' ? 'Montar' : 'Adicionar'}
-        </button>
+          ${p.tipo==='caixa' ? 'Montar' : (vars ? 'Escolher' : 'Adicionar')}
+        </button>`}
       </div>
     </div>`;
   return card;
@@ -857,12 +930,12 @@ function getPrecoAvulso(qtd) {
   // Use tiers from Supabase if loaded, else hardcoded
   if (S.descontos.length > 0) {
     const tier = [...S.descontos].reverse().find(d => qtd >= d.qtd_min);
-    return tier ? parseFloat(tier.preco_unitario) : 10;
+    return tier ? parseFloat(tier.preco_unitario) : 11;
   }
-  if (qtd >= 100) return 8.50;
-  if (qtd >= 50)  return 9.00;
-  if (qtd >= 25)  return 9.50;
-  return 10.00;
+  if (qtd >= 100) return 9.50;
+  if (qtd >= 50)  return 10.00;
+  if (qtd >= 25)  return 10.50;
+  return 11.00;
 }
 
 function totalAvulsoQtd() {
@@ -884,7 +957,7 @@ function recalcularAvulsos() {
 
 // ── CART OPERATIONS ───────────────────────────────────────────────────────────
 function saveCarrinho() {
-  localStorage.setItem('sf_carrinho', JSON.stringify(S.carrinho));
+  localStorage.setItem(CART_KEY, JSON.stringify(S.carrinho));
   updateCartBadge();
 }
 
@@ -901,7 +974,7 @@ function addToCart(item) {
   // Check if same produto exists (simples/avulso without box)
   if (item.tipo !== 'caixa') {
     const existing = S.carrinho.find(c =>
-      c.tipo === item.tipo && c.produto_id === item.produto_id
+      c.tipo === item.tipo && c.produto_id === item.produto_id && (c.variacao || null) === (item.variacao || null)
     );
     if (existing) {
       existing.quantidade += item.quantidade;
@@ -929,6 +1002,9 @@ function removeItem(id) {
 function updateItemQty(id, delta) {
   const item = S.carrinho.find(i => i.id === id);
   if (!item) return;
+  if (delta > 0 && item.tipo !== 'caixa' && qtdNoCarrinho(item.produto_id) + delta > restante(item.produto_id)) {
+    showToast(`Só restam ${restante(item.produto_id)} unidades deste produto`, 'info'); return;
+  }
   item.quantidade = Math.max(1, item.quantidade + delta);
   recalcularAvulsos();
   item.preco_total = +(item.preco_unitario * item.quantidade).toFixed(2);
@@ -945,9 +1021,11 @@ function openProductModal(produtoId) {
   const p = S.produtos.find(x => x.id === produtoId);
   if (!p) return;
   if (p.tipo === 'caixa') { openBoxModal(p); return; }
+  if (restante(p.id) <= 0) { showToast('Este produto esgotou', 'info'); return; }
 
   S.modalProduto = p;
   S.modalQty = 1;
+  S.modalVar = null;
 
   document.getElementById('modal-header-bar').style.background = HEADER_COLORS[p.cor_header] || '#ffcc1c';
   document.getElementById('modal-categoria').textContent = catName(p.categoria_slug);
@@ -967,9 +1045,43 @@ function openProductModal(produtoId) {
     tagEl.classList.add('hidden');
   }
 
-  // Discount info for avulso (hidden for especial do mês)
+  // Tamanhos
+  const vars = variacoesDe(p);
+  const varWrap = document.getElementById('modal-variacoes-wrap');
+  const varBox  = document.getElementById('modal-variacoes');
+  varBox.innerHTML = '';
+  varWrap.classList.toggle('hidden', !vars);
+  if (vars) {
+    vars.forEach((v, idx) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'var-btn btn border-2 border-marrom/15 rounded-xl px-3 py-2.5 text-left';
+      b.style.transition = 'border-color .15s ease, background .15s ease';
+      b.innerHTML = `<p class="font-pipo font-bold text-marrom-dk text-sm">${v.nome} · ${v.descricao || ''}</p>
+        <p class="font-fig text-marrom-dk/60 text-xs">${fmt(+v.preco)}</p>`;
+      b.onclick = () => {
+        S.modalVar = v;
+        varBox.querySelectorAll('.var-btn').forEach(x => { x.style.background=''; x.style.borderColor=''; });
+        b.style.background = '#ffcc1c33'; b.style.borderColor = '#ffcc1c';
+        updateModalPrice();
+      };
+      varBox.appendChild(b);
+    });
+  }
+
+  // Aviso de antecedência / unidades restantes
+  const aviso = document.getElementById('modal-aviso');
+  const partes = [];
+  if (p.antecedencia_dias) partes.push(`Encomende com ${p.antecedencia_dias} dias de antecedência.`);
+  const rest = restante(p.id);
+  if (rest !== Infinity) partes.push(`Restam ${rest} ${rest === 1 ? 'unidade' : 'unidades'} neste Natal.`);
+  aviso.textContent = partes.join(' ');
+  aviso.classList.toggle('hidden', partes.length === 0);
+
+  // Desconto por quantidade (avulsos, menos o especial do mês)
   const discountDiv = document.getElementById('modal-discount');
   if (p.tipo === 'avulso' && !p.is_especial_mes) {
+    renderFaixasDesconto();
     discountDiv.classList.remove('hidden');
   } else {
     discountDiv.classList.add('hidden');
@@ -980,32 +1092,49 @@ function openProductModal(produtoId) {
   openModal('product-modal');
 }
 
+function faixasDesconto() {
+  return S.descontos.length > 0 ? S.descontos : [
+    {qtd_min:1,qtd_max:24,preco_unitario:11},{qtd_min:25,qtd_max:49,preco_unitario:10.5},
+    {qtd_min:50,qtd_max:99,preco_unitario:10},{qtd_min:100,qtd_max:null,preco_unitario:9.5}
+  ];
+}
+function renderFaixasDesconto() {
+  document.getElementById('modal-discount-tiers').innerHTML = faixasDesconto().map(t =>
+    `<span>${t.qtd_max ? `${t.qtd_min}–${t.qtd_max}` : `${t.qtd_min}+`} unid. → <strong>${fmt(+t.preco_unitario)}</strong> cada</span>`
+  ).join('');
+}
+
+function precoModalUnit() {
+  const p = S.modalProduto;
+  if (p.tipo === 'avulso') {
+    return p.is_especial_mes ? +p.preco : getPrecoAvulso(totalAvulsoQtd() + S.modalQty);
+  }
+  const vars = variacoesDe(p);
+  if (vars) return S.modalVar ? +S.modalVar.preco : Math.min(...vars.map(v => +v.preco));
+  return +p.preco;
+}
+
 function updateModalPrice() {
   const p = S.modalProduto;
   if (!p) return;
-  let price;
-  if (p.tipo === 'avulso') {
-    if (p.is_especial_mes) {
-      price = p.preco;
-    } else {
-      const existing = totalAvulsoQtd();
-      const totalQtd = existing + S.modalQty;
-      price = getPrecoAvulso(totalQtd);
-      // Update next tier message
-      const tiers = S.descontos.length > 0 ? S.descontos : [
-        {qtd_min:25,preco_unitario:9.50},{qtd_min:50,preco_unitario:9.00},{qtd_min:100,preco_unitario:8.50}
-      ];
-      const nextTier = tiers.find(t => t.qtd_min > totalQtd);
-      const nextEl = document.getElementById('modal-discount-next');
-      if (nextEl) nextEl.textContent = nextTier ? `Mais ${nextTier.qtd_min - totalQtd} unid. para ${fmt(nextTier.preco_unitario)}/un.` : '';
-    }
-  } else {
-    price = p.preco;
+  if (p.tipo === 'avulso' && !p.is_especial_mes) {
+    const totalQtd = totalAvulsoQtd() + S.modalQty;
+    const nextTier = faixasDesconto().find(t => t.qtd_min > totalQtd);
+    const nextEl = document.getElementById('modal-discount-next');
+    if (nextEl) nextEl.textContent = nextTier ? `Mais ${nextTier.qtd_min - totalQtd} unid. para ${fmt(+nextTier.preco_unitario)}/un.` : '';
   }
-  document.getElementById('modal-preco').textContent = fmt(price * S.modalQty);
+  const semTamanho = variacoesDe(p) && !S.modalVar;
+  document.getElementById('modal-preco').textContent =
+    (semTamanho ? 'A partir de ' : '') + fmt(precoModalUnit() * S.modalQty);
 }
 
 function modalQty(delta) {
+  const p = S.modalProduto;
+  const max = p ? restante(p.id) - qtdNoCarrinho(p.id) : Infinity;
+  if (delta > 0 && S.modalQty + delta > max) {
+    showToast(max > 0 ? `Só restam ${restante(p.id)} unidades` : 'Você já tem todas as unidades disponíveis na cesta', 'info');
+    return;
+  }
   S.modalQty = Math.max(1, S.modalQty + delta);
   document.getElementById('modal-qty-val').textContent = S.modalQty;
   updateModalPrice();
@@ -1014,11 +1143,18 @@ function modalQty(delta) {
 function addModalToCart() {
   const p = S.modalProduto;
   if (!p) return;
-  const precoUnit = p.tipo === 'avulso' ? (p.is_especial_mes ? p.preco : getPrecoAvulso(totalAvulsoQtd() + S.modalQty)) : p.preco;
+  const vars = variacoesDe(p);
+  if (vars && !S.modalVar) { showToast('Escolha o tamanho', 'erro'); return; }
+  if (qtdNoCarrinho(p.id) + S.modalQty > restante(p.id)) {
+    showToast(`Só restam ${restante(p.id)} unidades deste produto`, 'info'); return;
+  }
+  const precoUnit = precoModalUnit();
+  const v = S.modalVar;
   addToCart({
     tipo: p.tipo === 'avulso' ? 'avulso' : 'produto',
     produto_id: p.id,
-    nome: p.nome,
+    nome: v ? `${p.nome} ${v.nome} (${v.descricao})` : p.nome,
+    variacao: v ? v.nome : null,
     quantidade: S.modalQty,
     is_especial_mes: p.is_especial_mes || false,
     preco_unitario: +precoUnit,
@@ -1026,7 +1162,7 @@ function addModalToCart() {
     imagem_url: p.imagem_url,
   });
   closeModal();
-  renderGrid(); // refresh to update discount badges
+  renderGrid(); // atualiza selos de desconto e estoque
 }
 
 // ── BOX CONFIGURATOR ──────────────────────────────────────────────────────────
@@ -1326,25 +1462,16 @@ async function coStep2Continue() {
   S.checkoutData.nome = nome;
   S.checkoutData.whatsapp = zap;
 
-  // Save to Supabase — UUIDs gerados no client (clientes não tem SELECT policy)
+  // Cria cliente + pedido pela função segura do Supabase (devolve id e token)
   const btn = document.querySelector('#co-panel-2 button');
   btn.textContent = 'Salvando...'; btn.disabled = true;
   try {
-    const clienteId = crypto.randomUUID();
-    const pedidoId  = crypto.randomUUID();
-
-    const { error: ce } = await sb.from('clientes').insert({
-      id: clienteId, nome, whatsapp: zap, lgpd_consentimento: true
+    const { data, error } = await sb.rpc('checkout_iniciar', {
+      p_nome: nome, p_whatsapp: zap, p_subtotal: getTotal(),
     });
-    if (ce) throw ce;
-    S.clienteId = clienteId;
-
-    const { error: pe } = await sb.from('pedidos').insert({
-      id: pedidoId, cliente_id: clienteId,
-      status: 'checkout_iniciado', subtotal: getTotal(),
-    });
-    if (pe) throw pe;
-    S.pedidoId = pedidoId;
+    if (error) throw error;
+    S.pedidoId = data.pedido_id;
+    S.token    = data.token;
     coNext();
   } catch(e) {
     console.error(e);
@@ -1356,8 +1483,15 @@ async function coStep2Continue() {
 
 const LOJAS_RETIRADA = {
   'retirada-condor': 'Galeria Condor — Largo do Machado, 29, sl 248',
-  'retirada-catete': 'Catete — R. Arthur Bernardes, 26, loja B',
+  'retirada-catete': 'loja do Catete — R. Arthur Bernardes, 26, loja B',
 };
+
+// Grava o andamento do checkout (falha aqui não trava o cliente)
+async function salvarEtapa(dados) {
+  if (!S.pedidoId || !S.token) return;
+  const { error } = await sb.rpc('checkout_atualizar', { p_id: S.pedidoId, p_token: S.token, p_dados: dados });
+  if (error) console.warn('salvarEtapa', error);
+}
 function isRet(mode) { return mode && mode.startsWith('retirada'); }
 
 let entregaMode = null;
@@ -1365,8 +1499,10 @@ function setEntrega(mode) {
   entregaMode = mode;
   const sel = 'background:#ffcc1c;border-color:#ffcc1c;';
   const unsel = '';
-  document.getElementById('rd-retirada-condor').style.cssText = mode==='retirada-condor' ? sel : unsel;
-  document.getElementById('rd-retirada-catete').style.cssText = mode==='retirada-catete' ? sel : unsel;
+  ['retirada-condor','retirada-catete'].forEach(m => {
+    const el = document.getElementById('rd-' + m);
+    if (el) el.style.cssText = mode === m ? sel : unsel;
+  });
   document.getElementById('rd-entrega').style.cssText         = mode==='entrega'          ? sel : unsel;
   document.getElementById('co-delivery-fields').classList.toggle('hidden', mode !== 'entrega');
   document.getElementById('co-frete-result').classList.add('hidden');
@@ -1424,7 +1560,7 @@ async function coStep3Continue() {
     S.checkoutData.numero = numero;
     S.checkoutData.complemento = document.getElementById('co-complemento').value.trim();
   }
-  if (S.pedidoId) {
+  {
     const patch = { status: 'endereco_preenchido', tipo_entrega: entregaMode };
     if (!isRet(entregaMode)) Object.assign(patch, {
       cep: S.checkoutData.cep, logradouro: S.checkoutData.logradouro,
@@ -1434,7 +1570,7 @@ async function coStep3Continue() {
       frete: S.checkoutData.frete,
       frete_a_confirmar: S.checkoutData.frete_a_confirmar || false,
     });
-    await sb.from('pedidos').update(patch).eq('id', S.pedidoId);
+    await salvarEtapa(patch);
   }
   coNext();
 }
@@ -1443,13 +1579,30 @@ let selectedDate = null;
 function renderDates() {
   const container = document.getElementById('co-dates');
   const empty = document.getElementById('co-dates-empty');
+  const hint  = document.getElementById('co-dates-hint');
   container.innerHTML = '';
   selectedDate = null;
-  if (S.datas.length === 0) {
+
+  const modo = S.checkoutData.tipo_entrega;
+  const retirada = isRet(modo);
+  const minima = dataMinimaPedido();
+  const ant = antecedenciaCarrinho();
+  const datas = S.datasAll.filter(d =>
+    d.ativo !== false && d.data >= minima &&
+    (retirada ? d.permite_retirada !== false : d.permite_entrega !== false)
+  );
+
+  document.getElementById('co-dates-title').textContent = retirada ? 'Escolha o dia da retirada:' : 'Escolha o dia da entrega:';
+  const avisos = [retirada ? 'Retiradas todos os dias, menos segunda.' : 'Entregas de terça a sábado.'];
+  if (ant) avisos.push(`As sobremesas de Natal precisam de ${ant} dias de antecedência, por isso as datas começam mais tarde.`);
+  hint.textContent = avisos.join(' ');
+  hint.classList.remove('hidden');
+
+  if (datas.length === 0) {
     empty.classList.remove('hidden'); container.classList.add('hidden'); return;
   }
   empty.classList.add('hidden'); container.classList.remove('hidden');
-  S.datas.forEach(d => {
+  datas.forEach(d => {
     const dt = new Date(d.data + 'T12:00:00');
     const btn = document.createElement('button');
     btn.className = 'btn border-2 border-marrom/15 rounded-xl py-2 px-2 text-center';
@@ -1457,15 +1610,17 @@ function renderDates() {
     const dayNames = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
     btn.innerHTML = `<p class="font-fig text-marrom-dk/50 text-[11px]">${dayNames[dt.getDay()]}</p>
       <p class="font-pipo font-bold text-marrom-dk text-sm">${String(dt.getDate()).padStart(2,'0')}</p>
-      <p class="font-fig text-marrom-dk/50 text-[11px]">${dt.toLocaleString('pt-BR',{month:'short'})}</p>`;
+      <p class="font-fig text-marrom-dk/50 text-[11px]">${d.horario ? d.horario : dt.toLocaleString('pt-BR',{month:'short'})}</p>`;
     btn.onclick = () => {
       container.querySelectorAll('button').forEach(b => {
         b.style.background=''; b.style.borderColor=''; b.style.color='';
+        b.querySelectorAll('p').forEach(p => p.style.color = '');
       });
       btn.style.background = '#ffcc1c';
       btn.style.borderColor = '#ffcc1c';
       btn.querySelectorAll('p').forEach(p => p.style.color = '#3d1a08');
       selectedDate = d.data;
+      S.checkoutData.horario = d.horario || null;
     };
     container.appendChild(btn);
   });
@@ -1474,9 +1629,7 @@ function renderDates() {
 async function coStep4Continue() {
   if (!selectedDate) { showToast('Selecione uma data', 'erro'); return; }
   S.checkoutData.data_entrega = selectedDate;
-  if (S.pedidoId) {
-    await sb.from('pedidos').update({ status: 'data_selecionada', data_entrega: selectedDate }).eq('id', S.pedidoId);
-  }
+  await salvarEtapa({ status: 'data_selecionada', data_entrega: selectedDate });
   coNext();
 }
 
@@ -1494,13 +1647,11 @@ async function coStep5Continue() {
   if (!pagamentoMode) { showToast('Selecione a forma de pagamento', 'erro'); return; }
   S.checkoutData.pagamento = pagamentoMode;
   S.checkoutData.observacao = document.getElementById('co-obs').value.trim();
-  if (S.pedidoId) {
-    await sb.from('pedidos').update({
-      status: 'pagamento_selecionado',
-      pagamento: pagamentoMode,
-      observacao: S.checkoutData.observacao,
-    }).eq('id', S.pedidoId);
-  }
+  await salvarEtapa({
+    status: 'pagamento_selecionado',
+    pagamento: pagamentoMode,
+    observacao: S.checkoutData.observacao,
+  });
   coNext();
 }
 
@@ -1509,10 +1660,11 @@ function renderSummary() {
   const total = getTotal();
   const freteVal = (!isRet(cd.tipo_entrega) && cd.frete != null) ? cd.frete : 0;
   const totalFinal = total + freteVal;
-  const freteLabel = cd.frete_a_confirmar ? 'A confirmar' : isRet(cd.tipo_entrega) ? 'Não se aplica' : fmt(freteVal);
+  const freteLabel = isRet(cd.tipo_entrega) ? 'Não se aplica' : cd.frete_a_confirmar ? 'A confirmar' : fmt(freteVal);
 
   const dtFormatted = cd.data_entrega
-    ? new Date(cd.data_entrega + 'T12:00:00').toLocaleDateString('pt-BR', {day:'2-digit',month:'long',year:'numeric'})
+    ? new Date(cd.data_entrega + 'T12:00:00').toLocaleDateString('pt-BR', {weekday:'long',day:'2-digit',month:'long'})
+      + (cd.horario ? ` (${cd.horario})` : '')
     : '—';
   const enderecoStr = isRet(cd.tipo_entrega)
     ? `Retirada — ${LOJAS_RETIRADA[cd.tipo_entrega] || cd.tipo_entrega}`
@@ -1544,52 +1696,66 @@ function renderSummary() {
 
 async function finalizarPedido() {
   const btn = document.getElementById('co-zap-btn');
+  const btnHtml = btn.innerHTML;
   btn.textContent = 'Enviando...'; btn.disabled = true;
 
   try {
-    // 1. Save pedido_itens
-    const itensSave = S.carrinho.map(item => ({
-      pedido_id: S.pedidoId,
+    if (!S.pedidoId || !S.token) throw new Error('SEM_PEDIDO');
+    const cd = S.checkoutData;
+    const total = getTotal();
+    const frete = isRet(cd.tipo_entrega) ? 0 : (cd.frete || 0);
+    const itens = S.carrinho.map(item => ({
       tipo: item.tipo,
       produto_id: item.produto_id,
       nome: item.nome,
+      variacao: item.variacao || null,
       quantidade: item.quantidade,
       preco_unitario: item.preco_unitario,
       preco_total: item.preco_total,
       config_caixa: item.tipo === 'caixa' ? { tamanho: item.tamanho, itens: item.itens } : null,
     }));
-    const { error: ie } = await sb.from('pedido_itens').insert(itensSave);
-    if (ie) throw ie;
 
-    // 2. Generate code + finalize pedido
-    const now = new Date();
-    const d = now.toISOString().slice(0,10).replace(/-/g,'');
-    const { count } = await sb.from('pedidos').select('*', {count:'exact',head:true}).like('codigo', `SF-${d}-%`);
-    const codigo = `SF-${d}-${String((count||0)+1).padStart(4,'0')}`;
+    // Confere data, antecedência e estoque no servidor; grava itens; gera o código
+    const { data, error } = await sb.rpc('checkout_finalizar', {
+      p_id: S.pedidoId, p_token: S.token, p_itens: itens, p_total: total + frete,
+    });
+    if (error) throw error;
 
-    const cd = S.checkoutData;
-    const total = getTotal();
-    const frete = cd.frete || 0;
-    await sb.from('pedidos').update({
-      status: 'finalizado',
-      codigo,
-      total: total + frete,
-    }).eq('id', S.pedidoId);
-
-    // 3. Build WhatsApp message
-    const zapUrl = buildZapMsg(codigo, cd, total, frete);
-
-    // 4. Clear cart
+    const zapUrl = buildZapMsg(data.codigo, cd, total, frete);
     S.carrinho = [];
     saveCarrinho();
-
-    // 5. Redirect
+    S.pedidoId = null; S.token = null;
     window.location.href = zapUrl;
   } catch(e) {
     console.error(e);
-    showToast('Erro ao finalizar. Tente novamente.', 'erro');
-    btn.innerHTML = `<svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382..."/></svg> Enviar pelo WhatsApp`;
+    await tratarErroFinalizar(e);
+    btn.innerHTML = btnHtml;
     btn.disabled = false;
+  }
+}
+
+async function tratarErroFinalizar(e) {
+  const [codigo, nome, valor] = String((e && e.message) || '').split(':');
+  if (codigo === 'ESGOTADO') {
+    await atualizarEstoque();
+    renderGrid();
+    showToast(Number(valor) > 0
+      ? `Restam só ${valor} unidades de ${nome}. Ajuste a quantidade na cesta.`
+      : `${nome} esgotou. Remova da cesta para continuar.`, 'erro');
+  } else if (codigo === 'ANTECEDENCIA') {
+    showToast(`${nome} precisa de ${valor} dias de antecedência. Escolha outra data.`, 'erro');
+    S.checkoutStep = 3; coNext();
+  } else if (codigo === 'DATA_INDISPONIVEL') {
+    showToast('Essa data não está mais disponível. Escolha outra.', 'erro');
+    S.checkoutStep = 3; coNext();
+  } else if (codigo === 'MODALIDADE_INVALIDA') {
+    showToast('Escolha retirada ou entrega.', 'erro');
+    S.checkoutStep = 2; coNext();
+  } else if (codigo === 'SEM_PEDIDO' || codigo === 'PEDIDO_NAO_ENCONTRADO') {
+    showToast('Seus dados não foram salvos. Preencha de novo, por favor.', 'erro');
+    S.checkoutStep = 1; coNext();
+  } else {
+    showToast('Não foi possível enviar o pedido. Tente de novo em instantes.', 'erro');
   }
 }
 
@@ -1598,8 +1764,9 @@ function buildZapMsg(codigo, cd, subtotal, frete) {
     ? new Date(cd.data_entrega + 'T12:00:00').toLocaleDateString('pt-BR')
     : '—';
   const endStr = isRet(cd.tipo_entrega)
-    ? `Retirada — ${LOJAS_RETIRADA[cd.tipo_entrega] || cd.tipo_entrega}`
+    ? `Retirada na ${LOJAS_RETIRADA[cd.tipo_entrega] || cd.tipo_entrega}`
     : `${cd.logradouro}, ${cd.numero}${cd.complemento ? ', ' + cd.complemento : ''}, ${cd.bairro}, ${cd.cidade} — ${cd.estado}`;
+  const dataStr = dtFormatted + (cd.horario ? ` (${cd.horario})` : '');
   const freteStr = cd.frete_a_confirmar ? 'A confirmar' : fmt(frete);
   const pagStr = cd.pagamento === 'pix' ? 'PIX' : 'Cartao de Credito';
   const zapFormatted = formatZap(cd.whatsapp);
@@ -1614,14 +1781,15 @@ function buildZapMsg(codigo, cd, subtotal, frete) {
 
   const totalFinal = subtotal + (!isRet(cd.tipo_entrega) ? (cd.frete || 0) : 0);
 
-  let msg = `Pedido de Pascoa - Santo Favo\n\n`;
+  let msg = `Pedido de Natal - Santo Favo\n`;
+  msg += `*Codigo:* ${codigo}\n\n`;
   msg += `*Cliente:* ${cd.nome}\n`;
   msg += `*WhatsApp:* ${zapFormatted}\n\n`;
   msg += `*Itens:*\n${itensStr}\n\n`;
   msg += `*Subtotal:* ${fmt(subtotal)}\n`;
   if (!isRet(cd.tipo_entrega)) msg += `*Frete:* ${freteStr}\n`;
   msg += `*Total:* ${fmt(totalFinal)}\n\n`;
-  msg += `*Data:* ${dtFormatted}\n`;
+  msg += `*Data:* ${dataStr}\n`;
   msg += `*Entrega:* ${endStr}\n`;
   msg += `*Pagamento:* ${pagStr}`;
   if (cd.observacao) msg += `\n*Obs:* ${cd.observacao}`;
@@ -1630,7 +1798,7 @@ function buildZapMsg(codigo, cd, subtotal, frete) {
   const url = `https://wa.me/${ZAP_NUMBER}?text=${encoded}`;
   // Truncate if too long (max ~4096 chars in url)
   if (url.length > 4096) {
-    const short = `Pedido de Pascoa - Santo Favo\n\n*Cliente:* ${cd.nome}\n*WhatsApp:* ${zapFormatted}\n\n(${S.carrinho.length} item(ns)) — Total: ${fmt(totalFinal)}\n\n*Data:* ${dtFormatted}\n*Entrega:* ${endStr}`;
+    const short = `Pedido de Natal - Santo Favo\n*Codigo:* ${codigo}\n\n*Cliente:* ${cd.nome}\n*WhatsApp:* ${zapFormatted}\n\n(${S.carrinho.length} item(ns)) — Total: ${fmt(totalFinal)}\n\n*Data:* ${dataStr}\n*Entrega:* ${endStr}`;
     return `https://wa.me/${ZAP_NUMBER}?text=${encodeURIComponent(short)}`;
   }
   return url;
