@@ -137,8 +137,8 @@
     <div id="panel-datas" class="hidden">
       <div class="mb-6 flex items-center justify-between">
         <div>
-          <h2 class="font-pipo font-bold text-marrom-xdk text-xl">Abril 2026</h2>
-          <p class="font-fig text-marrom-dk/50 text-sm mt-0.5">Ative ou desative datas de entrega/retirada.</p>
+          <h2 class="font-pipo font-bold text-marrom-xdk text-xl">Datas de entrega e retirada</h2>
+          <p class="font-fig text-marrom-dk/50 text-sm mt-0.5">Abra ou feche cada dia, escolha se tem retirada e entrega e anote horários especiais.</p>
         </div>
         <button onclick="addDataModal()" class="bg-amarelo text-marrom-xdk font-fig font-semibold text-sm px-4 py-2 rounded-xl" style="transition:opacity .15s;">+ Nova data</button>
       </div>
@@ -204,6 +204,19 @@ function showDashboard(user) {
   document.getElementById('login-screen').classList.add('hidden');
   document.getElementById('dashboard').classList.remove('hidden');
   document.getElementById('admin-email').textContent = user.email;
+  iniciarAdmin();
+}
+
+// Campanha ativa (configuracoes.campanha_ativa) e nomes das categorias
+let CAMPANHA = 'natal-2026';
+let CAT_NAMES = {};
+async function iniciarAdmin() {
+  const [cfg, cats] = await Promise.all([
+    sb.from('configuracoes').select('valor').eq('chave', 'campanha_ativa').maybeSingle(),
+    sb.from('categorias').select('slug, nome, campanha'),
+  ]);
+  if (cfg.data && cfg.data.valor) CAMPANHA = cfg.data.valor;
+  (cats.data || []).forEach(c => { CAT_NAMES[c.slug] = c.nome; });
   loadPedidos();
   loadDatas();
   loadProdutos();
@@ -236,6 +249,7 @@ async function loadPedidos() {
   const { data: pedidos } = await sb
     .from('pedidos')
     .select('*, clientes(nome, whatsapp), pedido_itens(*)')
+    .eq('campanha', CAMPANHA)
     .order('created_at', { ascending: false });
 
   allPedidos = pedidos || [];
@@ -383,18 +397,29 @@ async function loadDatas() {
 function renderDatas() {
   const grid = document.getElementById('datas-grid');
   if (!allDatas.length) { grid.innerHTML = `<p class="font-fig text-marrom-dk/50 text-sm col-span-5">Nenhuma data cadastrada.</p>`; return; }
-  grid.innerHTML = allDatas.map(d => {
+  const hoje = new Date().toISOString().slice(0, 10);
+  grid.innerHTML = allDatas.filter(d => d.data >= hoje).map(d => {
     const dt = new Date(d.data + 'T12:00:00');
     const dia = dt.toLocaleDateString('pt-BR', { weekday:'short', day:'2-digit', month:'2-digit' });
+    const chip = (campo, rotulo) => {
+      const on = d[campo] !== false;
+      return `<button onclick="toggleCampoData('${d.id}','${campo}',${!on})"
+        class="font-fig text-[10px] font-semibold px-2 py-0.5 rounded-full border ${on ? 'border-verde text-verde' : 'border-marrom/20 text-marrom-dk/35 line-through'}"
+        title="${on ? 'Clique para desligar' : 'Clique para ligar'}">${rotulo}</button>`;
+    };
     return `
-    <div class="card p-3 flex flex-col items-center gap-2 text-center">
+    <div class="card p-3 flex flex-col items-center gap-2 text-center ${d.ativo ? '' : 'opacity-60'}">
       <p class="font-fig text-xs text-marrom-dk/50">${dia}</p>
       <label class="toggle">
         <input type="checkbox" ${d.ativo ? 'checked' : ''} onchange="toggleData('${d.id}', this.checked)">
         <span class="toggle-track"></span>
         <span class="toggle-thumb"></span>
       </label>
-      <p class="font-fig text-[10px] font-semibold ${d.ativo ? 'text-verde' : 'text-rosa'}">${d.ativo ? 'Ativa' : 'Inativa'}</p>
+      <p class="font-fig text-[10px] font-semibold ${d.ativo ? 'text-verde' : 'text-rosa'}">${d.ativo ? 'Aberta' : 'Fechada'}</p>
+      <div class="flex flex-wrap justify-center gap-1">${chip('permite_retirada','Retirada')}${chip('permite_entrega','Entrega')}</div>
+      <input type="text" value="${d.horario || ''}" placeholder="horário especial"
+        onblur="salvarHorario('${d.id}', this.value)"
+        class="w-full border border-marrom/15 rounded-md px-1.5 py-0.5 font-fig text-[10px] text-marrom-dk text-center bg-white">
     </div>`;
   }).join('');
 }
@@ -403,6 +428,22 @@ async function toggleData(id, ativo) {
   await sb.from('datas_disponiveis').update({ ativo }).eq('id', id);
   const d = allDatas.find(x => x.id === id);
   if (d) { d.ativo = ativo; renderDatas(); }
+}
+
+async function toggleCampoData(id, campo, valor) {
+  const { error } = await sb.from('datas_disponiveis').update({ [campo]: valor }).eq('id', id);
+  if (error) { alert('Não foi possível salvar: ' + error.message); return; }
+  const d = allDatas.find(x => x.id === id);
+  if (d) { d[campo] = valor; renderDatas(); }
+}
+
+async function salvarHorario(id, valor) {
+  const horario = valor.trim() || null;
+  const d = allDatas.find(x => x.id === id);
+  if (!d || (d.horario || null) === horario) return;
+  const { error } = await sb.from('datas_disponiveis').update({ horario }).eq('id', id);
+  if (error) { alert('Não foi possível salvar: ' + error.message); return; }
+  d.horario = horario;
 }
 
 function addDataModal() { document.getElementById('data-modal').classList.remove('hidden'); }
@@ -417,13 +458,23 @@ async function saveNewData() {
 
 // ── PRODUTOS ─────────────────────────────────────────────────
 let allProdutos = [];
-const CAT_NAMES = { 'ovos-pascoa':'Ovos de Páscoa', 'barras':'Barras Recheadas', 'caixas':'Caixas de Presente', 'pao-de-mel-avulso':'Pães de Mel Avulso' };
+let estoque = {};   // produto_id → {limite, vendidos, restante}
 
 async function loadProdutos() {
-  const { data } = await sb.from('produtos').select('*').order('ordem');
+  const [{ data }, est] = await Promise.all([
+    sb.from('produtos').select('*').eq('campanha', CAMPANHA).order('ordem'),
+    sb.rpc('estoque_restante'),
+  ]);
   allProdutos = data || [];
+  estoque = {};
+  (est.data || []).forEach(e => { estoque[e.produto_id] = e; });
   renderProdutos();
 }
+
+const campoPreco = (valor, onblur, largura = 'w-20') => `
+  <input type="number" step="0.01" min="0" value="${valor ?? ''}" placeholder="0,00" onblur="${onblur}"
+    class="${largura} border-2 border-marrom/15 rounded-lg px-2 py-1 font-fig text-sm text-marrom-dk text-right bg-white"
+    style="transition:border-color .15s;">`;
 
 function renderProdutos() {
   const list = document.getElementById('produtos-list');
@@ -437,39 +488,58 @@ function renderProdutos() {
     <div>
       <h3 class="font-pipo font-bold text-marrom-xdk text-base mb-3">${CAT_NAMES[slug] || slug}</h3>
       <div class="card overflow-hidden">
-        ${prods.map((p, i) => `
-        <div class="flex items-center gap-4 px-5 py-3.5 ${i > 0 ? 'border-t border-marrom/8' : ''}">
+        ${prods.map((p, i) => {
+          const vars = p.config && Array.isArray(p.config.variacoes) ? p.config.variacoes : null;
+          const e = estoque[p.id];
+          const detalhes = [
+            p.tipo,
+            p.is_especial_mes ? 'especial do mês' : '',
+            p.antecedencia_dias ? `${p.antecedencia_dias} dias de antecedência` : '',
+            e ? `vendidos ${e.vendidos} de ${e.limite} (restam ${e.restante})` : '',
+          ].filter(Boolean).join(' · ');
+          let precoHtml;
+          if (p.tipo === 'caixa') {
+            precoHtml = `<span class="font-fig text-marrom-dk/50 text-xs">a partir de R$ ${p.preco_min || 0}</span>`;
+          } else if (vars) {
+            precoHtml = vars.map((v, idx) => `
+              <span class="font-fig text-marrom-dk/50 text-xs">${v.nome} R$</span>
+              ${campoPreco(v.preco, `updatePrecoVariacao('${p.id}', ${idx}, this.value)`, 'w-16')}`).join('');
+          } else {
+            precoHtml = `<span class="font-fig text-marrom-dk/50 text-xs">R$</span>${campoPreco(p.preco, `updatePreco('${p.id}', this.value, '${p.tipo}')`)}`;
+          }
+          const semPreco = p.tipo !== 'caixa' && (vars ? vars.some(v => !(+v.preco > 0)) : !(+p.preco > 0));
+          return `
+        <div class="flex flex-wrap items-center gap-4 px-5 py-3.5 ${i > 0 ? 'border-t border-marrom/8' : ''}">
           <img src="${p.imagem_url || 'https://placehold.co/48x48/e2d4c4/8c4820?text=🍫'}" alt="${p.nome}"
             class="w-12 h-12 rounded-xl object-cover flex-shrink-0 ${p.ativo ? '' : 'opacity-40'}">
-          <div class="flex-1 min-w-0">
-            <p class="font-fig font-semibold text-marrom-xdk text-sm truncate ${p.ativo ? '' : 'opacity-50'}">${p.nome}</p>
-            <p class="font-fig text-marrom-dk/40 text-xs">${p.tipo}${p.is_especial_mes ? ' · especial do mês' : ''}</p>
+          <div class="flex-1 min-w-[160px]">
+            <p class="font-fig font-semibold text-marrom-xdk text-sm ${p.ativo ? '' : 'opacity-50'}">${p.nome}</p>
+            <p class="font-fig text-marrom-dk/40 text-xs">${detalhes}</p>
+            ${semPreco ? `<p class="font-fig text-rosa text-xs font-semibold">Sem preço: defina antes de ativar</p>` : ''}
           </div>
-          ${p.tipo !== 'caixa' ? `
-          <div class="flex items-center gap-1 flex-shrink-0">
-            <span class="font-fig text-marrom-dk/50 text-xs">R$</span>
-            <input type="number" step="0.01" min="0" value="${p.preco || p.preco_min || 0}"
-              onblur="updatePreco('${p.id}', this.value, '${p.tipo}')"
-              class="w-20 border-2 border-marrom/15 rounded-lg px-2 py-1 font-fig text-sm text-marrom-dk text-right bg-white"
-              style="transition:border-color .15s;">
-          </div>` : `
-          <div class="flex-shrink-0">
-            <span class="font-fig text-marrom-dk/50 text-xs">a partir de R$ ${p.preco_min || 0}</span>
-          </div>`}
+          <div class="flex items-center gap-1 flex-shrink-0">${precoHtml}</div>
           <label class="toggle flex-shrink-0">
-            <input type="checkbox" ${p.ativo ? 'checked' : ''} onchange="toggleProduto('${p.id}', this.checked)">
+            <input type="checkbox" ${p.ativo ? 'checked' : ''} onchange="toggleProduto('${p.id}', this.checked, this)">
             <span class="toggle-track"></span>
             <span class="toggle-thumb"></span>
           </label>
-        </div>`).join('')}
+        </div>`;
+        }).join('')}
       </div>
     </div>
   `).join('');
 }
 
-async function toggleProduto(id, ativo) {
-  await sb.from('produtos').update({ ativo }).eq('id', id);
+async function toggleProduto(id, ativo, el) {
   const p = allProdutos.find(x => x.id === id);
+  const vars = p && p.config && Array.isArray(p.config.variacoes) ? p.config.variacoes : null;
+  const semPreco = p && p.tipo !== 'caixa' && (vars ? vars.some(v => !(+v.preco > 0)) : !(+p.preco > 0));
+  if (ativo && semPreco) {
+    alert('Defina o preço antes de colocar este produto no ar.');
+    if (el) el.checked = false;
+    return;
+  }
+  await sb.from('produtos').update({ ativo }).eq('id', id);
   if (p) { p.ativo = ativo; renderProdutos(); }
 }
 
@@ -479,7 +549,20 @@ async function updatePreco(id, val, tipo) {
   const field = tipo === 'caixa' ? 'preco_min' : 'preco';
   await sb.from('produtos').update({ [field]: preco }).eq('id', id);
   const p = allProdutos.find(x => x.id === id);
-  if (p) p[field] = preco;
+  if (p) { p[field] = preco; renderProdutos(); }
+}
+
+async function updatePrecoVariacao(id, idx, val) {
+  const preco = parseFloat(val);
+  const p = allProdutos.find(x => x.id === id);
+  if (!p || isNaN(preco) || preco < 0) return;
+  const config = JSON.parse(JSON.stringify(p.config));
+  if (+config.variacoes[idx].preco === preco) return;
+  config.variacoes[idx].preco = preco;
+  const { error } = await sb.from('produtos').update({ config }).eq('id', id);
+  if (error) { alert('Não foi possível salvar: ' + error.message); return; }
+  p.config = config;
+  renderProdutos();
 }
 
 // ── INIT ─────────────────────────────────────────────────────
